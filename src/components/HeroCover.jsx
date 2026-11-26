@@ -40,10 +40,12 @@ export default function HeroCover() {
       <div className="hero-parallax-container absolute -top-[12%] left-0 right-0 h-[124%] w-full">
         <img 
           ref={imgRef}
-          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=2200&q=85" 
+          src="./bgwegohero.webp" 
           alt="Wego BPS Sumatera Utara"
           className="w-full h-full object-cover object-center brightness-[0.78] contrast-[1.05]"
         />
+        {/* Subtle vignette overlay for text legibility */}
+        <div className="absolute inset-0 bg-black/30 pointer-events-none" />
       </div>
 
       {/* Brand Wordmark: Bodoni Moda Didone, all-lowercase, gigantic display centered */}
