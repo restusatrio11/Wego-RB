@@ -38,8 +38,8 @@ export default function App() {
       {/* 4. Mid CTA Banner */}
       <MidBanner onOpenModal={() => setModalOpen(true)} />
 
-      {/* 5. Downloadable Templates */}
-      <DownloadableTemplates templates={templates} />
+      {/* 5. Downloadable Templates (Pojok Unduhan - hidden sementara karena belum terpakai) */}
+      {/* <DownloadableTemplates templates={templates} /> */}
 
       {/* 6. Community Board (Kotak Aspirasi) */}
       <CommunityBoard 

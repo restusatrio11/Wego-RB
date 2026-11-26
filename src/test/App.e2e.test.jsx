@@ -25,8 +25,8 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     // 5. Mid Banner CTA
     expect(screen.getByText(/Inovasi Bersama/i)).toBeInTheDocument();
 
-    // 6. Templates
-    expect(screen.getByText(/Official Wego Slide Deck PPTX/i)).toBeInTheDocument();
+    // 6. Templates (Pojok Unduhan hidden)
+    expect(screen.queryByText(/Official Wego Slide Deck PPTX/i)).not.toBeInTheDocument();
 
     // 7. Community Board
     expect(screen.getByText(/BPS Kab. Asahan/i)).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     const nav = container.querySelector('nav');
     expect(nav).toBeInTheDocument();
 
-    const expectedAnchors = ['#seminar', '#profiles', '#templates', '#ads'];
+    const expectedAnchors = ['#seminar', '#profiles', '#ads'];
 
     expectedAnchors.forEach((hash) => {
       const link = nav.querySelector(`a[href="${hash}"]`);
@@ -91,5 +91,21 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
 
     // Modal is closed
     expect(screen.queryByText(/Kirimkan Gagasan atau Daftar Pemateri/i)).not.toBeInTheDocument();
+  });
+
+  it('opens SeminarDetailModal when a portrait seminar card is clicked in App', () => {
+    render(<App />);
+
+    expect(screen.queryByLabelText(/Tutup Detail/i)).not.toBeInTheDocument();
+
+    const seminarCard = screen.getByText(/Pemanfaatan Web Scraping & Machine Learning Harga Pangan/i);
+    fireEvent.click(seminarCard);
+
+    expect(screen.getByLabelText(/Tutup Detail/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Presensi Kehadiran/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Virtual Background/i })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByLabelText(/Tutup Detail/i));
+    expect(screen.queryByLabelText(/Tutup Detail/i)).not.toBeInTheDocument();
   });
 });

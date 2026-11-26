@@ -318,7 +318,6 @@
                 <nav className="hidden md:flex items-center gap-6 text-white/80 text-[13px]">
                   <a href="#seminar" className="hover:text-white transition-colors">Sesi Seminar</a>
                   <a href="#profiles" className="hover:text-white transition-colors">Wegoers</a>
-                  <a href="#templates" className="hover:text-white transition-colors">Unduhan</a>
                   <a href="#ads" className="hover:text-white transition-colors">Papan Gagasan</a>
                 </nav>
               </div>
@@ -526,57 +525,12 @@
             </div>
           </section>
 
-          {/* =========================================================
-              5. SECTION: SHOP / TEMPLATES AND MERCH
-              - Exactly 3 wide product cards
-              - Aspect 4:3 image with rounded-2xl
-              - Title, desc, price, pill button
-          ========================================================== */}
+          {/* 5. SECTION: SHOP / TEMPLATES (Hidden - belum terpakai) */}
+          {/*
           <section id="templates" className="px-6 md:px-14 py-16 border-t border-neutral-100">
-            <div className="flex justify-between items-end mb-8">
-              <div>
-                <span className="font-display italic text-sm text-neutral-500 block mb-1">Pojok Unduhan</span>
-                <h3 className="font-sans text-xl md:text-2xl font-bold tracking-tight text-neutral-900">
-                  Koleksi <span className="small-pill font-bold">perangkat kerja</span> & template siap pakai •
-                </h3>
-              </div>
-              <div className="flex items-center gap-3">
-                <a href="#" className="text-xs text-neutral-600 hover:text-black font-medium hidden sm:inline-block">
-                  Buka Repositori ↗
-                </a>
-                <div className="flex gap-1">
-                  <button className="btn-arrow">‹</button>
-                  <button className="btn-arrow">›</button>
-                </div>
-              </div>
-            </div>
-
-            {/* Exactly 3 Cards across the row (Proper proportion!) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {templates.map((tpl) => (
-                <div key={tpl.id} className="flex flex-col justify-between">
-                  <div>
-                    <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-neutral-100 mb-4 border border-neutral-100">
-                      <img src={tpl.image} alt={tpl.title} className="w-full h-full object-cover" />
-                    </div>
-                    <h5 className="font-sans font-bold text-lg text-neutral-900 leading-snug mb-1.5">
-                      {tpl.title}
-                    </h5>
-                    <p className="text-xs text-neutral-500 leading-relaxed mb-4">
-                      {tpl.desc}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
-                    <span className="text-xs text-neutral-400 font-mono">{tpl.price}</span>
-                    <button className="btn-pill text-xs px-4 py-1.5 font-medium">
-                      Unduh
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+            ...
           </section>
+          */}
 
           {/* =========================================================
               6. SECTION: COMMUNITY ADS (PAPAN GAGASAN)
@@ -717,7 +671,6 @@
                   <ul className="space-y-2">
                     <li><a href="#profiles" className="hover:text-white transition-colors">Wegoers</a></li>
                     <li><a href="#seminar" className="hover:text-white transition-colors">Katalog Sesi</a></li>
-                    <li><a href="#templates" className="hover:text-white transition-colors">Pojok Unduhan</a></li>
                   </ul>
                 </div>
                 <div>

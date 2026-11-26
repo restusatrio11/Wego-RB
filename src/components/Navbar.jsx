@@ -8,7 +8,6 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center gap-6 text-white/80 text-[13px]">
           <a href="#seminar" className="hover:text-white transition-colors">Sesi Seminar</a>
           <a href="#profiles" className="hover:text-white transition-colors">Wegoers</a>
-          <a href="#templates" className="hover:text-white transition-colors">Unduhan</a>
           <a href="#ads" className="hover:text-white transition-colors">Papan Gagasan</a>
         </nav>
       </div>
