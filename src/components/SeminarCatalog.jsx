@@ -1,10 +1,35 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import SeminarDetailModal from './SeminarDetailModal';
 import { handleDriveImageError, sortSeminarsNewestFirst } from '../services/dataService';
 
 export default function SeminarCatalog({ seminars = [], onOpenFeedback }) {
   const [selectedSeminar, setSelectedSeminar] = useState(null);
   const sortedSeminars = useMemo(() => sortSeminarsNewestFirst(seminars), [seminars]);
+  const scrollContainerRef = useRef(null);
+
+  const handlePrev = () => {
+    if (scrollContainerRef.current) {
+      const card = scrollContainerRef.current.firstElementChild;
+      const scrollStep = card ? card.clientWidth + 24 : 320;
+      if (typeof scrollContainerRef.current.scrollBy === 'function') {
+        scrollContainerRef.current.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+      } else {
+        scrollContainerRef.current.scrollLeft -= scrollStep;
+      }
+    }
+  };
+
+  const handleNext = () => {
+    if (scrollContainerRef.current) {
+      const card = scrollContainerRef.current.firstElementChild;
+      const scrollStep = card ? card.clientWidth + 24 : 320;
+      if (typeof scrollContainerRef.current.scrollBy === 'function') {
+        scrollContainerRef.current.scrollBy({ left: scrollStep, behavior: 'smooth' });
+      } else {
+        scrollContainerRef.current.scrollLeft += scrollStep;
+      }
+    }
+  };
 
   return (
     <section id="seminar" className="px-6 md:px-14 py-16 border-t border-neutral-100">
@@ -23,14 +48,30 @@ export default function SeminarCatalog({ seminars = [], onOpenFeedback }) {
             Lihat Semua Sesi ↗
           </a>
           <div className="flex gap-1">
-            <button className="btn-arrow" aria-label="Previous">‹</button>
-            <button className="btn-arrow" aria-label="Next">›</button>
+            <button 
+              className="btn-arrow" 
+              aria-label="Previous seminar"
+              onClick={handlePrev}
+            >
+              ‹
+            </button>
+            <button 
+              className="btn-arrow" 
+              aria-label="Next seminar"
+              onClick={handleNext}
+            >
+              ›
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Grid of Portrait Flyer Poster Cards (3:4 aspect ratio) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {/* Horizontal Carousel Track of Portrait Flyer Poster Cards */}
+      <div 
+        ref={scrollContainerRef}
+        data-testid="seminar-carousel"
+        className="flex gap-6 sm:gap-8 overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory pb-4 pt-1"
+      >
         {sortedSeminars.map((item) => {
           const isUpcoming = item.status === 'upcoming';
           const flyerImage = item.thumb || item.image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80';
@@ -48,7 +89,7 @@ export default function SeminarCatalog({ seminars = [], onOpenFeedback }) {
                   setSelectedSeminar(item);
                 }
               }}
-              className="group cursor-pointer bg-white rounded-3xl p-4 sm:p-5 border border-neutral-200/80 hover:border-neutral-900/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-neutral-900"
+              className="w-[85vw] sm:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] shrink-0 snap-start group cursor-pointer bg-white rounded-3xl p-4 sm:p-5 border border-neutral-200/80 hover:border-neutral-900/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-neutral-900"
             >
               <div>
                 {/* 3:4 Aspect Ratio Portrait Flyer Frame */}

@@ -7,11 +7,13 @@ export default function MarqueeTicker({ onOpenModal }) {
       <span className="font-display text-2xl md:text-3xl lg:text-4xl text-neutral-900 tracking-tight mx-5">
         Wego Berbagi bersama Insan BPS Sumatera Utara
       </span>
-      <span className="inline-flex items-center gap-2.5 border border-neutral-300 rounded-lg p-1.5 bg-white mx-4 shadow-2xs">
+      {/* <span className="inline-flex items-center gap-2.5 border border-neutral-300 rounded-lg p-1.5 bg-white mx-4 shadow-2xs">
         <img 
           src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" 
           alt="Thumbnail Flyer Sesi 01" 
           className="w-8 h-8 rounded object-cover shrink-0" 
+          referrerPolicy="no-referrer"
+          onError={(e) => handleDriveImageError(e)}
         />
         <span className="text-xs font-sans font-medium text-neutral-800 pr-1 flex flex-col text-left leading-tight">
           <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">
@@ -21,14 +23,14 @@ export default function MarqueeTicker({ onOpenModal }) {
             Scraping & ML Harga Pangan →
           </span>
         </span>
-      </span>
+      </span> */}
       <span className="inline-flex items-center gap-1.5 border border-neutral-900 rounded-full px-4 py-1 text-xs md:text-sm font-sans font-bold text-neutral-900 mx-4">
         ✹ Ikuti Sesi
       </span>
       <span className="font-display text-2xl md:text-3xl lg:text-4xl text-neutral-900 tracking-tight mx-5">
         Wadah Edukasi dan Gagasan Optimal
       </span>
-      <span className="inline-flex items-center gap-2.5 border border-neutral-300 rounded-lg p-1.5 bg-white mx-4 shadow-2xs">
+      {/* <span className="inline-flex items-center gap-2.5 border border-neutral-300 rounded-lg p-1.5 bg-white mx-4 shadow-2xs">
         <img 
           src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80" 
           alt="Thumbnail Flyer Sesi 02" 
@@ -42,9 +44,9 @@ export default function MarqueeTicker({ onOpenModal }) {
             Tata Kelola Transformasi Digital →
           </span>
         </span>
-      </span>
+      </span> */}
       <span className="inline-flex items-center gap-1.5 border border-neutral-900 rounded-full px-4 py-1 text-xs md:text-sm font-sans font-bold text-neutral-900 mx-4">
-        ✹ Diskusi RB
+        ✹ Diskusi Seminar
       </span>
     </div>
   );

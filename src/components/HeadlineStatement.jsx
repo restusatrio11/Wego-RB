@@ -69,12 +69,13 @@ export default function HeadlineStatement() {
               className="w-full h-full object-cover" 
             />
           </span>
+           yang mencari  belajar & berbagi pengetahuan
         </span>
 
         {/* Line 2 */}
-        <span className="statement-line block transition-opacity mt-2">
+        {/* <span className="statement-line block transition-opacity mt-2">
           yang mencari ruang belajar & berbagi pengetahuan
-        </span>
+        </span> */}
 
         {/* Line 3 */}
         <span className="statement-line block transition-opacity mt-2">

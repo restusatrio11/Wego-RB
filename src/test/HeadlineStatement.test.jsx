@@ -8,13 +8,13 @@ describe('HeadlineStatement Component (Pinned Scrub Illumination Seam)', () => {
     const { container } = render(<HeadlineStatement />);
 
     expect(screen.getByRole('heading', { level: 2, name: /Untuk Pegawai BPS/i })).toBeInTheDocument();
-    expect(screen.getByText(/yang mencari ruang belajar & berbagi pengetahuan/i)).toBeInTheDocument();
+    expect(screen.getByText(/belajar & berbagi pengetahuan/i)).toBeInTheDocument();
     expect(screen.getByText(/inovasi reformasi birokrasi/i)).toBeInTheDocument();
     expect(screen.getByText(/bersama komunitas rekan kerja BPS se-Sumatera Utara./i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Jelajahi/i })).toHaveAttribute('href', '#seminar');
 
     const lines = container.querySelectorAll('.statement-line');
-    expect(lines.length).toBeGreaterThanOrEqual(3);
+    expect(lines.length).toBeGreaterThanOrEqual(2);
   });
 
   it('renders with full opacity and accessibility in reduced-motion mode', () => {

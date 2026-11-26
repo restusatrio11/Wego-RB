@@ -71,4 +71,21 @@ describe('SeminarCatalog Component (Portrait Catalog & Modal Integration Seam)',
     fireEvent.click(screen.getByLabelText(/Tutup Detail/i));
     expect(screen.queryByLabelText(/Tutup Detail/i)).not.toBeInTheDocument();
   });
+
+  it('renders carousel track and allows clicking next and previous arrow navigation buttons', () => {
+    render(<SeminarCatalog seminars={mockSeminars} />);
+
+    const carousel = screen.getByTestId('seminar-carousel');
+    expect(carousel).toBeInTheDocument();
+
+    const prevBtn = screen.getByRole('button', { name: /Previous seminar/i });
+    const nextBtn = screen.getByRole('button', { name: /Next seminar/i });
+
+    expect(prevBtn).toBeInTheDocument();
+    expect(nextBtn).toBeInTheDocument();
+
+    // Verify buttons can be clicked without throwing errors
+    fireEvent.click(nextBtn);
+    fireEvent.click(prevBtn);
+  });
 });

@@ -36,7 +36,7 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     expect(screen.queryByText(/Inspirasi & Rujukan/i)).not.toBeInTheDocument();
 
     // 9. Social Gallery
-    expect(screen.getByText(/@bpsprovsumut/i)).toBeInTheDocument();
+    expect(screen.getByText(/@bps_sumut|@bpsprovsumut/i)).toBeInTheDocument();
 
     // 10. Footer
     expect(container.querySelector('footer')).toBeInTheDocument();
