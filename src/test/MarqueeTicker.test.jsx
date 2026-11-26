@@ -9,7 +9,8 @@ describe('MarqueeTicker Component (Multi-Row Continuous Motion Seam)', () => {
 
     // Row 1 items
     expect(screen.getAllByText(/Wego Berbagi bersama Insan BPS Sumatera Utara/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Sesi 01: Scraping & ML Harga Pangan →/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Sesi 01/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Scraping & ML Harga Pangan →/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Ikuti Sesi/i).length).toBeGreaterThan(0);
 
     // Row 2 items
