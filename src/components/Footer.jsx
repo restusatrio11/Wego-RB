@@ -51,7 +51,7 @@ export default function Footer({ onOpenModal }) {
             <span className="text-white block font-semibold mb-3">Tentang Wego</span>
             <ul className="space-y-2">
               <li><a href="#profiles" className="hover:text-white transition-colors">Wegoers</a></li>
-              <li><a href="#seminar" className="hover:text-white transition-colors">Katalog Sesi</a></li>
+              <li><a href="#/sesi" className="hover:text-white transition-colors">Arsip Sesi Wego</a></li>
             </ul>
           </div>
           <div>

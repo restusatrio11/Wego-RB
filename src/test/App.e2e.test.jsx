@@ -109,4 +109,28 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     fireEvent.click(screen.getByLabelText(/Tutup Detail/i));
     expect(screen.queryByLabelText(/Tutup Detail/i)).not.toBeInTheDocument();
   });
+
+  it('navigates seamlessly between Landing Page and Arsip Sesi Wego via hash routing', () => {
+    window.location.hash = '';
+    render(<App />);
+
+    // Initially on landing page
+    expect(screen.getByRole('heading', { level: 1, name: /wegoberbagi/i })).toBeInTheDocument();
+    expect(screen.getByText(/Lihat Semua Sesi ↗/i)).toHaveAttribute('href', '#/sesi');
+
+    // Simulate navigation to #/sesi
+    window.location.hash = '#/sesi';
+    fireEvent(window, new HashChangeEvent('hashchange'));
+
+    // Archive view should now be displayed
+    expect(screen.getByRole('heading', { level: 1, name: /Arsip Sesi Wego/i })).toBeInTheDocument();
+    expect(screen.getByText(/Kembali ke Beranda/i)).toBeInTheDocument();
+
+    // Navigate back to home
+    window.location.hash = '';
+    fireEvent(window, new HashChangeEvent('hashchange'));
+
+    // Landing page is restored
+    expect(screen.getByRole('heading', { level: 1, name: /wegoberbagi/i })).toBeInTheDocument();
+  });
 });

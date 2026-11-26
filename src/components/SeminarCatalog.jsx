@@ -17,7 +17,7 @@ export default function SeminarCatalog({ seminars = [] }) {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <a href="#ads" className="text-xs text-neutral-600 hover:text-black font-medium hidden sm:inline-block">
+          <a href="#/sesi" className="text-xs text-neutral-600 hover:text-black font-medium hidden sm:inline-block">
             Lihat Semua Sesi ↗
           </a>
           <div className="flex gap-1">

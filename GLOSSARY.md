@@ -20,6 +20,10 @@ _Avoid_: Event, meeting
 Representasi visual potrait vertikal (rasio poster) dari Sesi Wego pada Katalog Pembelajaran, memuat poster seminar, status kegiatan, judul topik, dan pemateri.
 _Avoid_: Banner horizontal, row list
 
+**Arsip Sesi Wego**:
+Halaman repositori menyeluruh yang menyajikan seluruh daftar Sesi Wego (selesai maupun akan datang) dengan filter status dan pencarian interaktif, melengkapi seksi kurasi ringkas di beranda.
+_Avoid_: List seminar biasa, tabel arsip kaku
+
 **Modal Detail Sesi**:
 Dialog modal interaktif yang muncul saat Kartu Sesi diklik, menyajikan rincian operasional lengkap: tanggal/waktu, lokasi/platform, tautan presensi, tautan virtual background, slide materi, dan tautan akses seminar atau rekaman.
 _Avoid_: Halaman baru, inline accordion

@@ -24,6 +24,9 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose }) {
 
   return (
     <div 
+      role="dialog"
+      aria-modal="true"
+      aria-label="Rincian Operasional Sesi"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}

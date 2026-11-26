@@ -7,6 +7,7 @@ export default function Navbar() {
         <span className="font-display italic text-lg tracking-tight font-bold">wego.rb</span>
         <nav className="hidden md:flex items-center gap-6 text-white/80 text-[13px]">
           <a href="#seminar" className="hover:text-white transition-colors">Sesi Seminar</a>
+          <a href="#/sesi" className="hover:text-white transition-colors">Arsip Sesi</a>
           <a href="#profiles" className="hover:text-white transition-colors">Wegoers</a>
           <a href="#ads" className="hover:text-white transition-colors">Papan Gagasan</a>
         </nav>
