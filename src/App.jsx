@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SmoothScrollProvider from './components/SmoothScrollProvider';
 import Navbar from './components/Navbar';
 import HeroCover from './components/HeroCover';
 import HeadlineStatement from './components/HeadlineStatement';
@@ -16,49 +18,54 @@ export default function App() {
   
   // Connects to Google Sheets if configured in Vite env, otherwise uses curated default data
   const sheetId = import.meta.env.VITE_GOOGLE_SHEETS_ID || '';
-  const { speakers, seminars, templates, communityAds, regionalGems, galleryPhotos } = useWegoData(sheetId);
+  const { speakers, seminars, communityAds, galleryPhotos } = useWegoData(sheetId);
+
+  // Recalibrate ScrollTrigger trigger points when asynchronous CMS data updates
+  useEffect(() => {
+    try {
+      ScrollTrigger.refresh();
+    } catch (e) {
+      // safe in headless/test environments
+    }
+  }, [speakers, seminars]);
 
   return (
-    <div className="min-h-screen bg-white text-page-text selection:bg-neutral-100 selection:text-black">
-      {/* 1. Hero & Statement */}
-      <section className="relative">
-        <Navbar />
-        <HeroCover />
-        <HeadlineStatement />
-      </section>
+    <SmoothScrollProvider>
+      <div className="min-h-screen bg-white text-page-text selection:bg-neutral-100 selection:text-black">
+        {/* 1. Hero & Statement */}
+        <section className="relative">
+          <Navbar />
+          <HeroCover />
+          <HeadlineStatement />
+        </section>
 
-      {/* 2. Speaker Profiles (Wegoers) */}
-      <SpeakerProfiles speakers={speakers} />
+        {/* 2. Speaker Profiles (Wegoers) */}
+        <SpeakerProfiles speakers={speakers} />
 
-      {/* 3. Seminar Catalog */}
-      <SeminarCatalog seminars={seminars} />
+        {/* 3. Seminar Catalog */}
+        <SeminarCatalog seminars={seminars} />
 
-      {/* 4. Mid CTA Banner */}
-      <MidBanner onOpenModal={() => setModalOpen(true)} />
+        {/* 4. Mid CTA Banner */}
+        <MidBanner onOpenModal={() => setModalOpen(true)} />
 
-      {/* 5. Downloadable Templates (Pojok Unduhan - hidden sementara karena belum terpakai) */}
-      {/* <DownloadableTemplates templates={templates} /> */}
+        {/* 6. Community Board (Kotak Aspirasi) */}
+        <CommunityBoard 
+          communityAds={communityAds} 
+          onOpenModal={() => setModalOpen(true)} 
+        />
 
-      {/* 6. Community Board (Kotak Aspirasi) */}
-      <CommunityBoard 
-        communityAds={communityAds} 
-        onOpenModal={() => setModalOpen(true)} 
-      />
+        {/* 8. Social Gallery */}
+        <SocialGallery galleryPhotos={galleryPhotos} />
 
-      {/* 7. Regional Innovations (Inspirasi & Rujukan - hidden sementara karena belum terpakai) */}
-      {/* <RegionalInnovations regionalGems={regionalGems} /> */}
+        {/* 9. Footer & Newsletter */}
+        <Footer onOpenModal={() => setModalOpen(true)} />
 
-      {/* 8. Social Gallery */}
-      <SocialGallery galleryPhotos={galleryPhotos} />
-
-      {/* 9. Footer & Newsletter */}
-      <Footer onOpenModal={() => setModalOpen(true)} />
-
-      {/* 10. Interactive Submission Modal */}
-      <SubmissionModal 
-        isOpen={modalOpen} 
-        onClose={() => setModalOpen(false)} 
-      />
-    </div>
+        {/* 10. Interactive Submission Modal */}
+        <SubmissionModal 
+          isOpen={modalOpen} 
+          onClose={() => setModalOpen(false)} 
+        />
+      </div>
+    </SmoothScrollProvider>
   );
 }
