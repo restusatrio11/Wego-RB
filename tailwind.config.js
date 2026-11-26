@@ -7,9 +7,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Instrument Serif"', 'Fraunces', 'serif'],
-        fraunces: ['Fraunces', 'serif'],
-        sans: ['Inter', 'Plus Jakarta Sans', 'sans-serif'],
+        awesome: ['"The Awesome Serif"', '"Awesome Serif"', '"Fraunces"', 'serif'],
+        display: ['"Instrument Serif"', '"Fraunces"', 'serif'],
+        fraunces: ['"Fraunces"', 'serif'],
+        sans: ['"Inter"', '"Plus Jakarta Sans"', 'sans-serif'],
       },
       colors: {
         page: {

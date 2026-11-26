@@ -12,6 +12,11 @@ body {
   font-family: 'Instrument Serif', serif;
 }
 
+.font-awesome {
+  font-family: 'The Awesome Serif', 'Awesome Serif', 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144, 'wght' 500, 'SOFT' 60;
+}
+
 /* Custom Editorial Design Tokens */
 .btn-pill {
   @apply rounded-full border border-neutral-300 px-5 py-2 text-xs font-medium text-neutral-800 transition-all hover:border-neutral-900 hover:text-black;
