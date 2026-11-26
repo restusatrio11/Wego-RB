@@ -42,6 +42,89 @@ export function handleDriveImageError(e, fallbackUrl = 'https://images.unsplash.
   }
 }
 
+/**
+ * Parses diverse date formats into timestamp (ms) for reliable chronological sorting:
+ * Handles GViz Date(YYYY, MM, DD), Indonesian dates ("28 Oktober 2026"), DD/MM/YYYY, and standard ISO formats.
+ */
+export function parseDateValue(dateStr) {
+  if (!dateStr) return 0;
+  if (typeof dateStr === 'number') return dateStr;
+  const str = String(dateStr).trim();
+
+  // GViz format: Date(YYYY, MM, DD)
+  const vizMatch = str.match(/Date\((\d+),\s*(\d+),\s*(\d+)/i);
+  if (vizMatch) {
+    return new Date(parseInt(vizMatch[1], 10), parseInt(vizMatch[2], 10), parseInt(vizMatch[3], 10)).getTime();
+  }
+
+  // Indonesian month mapping
+  const months = {
+    januari: 0, jan: 0, februari: 1, feb: 1, maret: 2, mar: 2, april: 3, apr: 3, mei: 4,
+    juni: 5, jun: 5, juli: 6, jul: 6, agustus: 7, ags: 7, agt: 7, september: 8, sep: 8,
+    oktober: 9, okt: 9, november: 10, nov: 10, desember: 11, des: 11
+  };
+  const lower = str.toLowerCase();
+  const indoMatch = lower.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+  if (indoMatch) {
+    const day = parseInt(indoMatch[1], 10);
+    const month = months[indoMatch[2]];
+    const year = parseInt(indoMatch[3], 10);
+    if (month !== undefined) return new Date(year, month, day).getTime();
+  }
+
+  // DD/MM/YYYY or DD-MM-YYYY
+  const dmyMatch = str.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
+  if (dmyMatch) {
+    return new Date(parseInt(dmyMatch[3], 10), parseInt(dmyMatch[2], 10) - 1, parseInt(dmyMatch[1], 10)).getTime();
+  }
+
+  const parsed = Date.parse(str);
+  return isNaN(parsed) ? 0 : parsed;
+}
+
+export function extractSessionNumber(idStr) {
+  if (!idStr) return 0;
+  const match = String(idStr).match(/\d+/);
+  return match ? parseInt(match[0], 10) : 0;
+}
+
+/**
+ * Sorts seminars so the newest content appears at the top:
+ * 1. Upcoming sessions are prioritized first (soonest date first so active events aren't missed).
+ * 2. Completed / past sessions are ordered newest first (descending date or session ID).
+ */
+export function sortSeminarsNewestFirst(seminars = []) {
+  if (!Array.isArray(seminars)) return [];
+  return [...seminars].sort((a, b) => {
+    const aUpcoming = a.status === 'upcoming';
+    const bUpcoming = b.status === 'upcoming';
+    
+    // 1. Upcoming sessions always precede completed sessions
+    if (aUpcoming && !bUpcoming) return -1;
+    if (!aUpcoming && bUpcoming) return 1;
+
+    const timeA = parseDateValue(a.date || a.tanggal);
+    const timeB = parseDateValue(b.date || b.tanggal);
+
+    // 2a. Both upcoming: soonest first
+    if (aUpcoming && bUpcoming) {
+      if (timeA && timeB && timeA !== timeB) return timeA - timeB;
+    } else {
+      // 2b. Both completed: newest date first (descending)
+      if (timeA && timeB && timeA !== timeB) return timeB - timeA;
+    }
+
+    // 3. Fallback to session ID number (e.g. WEGO-03 before WEGO-02)
+    const numA = extractSessionNumber(a.id);
+    const numB = extractSessionNumber(b.id);
+    if (numA && numB && numA !== numB) {
+      return aUpcoming ? numA - numB : numB - numA;
+    }
+
+    return 0;
+  });
+}
+
 // Fallback curated dataset matching BPS Sumatera Utara domain
 export const HEADER_ALIAS_MAP = {
   title: ['title', 'judul', 'topik', 'tema', 'sesi', 'namasesi', 'namaworkshop', 'namaacara', 'materiutama'],
@@ -365,7 +448,7 @@ export function useWegoData(sheetId) {
 
         // Tab 0: Seminars
         if (results[0].status === 'fulfilled' && Array.isArray(results[0].value) && results[0].value.length > 0) {
-          updates.seminars = results[0].value
+          const parsed = results[0].value
             .filter(sem => sem && (sem.title || sem.judul || sem.name))
             .map(sem => ({
               ...sem,
@@ -373,6 +456,7 @@ export function useWegoData(sheetId) {
               image: sem.image || sem.thumb,
               status: sem.status ? String(sem.status).toLowerCase() : 'upcoming'
             }));
+          updates.seminars = sortSeminarsNewestFirst(parsed);
         } else if (results[0].status === 'rejected') {
           errors.push(`Seminars: ${results[0].reason?.message || 'failed'}`);
         }

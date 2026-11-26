@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import SeminarDetailModal from './SeminarDetailModal';
-import { handleDriveImageError } from '../services/dataService';
+import { handleDriveImageError, sortSeminarsNewestFirst } from '../services/dataService';
 
 export default function SessionsArchive({ 
   seminars = [], 
@@ -41,12 +41,8 @@ export default function SessionsArchive({
       });
     }
 
-    // 3. Sort: upcoming first
-    return [...result].sort((a, b) => {
-      if (a.status === 'upcoming' && b.status !== 'upcoming') return -1;
-      if (a.status !== 'upcoming' && b.status === 'upcoming') return 1;
-      return 0;
-    });
+    // 3. Sort: upcoming first (soonest first), then completed (newest date first)
+    return sortSeminarsNewestFirst(result);
   }, [seminars, statusFilter, searchQuery]);
 
   const handleResetFilters = () => {

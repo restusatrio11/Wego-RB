@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import SeminarDetailModal from './SeminarDetailModal';
-import { handleDriveImageError } from '../services/dataService';
+import { handleDriveImageError, sortSeminarsNewestFirst } from '../services/dataService';
 
 export default function SeminarCatalog({ seminars = [], onOpenFeedback }) {
   const [selectedSeminar, setSelectedSeminar] = useState(null);
+  const sortedSeminars = useMemo(() => sortSeminarsNewestFirst(seminars), [seminars]);
 
   return (
     <section id="seminar" className="px-6 md:px-14 py-16 border-t border-neutral-100">
@@ -30,7 +31,7 @@ export default function SeminarCatalog({ seminars = [], onOpenFeedback }) {
 
       {/* Grid of Portrait Flyer Poster Cards (3:4 aspect ratio) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        {seminars.map((item) => {
+        {sortedSeminars.map((item) => {
           const isUpcoming = item.status === 'upcoming';
           const flyerImage = item.thumb || item.image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80';
 
