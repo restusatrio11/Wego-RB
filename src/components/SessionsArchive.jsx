@@ -74,9 +74,16 @@ export default function SessionsArchive({
             e.preventDefault();
             if (onNavigateHome) onNavigateHome();
           }}
-          className="font-bodoni text-2xl lowercase tracking-tighter text-black"
+          className="flex items-center gap-2 group"
         >
-          wegoberbagi
+          <img 
+            src="./WEGOSID!%20(2).webp" 
+            alt="Logo WEGOSID!" 
+            className="h-6 md:h-7 w-auto object-contain" 
+          />
+          <span className="font-bodoni text-2xl lowercase tracking-tighter text-black">
+            wegoberbagi
+          </span>
         </a>
       </nav>
 

@@ -80,8 +80,37 @@ export default function Footer({ onOpenModal }) {
           </div>
         </div>
 
+        {/* Institutional Logos Endorsement Strip */}
+        <div className="border-t border-neutral-900 mt-16 pt-10 pb-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex flex-wrap items-center gap-6 md:gap-8">
+            <img 
+              src="./Logo%20BPS%20Sumut%20Putih.webp" 
+              alt="Logo BPS Provinsi Sumatera Utara" 
+              className="h-8 md:h-9 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity" 
+            />
+            <img 
+              src="./Logo%20STMJ%20Putih.webp" 
+              alt="Logo STMJ BPS Sumut" 
+              className="h-7 md:h-8 w-auto object-contain opacity-85 hover:opacity-100 transition-opacity" 
+            />
+            <img 
+              src="./Logo%20BerAkhlak%202.webp" 
+              alt="Logo BerAKHLAK - Bangga Melayani Bangsa" 
+              className="h-8 md:h-9 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity" 
+            />
+            <img 
+              src="./WEGOSID!%20(2).webp" 
+              alt="Logo WEGOSID!" 
+              className="h-8 md:h-9 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity" 
+            />
+          </div>
+          <div className="text-neutral-500 text-xs font-sans tracking-wide">
+            Transformasi Birokrasi & Budaya Kerja BPS Provinsi Sumatera Utara
+          </div>
+        </div>
+
         {/* Bottom credits */}
-        <div className="border-t border-neutral-900 mt-12 pt-8 flex flex-col sm:flex-row justify-between text-[11px] text-neutral-600 font-sans">
+        <div className="border-t border-neutral-900 mt-8 pt-8 flex flex-col sm:flex-row justify-between text-[11px] text-neutral-600 font-sans">
           <span>© 2026 Tim Kerja Inovasi & Reformasi Birokrasi BPS Provinsi Sumatera Utara.</span>
           <span className="mt-2 sm:mt-0">Wadah Edukasi dan Gagasan Optimal (Wego-RB).</span>
         </div>
