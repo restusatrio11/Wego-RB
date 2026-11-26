@@ -115,7 +115,7 @@ export default function SubmissionModal({ isOpen, onClose }) {
               <div className="pt-2">
                 <button 
                   type="submit"
-                  className="w-full btn-pill bg-black text-white hover:bg-neutral-800 py-3 text-xs font-bold"
+                  className="w-full btn-pill bg-black !text-white hover:bg-neutral-800 py-3 text-xs font-bold"
                 >
                   Kirimkan Sekarang →
                 </button>

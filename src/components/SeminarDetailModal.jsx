@@ -128,7 +128,7 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose }) {
                     href={zoomLink} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="btn-pill bg-neutral-900 text-white hover:bg-black text-center text-xs justify-center"
+                    className="btn-pill bg-neutral-900 !text-white hover:bg-black text-center text-xs font-semibold justify-center flex items-center shadow-xs"
                   >
                     Gabung Sesi Zoom ↗
                   </a>
@@ -137,7 +137,7 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose }) {
                     href={videoLink} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="btn-pill bg-neutral-900 text-white hover:bg-black text-center text-xs justify-center"
+                    className="btn-pill bg-neutral-900 !text-white hover:bg-black text-center text-xs font-semibold justify-center flex items-center shadow-xs"
                   >
                     Tonton Rekaman ↗
                   </a>
