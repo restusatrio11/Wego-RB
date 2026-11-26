@@ -12,9 +12,16 @@ body {
   font-family: 'Instrument Serif', serif;
 }
 
+.font-bodoni {
+  font-family: 'Bodoni Moda', serif;
+  font-variation-settings: 'opsz' 96, 'wght' 800;
+  letter-spacing: -0.05em;
+}
+
 .font-awesome {
-  font-family: 'The Awesome Serif', 'Awesome Serif', 'Fraunces', serif;
-  font-variation-settings: 'opsz' 144, 'wght' 500, 'SOFT' 60;
+  font-family: 'Bodoni Moda', 'The Awesome Serif', 'Fraunces', serif;
+  font-variation-settings: 'opsz' 96, 'wght' 800;
+  letter-spacing: -0.05em;
 }
 
 /* Custom Editorial Design Tokens */

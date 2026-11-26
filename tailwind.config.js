@@ -7,8 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        awesome: ['"The Awesome Serif"', '"Awesome Serif"', '"Fraunces"', 'serif'],
-        display: ['"Instrument Serif"', '"Fraunces"', 'serif'],
+        bodoni: ['"Bodoni Moda"', 'serif'],
+        awesome: ['"Bodoni Moda"', '"The Awesome Serif"', '"Fraunces"', 'serif'],
+        display: ['"Instrument Serif"', '"Bodoni Moda"', '"Fraunces"', 'serif'],
         fraunces: ['"Fraunces"', 'serif'],
         sans: ['"Inter"', '"Plus Jakarta Sans"', 'sans-serif'],
       },
