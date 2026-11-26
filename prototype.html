@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wego — Wadah Edukasi & Gagasan Orang BPS Provinsi Sumatera Utara</title>
   
-  <!-- Google Fonts: Playfair Display + Plus Jakarta Sans + Space Mono -->
+  <!-- Google Fonts: Cormorant Garamond (refined editorial serif) + Plus Jakarta Sans + Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -17,30 +17,20 @@
       theme: {
         extend: {
           colors: {
-            editorial: {
-              bg: '#FBF8F3',
-              card: '#F4EFE6',
+            page: {
+              bg: '#FFFFFF',
+              surface: '#FBFBFA',
+              card: '#F6F6F4',
+              border: '#E8E8E4',
+              borderHover: '#CCCCCC',
               text: '#111111',
-              muted: '#5F5C56',
-              border: '#111111',
-              accent: '#EBE5D8',
-            },
-            bps: {
-              blue: '#0284C7',
-              navy: '#0C4A6E',
-              orange: '#EA580C',
-              green: '#16A34A',
-              yellow: '#FACC15',
-              pastelBlue: '#E0F2FE',
-              pastelOrange: '#FFEDD5',
-              pastelGreen: '#DCFCE7',
-              pastelPurple: '#F3E8FF',
-              pastelPink: '#FCE7F3',
+              muted: '#767672',
+              subtle: '#9A9A94',
             }
           },
           fontFamily: {
-            serif: ['"Playfair Display"', 'Georgia', 'serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Cormorant Garamond"', '"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
             mono: ['"Space Mono"', 'monospace'],
           },
           keyframes: {
@@ -50,7 +40,7 @@
             }
           },
           animation: {
-            marquee: 'marquee 30s linear infinite',
+            marquee: 'marquee 35s linear infinite',
           }
         }
       }
@@ -64,79 +54,88 @@
 
   <style>
     body {
-      background-color: #FBF8F3;
+      background-color: #FFFFFF;
       color: #111111;
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
-    .editorial-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      border: 1px solid #111111;
-      border-radius: 9999px;
-      padding: 0.15rem 0.65rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      background: white;
-      white-space: nowrap;
-    }
-    .editorial-outline-pill {
+    
+    /* Delicate Editorial Pill (identical to ilovecreatives) */
+    .pill-outline {
       display: inline-block;
       border: 1px solid #111111;
       border-radius: 9999px;
-      padding: 0 0.5rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.02em;
+      padding: 0.1rem 0.65rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8em;
+      line-height: 1.2;
       vertical-align: middle;
       background: transparent;
       margin: 0 0.15rem;
     }
-    .editorial-pill-btn {
+
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #E8E8E4;
+      border-radius: 9999px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.68rem;
+      color: #767672;
+      background: #FFFFFF;
+      white-space: nowrap;
+    }
+
+    /* Minimalist Pill Buttons (NO brutalism shadows) */
+    .btn-pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid #111111;
+      border: 1px solid #D0D0CA;
       border-radius: 9999px;
-      padding: 0.35rem 1rem;
+      padding: 0.4rem 1.15rem;
       font-size: 0.72rem;
-      font-weight: 600;
-      transition: all 0.15s ease;
-      background: white;
+      font-weight: 500;
       color: #111111;
+      background: #FFFFFF;
+      transition: all 0.2s ease;
       cursor: pointer;
     }
-    .editorial-pill-btn:hover {
+    .btn-pill:hover {
+      border-color: #111111;
+      background: #FAFAFA;
+    }
+
+    .btn-pill-dark {
       background: #111111;
-      color: white;
+      color: #FFFFFF;
+      border-color: #111111;
     }
-    .editorial-pill-btn-dark {
-      background: #111111;
-      color: white;
+    .btn-pill-dark:hover {
+      background: #2E2E2E;
+      border-color: #2E2E2E;
+      color: #FFFFFF;
     }
-    .editorial-pill-btn-dark:hover {
-      background: #333333;
-      color: white;
-    }
-    .nav-arrow-btn {
-      width: 1.5rem;
-      height: 1.5rem;
-      border: 1px solid #111111;
+
+    /* Minimal circular arrow navigation button */
+    .btn-arrow {
+      width: 1.65rem;
+      height: 1.65rem;
+      border: 1px solid #D0D0CA;
       border-radius: 9999px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      transition: background 0.15s ease;
+      font-size: 0.7rem;
+      color: #555555;
+      background: #FFFFFF;
+      transition: all 0.15s ease;
       cursor: pointer;
     }
-    .nav-arrow-btn:hover {
-      background: #111111;
-      color: white;
+    .btn-arrow:hover {
+      border-color: #111111;
+      color: #111111;
     }
   </style>
 </head>
@@ -146,155 +145,159 @@
   <script type="text/babel">
     const { useState } = React;
 
-    // --- Mock Data 1:1 Matching BPS Sumut Domain ---
-    const speakersList = [
+    // --- Clean Data (Free from AI slop / emojis) ---
+    const speakers = [
       {
-        id: "SPK-01",
-        name: "Lexie Siregar, S.Tr.Stat",
+        id: "1",
+        name: "Lexie Siregar",
         satker: "BPS Prov. Sumut",
         role: "Data Scientist / IPDS",
-        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80"
+        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"
       },
       {
-        id: "SPK-02",
-        name: "Michelle Pontvert, M.Si",
+        id: "2",
+        name: "Michelle Pontvert",
         satker: "BPS Kota Medan",
         role: "Statistisi Ahli Muda / Tim RB",
-        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80"
+        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80"
       },
       {
-        id: "SPK-03",
-        name: "Melody Hansen, S.Si",
+        id: "3",
+        name: "Melody Hansen",
         satker: "BPS Kab. Deli Serdang",
         role: "Pranata Komputer / Otomasi",
-        image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=500&q=80"
+        image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80"
       },
       {
-        id: "SPK-04",
-        name: "Chelli Tampubolon, S.E",
+        id: "4",
+        name: "Chelli Tampubolon",
         satker: "BPS Kab. Toba",
-        role: "Analis SDM Aparatur / Pelayanan",
-        image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=500&q=80"
+        role: "Analis SDM Aparatur",
+        image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=600&q=80"
       },
       {
-        id: "SPK-05",
-        name: "Ryan Pratama, S.Tr.Stat",
+        id: "5",
+        name: "Ryan Pratama",
         satker: "BPS Kab. Asahan",
-        role: "Statistisi Produksi & Nerwilis",
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80"
+        role: "Statistisi Produksi",
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80"
       }
     ];
 
-    const seminarsList = [
+    const seminars = [
       {
         id: "sem-1",
         title: "Pemanfaatan Web Scraping & Machine Learning Harga Pangan",
-        desc: "Metode praktis ekstraksi data harga pasar dari portal online menggunakan Python untuk melengkapi validasi data inflasi harian di 33 kab/kota.",
-        thumb: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
+        desc: "Metode ekstraksi data harga komoditas dari pasar online menggunakan Python untuk melengkapi validasi data inflasi harian di 33 kabupaten/kota.",
+        thumb: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
         videoUrl: "https://youtube.com",
         deckUrl: "https://drive.google.com"
       },
       {
         id: "sem-2",
         title: "Strategi Sukses Membangun Zona Integritas Menuju WBK/WBBM",
-        desc: "Langkah konkret implementasi 6 area perubahan Reformasi Birokrasi dan strategi penyusunan Lembar Kerja Evaluasi (LKE) yang aplikatif.",
-        thumb: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80",
+        desc: "Langkah nyata implementasi 6 area perubahan Reformasi Birokrasi dan panduan penyusunan Lembar Kerja Evaluasi yang aplikatif dan terukur.",
+        thumb: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80",
         videoUrl: "https://youtube.com",
         deckUrl: "https://drive.google.com"
       },
       {
         id: "sem-3",
-        title: "Data Storytelling: Mengubah Tabel Statistik Jadi Infografis Viral",
-        desc: "Prinsip hierarki visual, pemilihan bagan yang efektif, serta gaya bahasa populer agar rilis statistik BPS dipahami khalayak luas.",
-        thumb: "https://images.unsplash.com/photo-1542744094-24638eff58bb?auto=format&fit=crop&w=600&q=80",
+        title: "Data Storytelling: Mengubah Tabel Statistik Menjadi Infografis Publik",
+        desc: "Prinsip hierarki informasi, tipografi visual, dan pemilihan bagan yang efektif agar rilis data statistik BPS mudah dipahami oleh masyarakat luas.",
+        thumb: "https://images.unsplash.com/photo-1542744094-24638eff58bb?auto=format&fit=crop&w=800&q=80",
         videoUrl: "https://youtube.com",
         deckUrl: "https://drive.google.com"
       }
     ];
 
-    const shopTemplatesList = [
+    const templates = [
       {
         id: "tpl-1",
-        title: "Official Wego Slide Deck PPTX",
-        desc: "Template presentasi berstandar BPS dengan tipografi editorial modern, bagan interaktif, dan layout bersih.",
-        badge: "GRATIS",
-        image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=500&q=80"
+        title: "Wego Official Slide Deck",
+        desc: "Template presentasi berstandar BPS dengan tipografi editorial bersih, bagan terstruktur, dan tata letak minimalis.",
+        tag: "PPTX",
+        price: "Gratis",
+        image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=600&q=80"
       },
       {
         id: "tpl-2",
-        title: "Starter Pack Web Scraping Python",
-        desc: "Skrip template BeautifulSoup & Pandas siap pakai untuk monitoring harga pasar dan berita daerah.",
-        badge: "KODE",
-        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=500&q=80"
+        title: "Starter Pack Web Scraping",
+        desc: "Skrip template BeautifulSoup & Pandas siap pakai untuk pemantauan harga pasar dan berita daerah.",
+        tag: "Python",
+        price: "Kode Terbuka",
+        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80"
       },
       {
         id: "tpl-3",
-        title: "Lembar Kerja Evaluasi (LKE) ZI Mandiri",
+        title: "Lembar Kerja Evaluasi ZI Mandiri",
         desc: "Spreadsheet panduan mandiri penilaian 6 area perubahan Reformasi Birokrasi menuju WBK.",
-        badge: "EXCEL",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80"
+        tag: "Excel",
+        price: "Internal BPS",
+        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80"
       },
       {
         id: "tpl-4",
-        title: "Panduan Infografis & Siaran Pers BPS",
+        title: "Panduan Infografis & Siaran Pers",
         desc: "Pedoman warna resmi, font typography, dan format infografis publik BPS Provinsi Sumatera Utara.",
-        badge: "PDF",
-        image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=500&q=80"
+        tag: "PDF",
+        price: "Resmi",
+        image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80"
       }
     ];
 
-    const communityAdsList = [
+    const communityAds = [
       {
-        type: "USULAN TOPIK",
+        type: "Usulan Topik",
         location: "BPS Kab. Asahan",
-        text: "Ingin belajar otomasi rekonsiliasi data PDRB dengan Python. Ada rekan yang bersedia sharing di episode berikutnya?",
-        linkText: "Dukung Topik ↗"
+        text: "Ingin mempelajari otomasi rekonsiliasi data PDRB dengan Python. Rekan yang memiliki pengalaman dipersilakan berbagi di sesi mendatang.",
+        action: "Dukung Topik →"
       },
       {
-        type: "SIAP BERBAGI",
+        type: "Siap Berbagi",
         location: "BPS Prov. Sumut",
-        text: "Saya siap membawakan materi dasar Git & GitHub untuk kolaborasi coding antar satker kabupaten/kota.",
-        linkText: "Hubungi Pemateri ↗"
+        text: "Saya siap membawakan materi dasar version control Git & GitHub untuk kolaborasi proyek digital antar satuan kerja daerah.",
+        action: "Hubungi Pemateri →"
       },
       {
-        type: "KOLABORASI RISET",
+        type: "Kolaborasi Riset",
         location: "BPS Kota Medan",
-        text: "Mencari rekan kerja sama untuk penulisan artikel ilmiah statistik pariwisata dan ekonomi kreatif daerah.",
-        linkText: "Gabung Riset ↗"
+        text: "Membuka kerja sama penulisan artikel ilmiah bertema statistik pariwisata dan potensi ekonomi kreatif Sumatera Utara.",
+        action: "Gabung Riset →"
       },
       {
-        type: "KONSULTASI RB",
+        type: "Konsultasi ZI",
         location: "BPS Kab. Toba",
-        text: "Diskusi santai persiapan tinjauan Tim Penilai Nasional (TPN) Zona Integritas. Yuk sharing praktik baiknya!",
-        linkText: "Ikuti Diskusi ↗"
+        text: "Diskusi persiapan evaluasi Tim Penilai Nasional Zona Integritas. Berbagi praktik baik dan penyusunan bukti dukung.",
+        action: "Ikuti Diskusi →"
       },
       {
-        type: "PENGUMUMAN",
+        type: "Pengumuman",
         location: "Tim RB Prov. Sumut",
-        text: "Pendaftaran pemateri sesi Wego episode 12 dibuka hingga Jumat depan. Semua jenjang jabatan dipersilakan mendaftar.",
-        linkText: "Detail Pengumuman ↗"
+        text: "Pendaftaran pemateri sesi Wego episode 12 dibuka hingga akhir bulan. Seluruh jenjang jabatan dipersilakan mendaftar.",
+        action: "Detail Pengumuman →"
       }
     ];
 
-    const internetGemsList = [
+    const digitalInnovations = [
       {
         title: "Portal Pasada BPS Sumut",
-        image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80",
+        image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=700&q=80",
         tags: ["layanan terpadu", "web app", "pelayanan publik"]
       },
       {
-        title: "Dashboard Inflasi & Pangan Daerah",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
+        title: "Dashboard Pemantauan Inflasi",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80",
         tags: ["data science", "monitoring", "visualisasi"]
       },
       {
-        title: "Sistem Romantik & Metadata Online",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80",
-        tags: ["metadata statistik", "sektoral", "kolaborasi"]
+        title: "Sistem Romantik & Metadata Sektoral",
+        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80",
+        tags: ["metadata", "statistik sektoral", "kolaborasi"]
       }
     ];
 
-    const instagramGrid = [
+    const galleryPhotos = [
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=400&q=80",
@@ -309,57 +312,62 @@
       const [modalOpen, setModalOpen] = useState(false);
 
       return (
-        <div className="min-h-screen bg-[#FBF8F3] text-editorial-text selection:bg-bps-pastelBlue selection:text-black">
-          
+        <div className="min-h-screen bg-white text-page-text selection:bg-neutral-100 selection:text-black">
+
           {/* =========================================================
-              1. HERO SECTION WITH COVER PHOTO & GIANT WORDMARK
-              (1:1 Translation of ilovecreatives Top Cover Area)
+              1. HERO AREA: EXACT 1:1 WITH ILOVECREATIVES PHOTO COVER
           ========================================================== */}
-          <section className="border-b border-black">
-            {/* Top Minimalist Nav */}
-            <div className="px-6 md:px-12 py-3.5 flex justify-between items-center text-xs border-b border-black font-medium">
-              <div className="flex items-center gap-6">
-                <span className="font-serif font-black text-sm tracking-tight">wego<span className="text-bps-orange italic">.rb</span></span>
-                <nav className="hidden md:flex items-center gap-5 text-editorial-muted">
-                  <a href="#seminar" className="hover:text-black transition-colors">Sesi Wego</a>
-                  <a href="#profiles" className="hover:text-black transition-colors">Wegoers</a>
-                  <a href="#templates" className="hover:text-black transition-colors">Unduhan</a>
-                  <a href="#ads" className="hover:text-black transition-colors">Papan Gagasan</a>
-                  <a href="#gems" className="hover:text-black transition-colors">Inovasi Daerah</a>
+          <section className="relative">
+            {/* Minimalist Top Nav on top of image */}
+            <div className="absolute top-0 left-0 right-0 z-20 px-6 md:px-12 py-5 flex justify-between items-center text-white text-xs font-medium tracking-wide">
+              <div className="flex items-center gap-8">
+                <span className="font-serif italic text-lg tracking-tight font-bold">wego.rb</span>
+                <nav className="hidden md:flex items-center gap-6 text-white/80 text-[13px]">
+                  <a href="#seminar" className="hover:text-white transition-colors">Sesi Seminar</a>
+                  <a href="#profiles" className="hover:text-white transition-colors">Wegoers</a>
+                  <a href="#templates" className="hover:text-white transition-colors">Unduhan</a>
+                  <a href="#ads" className="hover:text-white transition-colors">Papan Gagasan</a>
+                  <a href="#gems" className="hover:text-white transition-colors">Inovasi Daerah</a>
                 </nav>
               </div>
               <div className="flex items-center gap-3">
-                <span className="editorial-badge bg-bps-pastelOrange text-bps-orange border-bps-orange">BPS PROV. SUMUT ✦</span>
+                <span className="border border-white/30 rounded-full px-3 py-1 text-[11px] text-white/90">
+                  BPS PROVINSI SUMATERA UTARA
+                </span>
               </div>
             </div>
 
-            {/* Giant Editorial Wordmark across top */}
-            <div className="px-6 md:px-12 pt-8 pb-4 border-b border-black text-center overflow-hidden">
-              <h1 className="font-serif text-[13vw] leading-[0.85] font-normal tracking-[-0.04em] select-none text-black">
-                wegoberbagi
-              </h1>
-            </div>
-
-            {/* Large Cover Photo with Cheeky Editorial Blurb */}
-            <div className="relative border-b border-black aspect-[21/9] md:aspect-[24/8] overflow-hidden bg-editorial-card">
+            {/* Tall Hero Cover Photo with Title Overlay (Identical to reference) */}
+            <div className="relative w-full h-[70vh] md:h-[80vh] bg-neutral-900 overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1800&q=80" 
-                alt="Suasana Berbagi Insan BPS Sumut"
-                className="w-full h-full object-cover grayscale opacity-90 hover:grayscale-0 transition-all duration-700"
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=2000&q=85" 
+                alt="Wego BPS Sumatera Utara"
+                className="w-full h-full object-cover object-center brightness-[0.78] contrast-[1.05]"
               />
-              <div className="absolute bottom-6 left-6 md:left-12 max-w-md bg-white/95 border border-black p-4 text-[11px] font-mono leading-relaxed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <span className="block text-bps-orange font-bold mb-1">TUNGGU, APA INI SEBENARNYA? 👁️</span>
-                Ini bukan rapat dinas biasa yang kaku. Ini adalah Wego: wadah edukasi, saling tukar keahlian, dan ruang tumbuh bersama seluruh insan BPS se-Sumatera Utara.
+
+              {/* Giant Serif Brand Wordmark overlaid on photo (like ilovecreatives) */}
+              <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-12 pointer-events-none">
+                <div></div>
+                <div>
+                  <h1 className="font-serif text-[15vw] md:text-[14vw] leading-[0.8] text-white font-normal tracking-[-0.03em] select-none opacity-95">
+                    wego.rb
+                  </h1>
+                </div>
+              </div>
+
+              {/* Subtle small editorial note on the bottom-left of photo */}
+              <div className="absolute bottom-6 left-6 md:left-12 max-w-xs text-white/70 text-[11px] leading-relaxed font-sans hidden sm:block">
+                Wadah edukasi dan gagasan bersama. Ruang bertukar pikiran serta peningkatan kompetensi bagi insan BPS Sumatera Utara.
               </div>
             </div>
 
-            {/* Big Editorial Statement Copy */}
-            <div className="px-6 md:px-12 py-14 md:py-20 max-w-5xl">
-              <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl font-normal leading-[1.08] tracking-tight text-editorial-text">
-                Untuk insan statistik 📊 yang ingin membuka wawasan baru & menumpuk keahlian digital <span className="italic font-light">✹inovasi RB</span> bersama <span className="editorial-outline-pill">rekan satu frekuensi</span> se-Sumatera Utara.
+            {/* Statement Headline below photo (Identical typography rhythm) */}
+            <div className="px-6 md:px-12 py-16 md:py-24 max-w-5xl mx-auto">
+              <h2 className="font-serif text-3xl md:text-5xl lg:text-[3.5rem] font-normal leading-[1.15] tracking-tight text-neutral-900">
+                Untuk insan statistik yang mencari ruang belajar baru & menumpuk keahlian digital <span className="pill-outline">inovasi reformasi birokrasi</span> bersama komunitas rekan kerja BPS se-Sumatera Utara.
               </h2>
               <div className="mt-8">
-                <a href="#seminar" className="font-mono text-xs text-editorial-muted hover:text-black underline underline-offset-4">
+                <a href="#seminar" className="text-xs text-neutral-500 hover:text-black underline underline-offset-4 transition-colors">
                   Jelajahi ekosistem berbagi kami →
                 </a>
               </div>
@@ -367,87 +375,105 @@
           </section>
 
           {/* =========================================================
-              2. SECTION: WEGOERS PROFILES
-              (1:1 with Creative Profiles: Make your profile and get eyeballs)
+              2. SECTION: CREATIVE PROFILES (WEGOERS PROFILES)
+              (Exact 1:1: Image with rounded corners -> location badge -> name -> role)
           ========================================================== */}
-          <section id="profiles" className="border-b border-black py-12 px-6 md:px-12">
-            <div className="flex justify-between items-end mb-8 border-b border-black pb-4">
+          <section id="profiles" className="px-6 md:px-12 py-12 max-w-7xl mx-auto border-t border-neutral-100">
+            <div className="flex justify-between items-end mb-8">
               <div>
-                <span className="font-serif text-sm italic text-editorial-muted block mb-0.5">Wegoers Profiles</span>
-                <h3 className="font-serif text-2xl md:text-4xl font-normal">
-                  Kenali <span className="editorial-outline-pill">para narasumber</span> dan temukan inspirasi 👀.
+                <span className="font-serif text-xs text-neutral-400 block mb-1">Profil Pemateri</span>
+                <h3 className="font-serif text-2xl md:text-3xl font-normal text-neutral-900">
+                  Kenali <span className="pill-outline">para narasumber</span> dan temukan inspirasi gagasan.
                 </h3>
               </div>
               <div className="flex items-center gap-3">
-                <a href="#ads" className="font-mono text-xs hover:underline hidden sm:inline-block">Semua Wegoers ↗</a>
-                <div className="flex gap-1.5">
-                  <button className="nav-arrow-btn">‹</button>
-                  <button className="nav-arrow-btn">›</button>
+                <a href="#ads" className="text-xs text-neutral-600 hover:text-black hidden sm:inline-block">
+                  Semua Wegoers ↗
+                </a>
+                <div className="flex gap-1">
+                  <button className="btn-arrow">‹</button>
+                  <button className="btn-arrow">›</button>
                 </div>
               </div>
             </div>
 
-            {/* 5-Card Profile Grid */}
+            {/* 5-Card Profile Row */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5">
-              {speakersList.map((spk) => (
+              {speakers.map((spk) => (
                 <div key={spk.id} className="group cursor-pointer">
-                  <div className="aspect-[3/4] overflow-hidden bg-gray-200 border border-black mb-3">
+                  <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-neutral-100 mb-3">
                     <img 
                       src={spk.image} 
                       alt={spk.name} 
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" 
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-300"
                     />
                   </div>
-                  <div className="mb-1">
-                    <span className="editorial-badge text-[9px] px-1.5 py-0">{spk.satker}</span>
+                  <div className="mb-1.5">
+                    <span className="pill-tag text-[10px]">{spk.satker}</span>
                   </div>
-                  <h4 className="font-serif font-bold text-sm leading-snug group-hover:underline">{spk.name}</h4>
-                  <p className="text-[11px] text-editorial-muted leading-tight mt-0.5">{spk.role}</p>
+                  <h4 className="font-medium text-sm text-neutral-900 leading-snug group-hover:underline">
+                    {spk.name}
+                  </h4>
+                  <p className="text-[11px] text-neutral-500 leading-tight mt-0.5">
+                    {spk.role}
+                  </p>
                 </div>
               ))}
             </div>
           </section>
 
           {/* =========================================================
-              3. SECTION: SESI SEMINAR WEGO
-              (1:1 with Edutainment / Online Courses)
+              3. SECTION: EDUTAINMENT / ONLINE COURSES (SESI SEMINAR)
+              (Exact 1:1: 3 wide cards with rounded corners & dual pill buttons)
           ========================================================== */}
-          <section id="seminar" className="border-b border-black py-14 px-6 md:px-12 bg-editorial-bg">
-            <div className="flex justify-between items-end mb-8 border-b border-black pb-4">
+          <section id="seminar" className="px-6 md:px-12 py-16 max-w-7xl mx-auto border-t border-neutral-100">
+            <div className="flex justify-between items-end mb-8">
               <div>
-                <span className="font-serif text-sm italic text-editorial-muted block mb-0.5">Katalog Pembelajaran</span>
-                <h3 className="font-serif text-2xl md:text-4xl font-normal">
-                  Sesi Seminar Wego untuk Insan Statistik ✦
+                <span className="font-serif text-xs text-neutral-400 block mb-1">Katalog Pembelajaran</span>
+                <h3 className="font-serif text-2xl md:text-3xl font-normal text-neutral-900">
+                  Sesi Seminar Wego untuk Insan Statistik
                 </h3>
-                <p className="text-xs font-mono text-editorial-muted mt-1">• Tonton rekaman atau unduh materi paparan kapan saja.</p>
+                <p className="text-xs text-neutral-400 mt-1">
+                  • Terbuka untuk seluruh pegawai BPS se-Sumatera Utara.
+                </p>
               </div>
               <div className="flex items-center gap-3">
-                <a href="#ads" className="font-mono text-xs hover:underline hidden sm:inline-block">Lihat Semua Sesi ↗</a>
-                <div className="flex gap-1.5">
-                  <button className="nav-arrow-btn">‹</button>
-                  <button className="nav-arrow-btn">›</button>
+                <a href="#ads" className="text-xs text-neutral-600 hover:text-black hidden sm:inline-block">
+                  Lihat Semua Sesi ↗
+                </a>
+                <div className="flex gap-1">
+                  <button className="btn-arrow">‹</button>
+                  <button className="btn-arrow">›</button>
                 </div>
               </div>
             </div>
 
-            {/* 3-Card Seminar Grid with Wide Thumbnails and Dual Action Pills */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {seminarsList.map((sem) => (
-                <div key={sem.id} className="border border-black bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
+            {/* 3 Wide Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {seminars.map((sem) => (
+                <div key={sem.id} className="rounded-2xl border border-neutral-200 bg-white p-4 flex flex-col justify-between hover:border-neutral-300 transition-colors">
                   <div>
-                    <div className="aspect-[16/10] bg-editorial-card border border-black mb-4 overflow-hidden">
-                      <img src={sem.thumb} alt={sem.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                    <div className="aspect-[16/10] bg-neutral-100 rounded-xl overflow-hidden mb-4">
+                      <img 
+                        src={sem.thumb} 
+                        alt={sem.title} 
+                        className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-300"
+                      />
                     </div>
-                    <h4 className="font-serif text-xl font-bold leading-snug mb-2">{sem.title}</h4>
-                    <p className="text-xs text-editorial-muted leading-relaxed mb-6">{sem.desc}</p>
+                    <h4 className="font-serif text-lg font-normal leading-snug text-neutral-900 mb-2">
+                      {sem.title}
+                    </h4>
+                    <p className="text-xs text-neutral-500 leading-relaxed mb-6">
+                      {sem.desc}
+                    </p>
                   </div>
 
-                  <div className="flex gap-2 pt-4 border-t border-black/10">
-                    <a href={sem.videoUrl} target="_blank" className="editorial-pill-btn editorial-pill-btn-dark flex-1 text-center">
-                      Tonton Rekaman 📺
+                  <div className="flex gap-2 pt-4 border-t border-neutral-100">
+                    <a href={sem.videoUrl} target="_blank" className="btn-pill btn-pill-dark flex-1 text-center">
+                      Tonton Rekaman
                     </a>
-                    <a href={sem.deckUrl} target="_blank" className="editorial-pill-btn flex-1 text-center">
-                      Unduh Slide 💾
+                    <a href={sem.deckUrl} target="_blank" className="btn-pill flex-1 text-center">
+                      Unduh Slide
                     </a>
                   </div>
                 </div>
@@ -456,112 +482,70 @@
           </section>
 
           {/* =========================================================
-              4. SECTION: GIANT FEATURE CALLOUT BANNER
-              (1:1 with Finance Friends Forever Graphic Card)
+              4. SECTION: GIANT GRAPHIC BANNER (FINANCE FRIENDS FOREVER)
+              (Exact 1:1: Soft pastel organic gradient card with rounded-3xl)
           ========================================================== */}
-          <section className="border-b border-black px-6 md:px-12 py-12 bg-editorial-bg">
-            <div className="relative border-2 border-black p-8 md:p-14 bg-gradient-to-r from-bps-pastelBlue via-bps-pastelOrange to-bps-pastelGreen shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+          <section className="px-6 md:px-12 py-10 max-w-7xl mx-auto">
+            <div className="rounded-3xl bg-gradient-to-br from-[#77C9D4] via-[#57BC90] to-[#015249] p-8 md:p-14 text-white relative overflow-hidden">
               <div className="max-w-2xl relative z-10">
-                <span className="editorial-badge bg-white mb-3">ZONA INTEGRITAS & BUDAYA KERJA</span>
-                <h3 className="font-serif text-4xl md:text-6xl font-normal leading-tight mb-4 text-black">
+                <h3 className="font-serif text-3xl md:text-5xl font-normal leading-tight mb-4">
                   Reformasi Birokrasi Berdampak Nyata
                 </h3>
-                <p className="text-editorial-text text-sm md:text-base leading-relaxed mb-8">
-                  Seringkali RB terasa penuh dokumen tebal, formalitas, dan berjarak? Di Wego, kita bedah proses kerja nyata yang mempermudah tugas statistik harian—mulai dari otomatisasi pengolahan data, pelayanan prima, hingga pencegahan gratifikasi.
+                <p className="text-white/90 text-xs md:text-sm leading-relaxed mb-8 max-w-xl">
+                  Reformasi birokrasi seringkali terasa penuh dokumen tebal dan formalitas? Di Wego, kita membedah proses kerja nyata yang mempermudah tugas statistik harian—mulai dari otomatisasi pengolahan data hingga pelayanan publik prima.
                 </p>
                 <button 
                   onClick={() => setModalOpen(true)}
-                  className="editorial-pill-btn editorial-pill-btn-dark px-6 py-3 text-sm"
+                  className="btn-pill bg-white text-neutral-900 border-transparent hover:bg-neutral-100 font-medium px-5 py-2.5 text-xs"
                 >
-                  Ajukan Ide Sesi Berikutnya ✦
+                  Ajukan Ide Sesi Berikutnya →
                 </button>
               </div>
             </div>
           </section>
 
           {/* =========================================================
-              5. SECTION: POJOK UNDUHAN & TEMPLATE KERJA
-              (1:1 with Shop: Templates and Merchy merch)
+              5. SECTION: SHOP / TEMPLATES AND MERCH
+              (Exact 1:1: 4 product cards with photo, title, desc, price, pill button)
           ========================================================== */}
-          <section id="templates" className="border-b border-black py-14 px-6 md:px-12">
-            <div className="flex justify-between items-end mb-8 border-b border-black pb-4">
+          <section id="templates" className="px-6 md:px-12 py-14 max-w-7xl mx-auto border-t border-neutral-100">
+            <div className="flex justify-between items-end mb-8">
               <div>
-                <span className="font-serif text-sm italic text-editorial-muted block mb-0.5">Repositori Terbuka</span>
-                <h3 className="font-serif text-2xl md:text-4xl font-normal">
-                  Pojok Unduhan & Template Kerja 💾
+                <span className="font-serif text-xs text-neutral-400 block mb-1">Pojok Unduhan</span>
+                <h3 className="font-serif text-2xl md:text-3xl font-normal text-neutral-900">
+                  Template Kerja dan Bahan Praktis.
                 </h3>
               </div>
               <div className="flex items-center gap-3">
-                <a href="#" className="font-mono text-xs hover:underline hidden sm:inline-block">Buka Repositori ↗</a>
-                <div className="flex gap-1.5">
-                  <button className="nav-arrow-btn">‹</button>
-                  <button className="nav-arrow-btn">›</button>
+                <a href="#" className="text-xs text-neutral-600 hover:text-black hidden sm:inline-block">
+                  Buka Repositori ↗
+                </a>
+                <div className="flex gap-1">
+                  <button className="btn-arrow">‹</button>
+                  <button className="btn-arrow">›</button>
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {shopTemplatesList.map((item) => (
-                <div key={item.id} className="border border-black bg-white p-3.5 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
+              {templates.map((tpl) => (
+                <div key={tpl.id} className="flex flex-col justify-between">
                   <div>
-                    <div className="aspect-[4/3] bg-editorial-card border border-black mb-3 overflow-hidden">
-                      <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                    <div className="aspect-[4/3] rounded-xl overflow-hidden bg-neutral-100 mb-3 border border-neutral-100">
+                      <img src={tpl.image} alt={tpl.title} className="w-full h-full object-cover" />
                     </div>
-                    <h5 className="font-serif font-bold text-sm leading-snug mb-1">{item.title}</h5>
-                    <p className="text-[11px] text-editorial-muted leading-relaxed mb-4">{item.desc}</p>
+                    <h5 className="font-medium text-xs md:text-sm text-neutral-900 leading-snug mb-1">
+                      {tpl.title}
+                    </h5>
+                    <p className="text-[11px] text-neutral-500 leading-relaxed mb-3">
+                      {tpl.desc}
+                    </p>
                   </div>
 
-                  <div className="flex items-center justify-between pt-3 border-t border-black/10">
-                    <span className="editorial-badge text-[9px]">{item.badge}</span>
-                    <a href="#" className="editorial-pill-btn text-[10px] px-3 py-1">
-                      Unduh Berkas 💾
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* =========================================================
-              6. SECTION: PAPAN GAGASAN & KOLABORASI
-              (1:1 with Community Ads: Purchase an ad and get into newsletter)
-          ========================================================== */}
-          <section id="ads" className="border-b border-black py-14 px-6 md:px-12 bg-editorial-card">
-            <div className="flex justify-between items-end mb-8 border-b border-black pb-4">
-              <div>
-                <span className="font-serif text-sm italic text-editorial-muted block mb-0.5">Ruang Partisipasi Insan Statistik</span>
-                <h3 className="font-serif text-2xl md:text-4xl font-normal">
-                  Papan Gagasan & Kolaborasi <span className="editorial-outline-pill">kirim ide</span> 💡
-                </h3>
-              </div>
-              <div className="flex items-center gap-3">
-                <button onClick={() => setModalOpen(true)} className="font-mono text-xs hover:underline hidden sm:inline-block">
-                  Ajukan Gagasan ↗
-                </button>
-                <div className="flex gap-1.5">
-                  <button className="nav-arrow-btn">‹</button>
-                  <button className="nav-arrow-btn">›</button>
-                </div>
-              </div>
-            </div>
-
-            {/* Row of minimalist classifieds cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-              {communityAdsList.map((ad, idx) => (
-                <div key={idx} className="border border-black bg-white p-4 rounded-lg flex flex-col justify-between shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                  <div>
-                    <div className="flex justify-between items-center mb-2 pb-2 border-b border-black/10">
-                      <span className="font-mono text-[10px] font-bold text-bps-orange">{ad.type}</span>
-                    </div>
-                    <span className="font-mono text-[10px] text-editorial-muted block mb-2">{ad.location}</span>
-                    <p className="text-xs leading-relaxed text-editorial-text mb-4">{ad.text}</p>
-                  </div>
-                  <div>
-                    <button 
-                      onClick={() => setModalOpen(true)} 
-                      className="font-mono text-[11px] font-bold underline hover:text-bps-orange transition-colors"
-                    >
-                      {ad.linkText}
+                  <div className="flex items-center justify-between pt-2 border-t border-neutral-100">
+                    <span className="text-[11px] text-neutral-400 font-mono">{tpl.price}</span>
+                    <button className="btn-pill text-[11px] px-3 py-1">
+                      Unduh
                     </button>
                   </div>
                 </div>
@@ -570,36 +554,91 @@
           </section>
 
           {/* =========================================================
-              7. SECTION: INOVASI UNGGULAN DAERAH
-              (1:1 with Internet Gems: Our favorite websites and design inspo)
+              6. SECTION: COMMUNITY ADS (PAPAN GAGASAN)
+              (Exact 1:1: Row of clean rounded vertical cards)
           ========================================================== */}
-          <section id="gems" className="border-b border-black py-14 px-6 md:px-12">
-            <div className="flex justify-between items-end mb-8 border-b border-black pb-4">
+          <section id="ads" className="px-6 md:px-12 py-14 max-w-7xl mx-auto border-t border-neutral-100">
+            <div className="flex justify-between items-end mb-8">
               <div>
-                <span className="font-serif text-sm italic text-editorial-muted block mb-0.5">Karya Digital Insan BPS Sumut</span>
-                <h3 className="font-serif text-2xl md:text-4xl font-normal">
-                  Inovasi✦Unggulan Daerah 🌟
+                <span className="font-serif text-xs text-neutral-400 block mb-1">Partisipasi Insan Statistik</span>
+                <h3 className="font-serif text-2xl md:text-3xl font-normal text-neutral-900">
+                  Papan Gagasan & Kolaborasi <span className="pill-outline">kirim ide</span>
                 </h3>
               </div>
               <div className="flex items-center gap-3">
-                <a href="#" className="font-mono text-xs hover:underline hidden sm:inline-block">Jelajahi Produk ↗</a>
-                <div className="flex gap-1.5">
-                  <button className="nav-arrow-btn">‹</button>
-                  <button className="nav-arrow-btn">›</button>
+                <button onClick={() => setModalOpen(true)} className="text-xs text-neutral-600 hover:text-black hidden sm:inline-block">
+                  Ajukan Gagasan ↗
+                </button>
+                <div className="flex gap-1">
+                  <button className="btn-arrow">‹</button>
+                  <button className="btn-arrow">›</button>
+                </div>
+              </div>
+            </div>
+
+            {/* 5 Vertical Clean Index Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+              {communityAds.map((ad, idx) => (
+                <div key={idx} className="rounded-2xl border border-neutral-200 bg-white p-5 flex flex-col justify-between hover:border-neutral-400 transition-colors">
+                  <div>
+                    <div className="flex justify-between items-center mb-2 pb-2 border-b border-neutral-100">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400">{ad.type}</span>
+                    </div>
+                    <span className="text-[10px] text-neutral-400 block mb-2">{ad.location}</span>
+                    <p className="text-xs text-neutral-600 leading-relaxed mb-4">{ad.text}</p>
+                  </div>
+                  <div>
+                    <button 
+                      onClick={() => setModalOpen(true)}
+                      className="text-[11px] font-medium text-neutral-900 hover:underline"
+                    >
+                      {ad.action}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* =========================================================
+              7. SECTION: INTERNET GEMS (INOVASI UNGGULAN DAERAH)
+              (Exact 1:1: Cards with tags below)
+          ========================================================== */}
+          <section id="gems" className="px-6 md:px-12 py-14 max-w-7xl mx-auto border-t border-neutral-100">
+            <div className="flex justify-between items-end mb-8">
+              <div>
+                <span className="font-serif text-xs text-neutral-400 block mb-1">Inovasi Digital Daerah</span>
+                <h3 className="font-serif text-2xl md:text-3xl font-normal text-neutral-900">
+                  Inovasi Unggulan Daerah
+                </h3>
+              </div>
+              <div className="flex items-center gap-3">
+                <a href="#" className="text-xs text-neutral-600 hover:text-black hidden sm:inline-block">
+                  Jelajahi Produk ↗
+                </a>
+                <div className="flex gap-1">
+                  <button className="btn-arrow">‹</button>
+                  <button className="btn-arrow">›</button>
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {internetGemsList.map((gem, idx) => (
-                <div key={idx} className="group border border-black bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] cursor-pointer">
-                  <div className="aspect-[16/10] bg-editorial-card border border-black mb-3 overflow-hidden">
-                    <img src={gem.image} alt={gem.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              {digitalInnovations.map((item, idx) => (
+                <div key={idx} className="group cursor-pointer">
+                  <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-neutral-100 mb-3 border border-neutral-100">
+                    <img 
+                      src={item.image} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                    />
                   </div>
-                  <h4 className="font-serif text-lg font-bold mb-2 group-hover:underline">{gem.title}</h4>
+                  <h4 className="font-serif text-base font-normal text-neutral-900 mb-2 group-hover:underline">
+                    {item.title}
+                  </h4>
                   <div className="flex flex-wrap gap-1.5">
-                    {gem.tags.map((t, tidx) => (
-                      <span key={tidx} className="editorial-badge text-[9px] bg-editorial-card border-black/20">{t}</span>
+                    {item.tags.map((t, tidx) => (
+                      <span key={tidx} className="pill-tag text-[9px]">{t}</span>
                     ))}
                   </div>
                 </div>
@@ -608,43 +647,45 @@
           </section>
 
           {/* =========================================================
-              8. SECTION: CONTINUOUS TICKER TAPE / MARQUEE
-              (1:1 with Marquee Ticker)
+              8. SECTION: CONTINUOUS TICKER TAPE
+              (Exact 1:1: Smooth text scrolling without emojis)
           ========================================================== */}
-          <div className="border-b border-black bg-black text-white py-3 overflow-hidden whitespace-nowrap flex select-none">
-            <div className="flex gap-8 animate-marquee items-center font-mono text-xs tracking-wider uppercase">
-              <span>✦ WEGO BPS PROVINSI SUMATERA UTARA</span>
-              <span className="text-bps-yellow">•</span>
-              <span>EPISODE 11: JUMAT, 5 DESEMBER 2026</span>
-              <span className="text-bps-yellow">•</span>
-              <span>KAMI BERBAGI KAMI BERKEMBANG</span>
-              <span className="text-bps-yellow">•</span>
-              <span>ZONA INTEGRITAS WBK/WBBM</span>
-              <span className="text-bps-yellow">•</span>
-              <span>35+ SESI BERBAGI</span>
-              <span className="text-bps-yellow">•</span>
-              <span>AJUKAN GAGASAN ANDA SEKARANG</span>
-              <span className="text-bps-yellow">•</span>
-              <span>✦ WEGO BPS PROVINSI SUMATERA UTARA</span>
-              <span className="text-bps-yellow">•</span>
-              <span>EPISODE 11: JUMAT, 5 DESEMBER 2026</span>
-              <span className="text-bps-yellow">•</span>
-              <span>KAMI BERBAGI KAMI BERKEMBANG</span>
+          <div className="border-y border-neutral-100 bg-[#FAFAFA] py-3.5 overflow-hidden whitespace-nowrap flex select-none text-xs text-neutral-600 font-mono tracking-wider">
+            <div className="flex gap-10 animate-marquee items-center uppercase">
+              <span>Wego BPS Provinsi Sumatera Utara</span>
+              <span>•</span>
+              <span>Episode 11: Jumat, 5 Desember 2026</span>
+              <span>•</span>
+              <span>Wadah Edukasi dan Gagasan Bersama</span>
+              <span>•</span>
+              <span>Pembangunan Zona Integritas Menuju WBK/WBBM</span>
+              <span>•</span>
+              <span>35+ Sesi Berbagi Telah Terlaksana</span>
+              <span>•</span>
+              <span>Wego BPS Provinsi Sumatera Utara</span>
+              <span>•</span>
+              <span>Episode 11: Jumat, 5 Desember 2026</span>
+              <span>•</span>
+              <span>Wadah Edukasi dan Gagasan Bersama</span>
             </div>
           </div>
 
           {/* =========================================================
-              9. SECTION: SOCIAL / DOKUMENTASI GRID
-              (1:1 with @ilovecreatives Instagram Grid)
+              9. SECTION: SOCIAL / DOKUMENTASI GRID (@bpsprovsumut)
+              (Exact 1:1: Giant Serif text + 8 square thumbnails)
           ========================================================== */}
-          <section className="border-b border-black py-16 px-6 md:px-12 bg-white text-center">
-            <h2 className="font-serif text-5xl md:text-7xl font-normal tracking-tight mb-8">
+          <section className="py-20 px-6 md:px-12 bg-white text-center">
+            <h2 className="font-serif text-5xl md:text-7xl font-normal tracking-[-0.03em] text-neutral-900 mb-8 select-none">
               @bpsprovsumut
             </h2>
             <div className="grid grid-cols-4 md:grid-cols-8 gap-3 max-w-7xl mx-auto">
-              {instagramGrid.map((imgUrl, idx) => (
-                <div key={idx} className="aspect-square border border-black overflow-hidden bg-gray-100">
-                  <img src={imgUrl} alt="Dokumentasi BPS Sumut" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300" />
+              {galleryPhotos.map((url, idx) => (
+                <div key={idx} className="aspect-square rounded-xl overflow-hidden bg-neutral-100 border border-neutral-100">
+                  <img 
+                    src={url} 
+                    alt="Dokumentasi BPS Sumut" 
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                  />
                 </div>
               ))}
             </div>
@@ -652,60 +693,61 @@
 
           {/* =========================================================
               10. SECTION: DARK NEWSLETTER & FOOTER
-              (1:1 with ilovecreatives Dark Footer)
+              (Exact 1:1: Black background, headline, subscribe pill, link columns)
           ========================================================== */}
-          <footer className="bg-[#111111] text-white py-16 px-6 md:px-12">
+          <footer className="bg-black text-white py-20 px-6 md:px-12">
             <div className="max-w-7xl mx-auto">
-              <div className="max-w-2xl mb-12">
-                <h3 className="font-serif text-3xl md:text-5xl font-normal leading-tight mb-4">
-                  Setiap minggu, gagasan dan materi baru langsung ke hadapan Anda.
+              {/* Newsletter Block */}
+              <div className="max-w-xl mb-16">
+                <h3 className="font-serif text-3xl md:text-5xl font-normal leading-[1.1] mb-4">
+                  Setiap minggu, materi dan gagasan baru untuk Anda.
                 </h3>
-                <p className="text-neutral-400 text-sm font-sans mb-6">
-                  Jadwal sesi terdekat, link materi PPT, rekaman video, dan kabar inovasi insan statistik se-Sumut.
+                <p className="text-neutral-400 text-xs font-sans mb-6">
+                  Jadwal sesi terdekat, link materi presentasi, rekaman video, dan kabar inovasi insan BPS se-Sumatera Utara.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-3 max-w-md">
+                <div className="flex flex-col sm:flex-row gap-2 max-w-md">
                   <input 
                     type="email" 
-                    placeholder="Masukkan email dinas / pribadi..." 
-                    className="border border-neutral-700 bg-neutral-900 px-4 py-2.5 rounded-full text-xs font-mono text-white focus:outline-none focus:border-white flex-1"
+                    placeholder="Masukkan alamat email..." 
+                    className="border border-neutral-800 bg-neutral-950 px-4 py-2.5 rounded-full text-xs text-white focus:outline-none focus:border-neutral-500 flex-1"
                   />
                   <button 
-                    onClick={() => alert("Terima kasih telah bergabung dengan warta Wego!")}
-                    className="editorial-pill-btn bg-white text-black text-xs font-bold px-6 py-2.5"
+                    onClick={() => alert("Terima kasih telah bergabung!")}
+                    className="btn-pill bg-white text-black text-xs font-medium px-5 py-2.5 border-transparent hover:bg-neutral-200"
                   >
                     Berlangganan
                   </button>
                 </div>
               </div>
 
-              {/* Footer Links & Info */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-neutral-800 pt-10 text-xs font-mono text-neutral-400">
+              {/* Link Columns */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-neutral-900 pt-12 text-xs text-neutral-400">
                 <div>
-                  <span className="text-white block font-bold mb-3">Tentang Wego</span>
+                  <span className="text-white block font-medium mb-3">Tentang Wego</span>
                   <ul className="space-y-2">
-                    <li><a href="#profiles" className="hover:text-white">Wegoers</a></li>
-                    <li><a href="#seminar" className="hover:text-white">Arsip Sesi</a></li>
-                    <li><a href="#templates" className="hover:text-white">Pojok Unduhan</a></li>
+                    <li><a href="#profiles" className="hover:text-white transition-colors">Wegoers</a></li>
+                    <li><a href="#seminar" className="hover:text-white transition-colors">Katalog Sesi</a></li>
+                    <li><a href="#templates" className="hover:text-white transition-colors">Pojok Unduhan</a></li>
                   </ul>
                 </div>
                 <div>
-                  <span className="text-white block font-bold mb-3">Partisipasi</span>
+                  <span className="text-white block font-medium mb-3">Partisipasi</span>
                   <ul className="space-y-2">
-                    <li><button onClick={() => setModalOpen(true)} className="hover:text-white">Daftar Pemateri</button></li>
-                    <li><button onClick={() => setModalOpen(true)} className="hover:text-white">Kirim Usulan Topik</button></li>
-                    <li><a href="#ads" className="hover:text-white">Papan Kolaborasi</a></li>
+                    <li><button onClick={() => setModalOpen(true)} className="hover:text-white transition-colors">Daftar Pemateri</button></li>
+                    <li><button onClick={() => setModalOpen(true)} className="hover:text-white transition-colors">Kirim Usulan Topik</button></li>
+                    <li><a href="#ads" className="hover:text-white transition-colors">Papan Kolaborasi</a></li>
                   </ul>
                 </div>
                 <div>
-                  <span className="text-white block font-bold mb-3">Reformasi Birokrasi</span>
+                  <span className="text-white block font-medium mb-3">Reformasi Birokrasi</span>
                   <ul className="space-y-2">
-                    <li><span>Zona Integritas (ZI)</span></li>
+                    <li><span>Zona Integritas</span></li>
                     <li><span>Predikat WBK/WBBM</span></li>
-                    <li><span>Budaya Kerja BerAKHLAK</span></li>
+                    <li><span>Nilai BerAKHLAK</span></li>
                   </ul>
                 </div>
                 <div>
-                  <span className="text-white block font-bold mb-3">BPS Prov. Sumatera Utara</span>
+                  <span className="text-white block font-medium mb-3">BPS Prov. Sumatera Utara</span>
                   <p className="text-[11px] leading-relaxed text-neutral-500">
                     Jl. Asrama No. 179 Medan, Sumatera Utara.<br />
                     Email: bps1200@bps.go.id
@@ -713,43 +755,45 @@
                 </div>
               </div>
 
-              <div className="mt-12 pt-8 border-t border-neutral-900 flex flex-col sm:flex-row justify-between text-[11px] font-mono text-neutral-600">
+              <div className="mt-16 pt-8 border-t border-neutral-900 flex flex-col sm:flex-row justify-between text-[11px] text-neutral-600">
                 <span>© 2026 Badan Pusat Statistik Provinsi Sumatera Utara.</span>
-                <span>Desain mengadaptasi estetika editorial ilovecreatives.</span>
+                <span>Desain editorial mengadaptasi estetika ilovecreatives.</span>
               </div>
             </div>
           </footer>
 
-          {/* Dialog Modal for Kotak Gagasan */}
+          {/* Minimalist Modal for Kotak Gagasan */}
           {modalOpen && (
-            <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-              <div className="bg-white border-2 border-black max-w-lg w-full p-6 md:p-8 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] relative">
+            <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+              <div className="bg-white rounded-3xl max-w-lg w-full p-8 relative shadow-2xl border border-neutral-200">
                 <button 
                   onClick={() => setModalOpen(false)}
-                  className="absolute top-4 right-4 w-7 h-7 rounded-full border border-black flex items-center justify-center font-mono font-bold hover:bg-black hover:text-white"
+                  className="absolute top-5 right-5 w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-xs text-neutral-500 hover:text-black hover:border-black transition-colors"
                 >
                   ✕
                 </button>
-                <div className="mb-3">
-                  <span className="editorial-badge bg-bps-pastelOrange text-bps-orange border-bps-orange">KOTAK GAGASAN WEGO</span>
+                <div className="mb-2">
+                  <span className="pill-tag text-[10px]">KOTAK GAGASAN</span>
                 </div>
-                <h3 className="font-serif text-2xl md:text-3xl font-bold mb-2">Ajukan Diri atau Usulkan Topik</h3>
-                <p className="text-xs text-editorial-muted leading-relaxed mb-6">
-                  Punya keahlian atau materi praktis yang ingin dibagikan ke rekan-rekan BPS se-Sumut? Kirimkan formulir singkat ini.
+                <h3 className="font-serif text-2xl font-normal mb-2 text-neutral-900">
+                  Ajukan Diri atau Usulkan Topik
+                </h3>
+                <p className="text-xs text-neutral-500 leading-relaxed mb-6">
+                  Memiliki materi praktis atau keahlian yang ingin dibagikan kepada rekan-rekan BPS se-Sumatera Utara? Silakan isi formulir pengajuan singkat di bawah ini.
                 </p>
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   <a 
                     href="https://docs.google.com/forms/d/e/1FAIpQLSc-sample/viewform" 
                     target="_blank" 
-                    className="block text-center w-full editorial-pill-btn editorial-pill-btn-dark py-2.5 text-xs"
+                    className="block text-center w-full btn-pill btn-pill-dark py-3 text-xs font-medium"
                   >
-                    Buka Google Form Pengajuan 🚀
+                    Buka Formulir Pengajuan →
                   </a>
                   <button 
                     onClick={() => setModalOpen(false)}
-                    className="block text-center w-full editorial-pill-btn py-2.5 text-xs"
+                    className="block text-center w-full btn-pill py-2.5 text-xs text-neutral-500"
                   >
-                    Batal
+                    Tutup
                   </button>
                 </div>
               </div>
