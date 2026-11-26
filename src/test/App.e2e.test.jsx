@@ -8,7 +8,7 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     const { container } = render(<App />);
 
     // 1. Hero Brand Wordmark & Official Title
-    expect(screen.getByRole('heading', { level: 1, name: /wegoberbagi/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: /wego/i })).toBeInTheDocument();
     expect(screen.getByText(/Wadah Edukasi dan Gagasan Optimal • BPS Sumatera Utara/i)).toBeInTheDocument();
 
     // 2. Statement Headline
@@ -115,7 +115,7 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     render(<App />);
 
     // Initially on landing page
-    expect(screen.getByRole('heading', { level: 1, name: /wegoberbagi/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: /wego/i })).toBeInTheDocument();
     expect(screen.getByText(/Lihat Semua Sesi ↗/i)).toHaveAttribute('href', '#/sesi');
 
     // Simulate navigation to #/sesi
@@ -131,6 +131,6 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     fireEvent(window, new HashChangeEvent('hashchange'));
 
     // Landing page is restored
-    expect(screen.getByRole('heading', { level: 1, name: /wegoberbagi/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: /wego/i })).toBeInTheDocument();
   });
 });

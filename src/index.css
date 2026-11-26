@@ -15,9 +15,10 @@ body {
 }
 
 .font-bodoni {
-  font-family: 'Bodoni Moda', serif;
-  font-variation-settings: 'opsz' 96, 'wght' 800;
-  letter-spacing: -0.05em;
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
 }
 
 .font-awesome {

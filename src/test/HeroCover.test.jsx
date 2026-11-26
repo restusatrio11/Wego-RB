@@ -7,7 +7,7 @@ describe('HeroCover Component (Depth Parallax & Display Seam)', () => {
   it('renders brand wordmark, official title badge, and editorial subtitle', () => {
     render(<HeroCover />);
 
-    expect(screen.getByRole('heading', { level: 1, name: /wegoberbagi/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: /wego/i })).toBeInTheDocument();
     expect(screen.getByText(/Wadah Edukasi dan Gagasan Optimal • BPS Sumatera Utara/i)).toBeInTheDocument();
     expect(screen.getByText(/Ruang bertukar pikiran serta peningkatan kompetensi/i)).toBeInTheDocument();
   });

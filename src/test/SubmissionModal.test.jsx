@@ -79,12 +79,34 @@ describe('SubmissionModal Component (User Interaction Seam)', () => {
     const selectCategory = screen.getByRole('combobox');
     fireEvent.change(selectCategory, { target: { value: 'Evaluasi & Feedback Sesi Seminar' } });
 
-    expect(screen.getByText(/Pilih Sesi yang Dinilai/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sesi yang Dievaluasi|Pilih Sesi yang Dinilai/i)).toBeInTheDocument();
     expect(screen.getByText(/Skor Penilaian Acara/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Beri skor 5 dari 5/i)).toBeInTheDocument();
 
     const star4 = screen.getByLabelText(/Beri skor 4 dari 5/i);
     fireEvent.click(star4);
     expect(screen.getByText(/4 \/ 5/i)).toBeInTheDocument();
+  });
+
+  it('renders locked session summary card when opened specifically with selectedSeminar', () => {
+    const mockSeminar = {
+      id: 'sem-1',
+      title: 'Pemanfaatan Web Scraping & Machine Learning Harga Pangan',
+      speaker: 'Lexie Siregar, S.Tr.Stat',
+      satker: 'BPS Prov. Sumut'
+    };
+    render(
+      <SubmissionModal 
+        isOpen={true} 
+        onClose={vi.fn()} 
+        initialType="Evaluasi & Feedback Sesi Seminar"
+        selectedSeminar={mockSeminar}
+      />
+    );
+
+    expect(screen.getByText(/Sesi yang Dievaluasi:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Pemanfaatan Web Scraping & Machine Learning Harga Pangan/i)).toBeInTheDocument();
+    expect(screen.getByText(/Lexie Siregar, S.Tr.Stat/i)).toBeInTheDocument();
+    expect(screen.getByText(/Beri Nilai & Evaluasi Sesi Ini/i)).toBeInTheDocument();
   });
 });

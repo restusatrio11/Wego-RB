@@ -19,7 +19,8 @@ export default function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalConfig, setModalConfig] = useState({
     type: 'Usulan Topik',
-    session: ''
+    session: '',
+    selectedSeminar: null
   });
   const [currentHash, setCurrentHash] = useState(() => {
     return typeof window !== 'undefined' ? window.location.hash : '';
@@ -29,8 +30,8 @@ export default function App() {
   const sheetId = import.meta.env.VITE_GOOGLE_SHEETS_ID || '1j-g4KUlvcFejCJungNi7Cz4wLKZ3myfzCLu1WGw0bfA';
   const { speakers, seminars, communityAds, galleryPhotos } = useWegoData(sheetId);
 
-  const handleOpenModal = (type = 'Usulan Topik', session = '') => {
-    setModalConfig({ type, session });
+  const handleOpenModal = (type = 'Usulan Topik', session = '', selectedSeminar = null) => {
+    setModalConfig({ type, session, selectedSeminar });
     setModalOpen(true);
   };
 
@@ -71,7 +72,7 @@ export default function App() {
           onNavigateHome={() => {
             window.location.hash = '';
           }}
-          onOpenSubmissionModal={(type, session) => handleOpenModal(type || 'Usulan Topik', session || '')}
+          onOpenSubmissionModal={(type, session, sem) => handleOpenModal(type || 'Usulan Topik', session || '', sem || null)}
         />
       ) : (
         <div className="min-h-screen bg-white text-page-text selection:bg-neutral-100 selection:text-black">
@@ -88,7 +89,7 @@ export default function App() {
           {/* 3. Seminar Catalog */}
           <SeminarCatalog 
             seminars={seminars} 
-            onOpenFeedback={(sem) => handleOpenModal('Evaluasi & Feedback Sesi Seminar', sem.title)}
+            onOpenFeedback={(sem) => handleOpenModal('Evaluasi & Feedback Sesi Seminar', sem.title, sem)}
           />
 
           {/* 4. Mid CTA Banner */}
@@ -118,6 +119,7 @@ export default function App() {
         seminars={seminars}
         initialType={modalConfig.type}
         initialSession={modalConfig.session}
+        selectedSeminar={modalConfig.selectedSeminar}
       />
     </SmoothScrollProvider>
   );

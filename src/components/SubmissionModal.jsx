@@ -13,7 +13,8 @@ export default function SubmissionModal({
   onClose, 
   seminars = [],
   initialType = 'Usulan Topik',
-  initialSession = ''
+  initialSession = '',
+  selectedSeminar = null
 }) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -22,26 +23,26 @@ export default function SubmissionModal({
     name: '',
     satker: '',
     type: initialType || 'Usulan Topik',
-    sessionId: initialSession || (seminars.length > 0 ? seminars[0]?.title : ''),
+    sessionId: initialSession || selectedSeminar?.title || (seminars.length > 0 ? seminars[0]?.title : ''),
     score: 5,
     desc: ''
   });
 
-  // Sync initial type and session only when modal opens
+  // Sync initial type, session, and selected seminar only when modal opens
   useEffect(() => {
     if (isOpen) {
       setFormData({
         name: '',
         satker: '',
         type: initialType || 'Usulan Topik',
-        sessionId: initialSession || (seminars.length > 0 ? seminars[0]?.title : ''),
+        sessionId: initialSession || selectedSeminar?.title || (seminars.length > 0 ? seminars[0]?.title : ''),
         score: 5,
         desc: ''
       });
       setSubmitted(false);
       setSubmitting(false);
     }
-  }, [isOpen, initialType, initialSession]);
+  }, [isOpen, initialType, initialSession, selectedSeminar]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -58,6 +59,9 @@ export default function SubmissionModal({
 
   const isFeedbackType = formData.type.toLowerCase().includes('evaluasi') || 
                          formData.type.toLowerCase().includes('feedback');
+
+  // Find the exact seminar being evaluated
+  const activeSeminar = selectedSeminar || seminars.find(s => s.title === formData.sessionId || s.id === formData.sessionId);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -111,120 +115,167 @@ export default function SubmissionModal({
         {submitted ? (
           <div className="text-center py-10">
             <span className="text-4xl block mb-3 animate-bounce">✹</span>
-            <h4 className="font-sans font-bold text-xl text-neutral-900 mb-2">Gagasan Berhasil Terkirim!</h4>
+            <h4 className="font-sans font-bold text-xl text-neutral-900 mb-2">
+              {isFeedbackType ? 'Penilaian Berhasil Dikirimkan!' : 'Gagasan Berhasil Terkirim!'}
+            </h4>
             <p className="text-xs text-neutral-500 max-w-sm mx-auto leading-relaxed">
-              Terima kasih atas kontribusi Anda. Data telah tersimpan ke sistem database Wego-RB BPS Sumatera Utara.
+              {isFeedbackType 
+                ? `Terima kasih atas penilaian dan ulasan Anda untuk sesi "${formData.sessionId || 'Wego-RB'}". Data telah tersimpan ke database spreadsheet.`
+                : 'Terima kasih atas kontribusi Anda. Data telah tersimpan ke sistem database Wego-RB BPS Sumatera Utara.'}
             </p>
           </div>
         ) : (
           <div>
-            <span className="location-tag mb-3">Kotak Partisipasi & Feedback Wego</span>
+            <span className="location-tag mb-3">
+              {isFeedbackType ? 'Evaluasi Sesi Wego' : 'Kotak Partisipasi & Feedback Wego'}
+            </span>
             <h3 className="font-sans font-bold text-2xl text-neutral-900 tracking-tight mb-2">
-              Kirimkan Gagasan atau Daftar Pemateri
+              {isFeedbackType ? 'Beri Nilai & Evaluasi Sesi Ini' : 'Kirimkan Gagasan atau Daftar Pemateri'}
             </h3>
             <p className="text-xs text-neutral-500 mb-6 leading-relaxed">
-              Bagikan usulan topik, daftar menjadi narasumber, atau berikan evaluasi dan skor penilaian untuk sesi seminar Wego yang telah Anda ikuti.
+              {isFeedbackType 
+                ? 'Nilai kualitas materi serta penyampaian narasumber, dan berikan catatan perbaikan untuk sesi Wego mendatang.'
+                : 'Bagikan usulan topik, daftar menjadi narasumber, atau berikan evaluasi dan skor penilaian untuk sesi seminar Wego yang telah Anda ikuti.'}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 mb-1">Nama Lengkap</label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="Contoh: Pratama Siregar" 
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full border border-neutral-300 rounded-xl px-4 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-black"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 mb-1">Satuan Kerja</label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="Contoh: BPS Kabupaten Langkat" 
-                  value={formData.satker}
-                  onChange={(e) => setFormData({ ...formData, satker: e.target.value })}
-                  className="w-full border border-neutral-300 rounded-xl px-4 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-black"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 mb-1">Kategori Partisipasi</label>
-                <select 
-                  value={formData.type}
-                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                  className="w-full border border-neutral-300 rounded-xl px-4 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-black bg-white"
-                >
-                  <option value="Usulan Topik">Usulan Topik Seminar</option>
-                  <option value="Evaluasi & Feedback Sesi Seminar">Evaluasi & Feedback Sesi Seminar</option>
-                  <option value="Siap Menjadi Narasumber (Wegoers)">Siap Menjadi Narasumber (Wegoers)</option>
-                  <option value="Pojok Gagasan Inovasi RB">Pojok Gagasan Inovasi RB</option>
-                </select>
-              </div>
-
-              {/* Conditional Evaluation Fields */}
-              {isFeedbackType && (
-                <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200/80 space-y-3.5 animate-fade-in">
-                  <div>
-                    <label className="block text-xs font-semibold text-neutral-800 mb-1">
-                      Pilih Sesi yang Dinilai
-                    </label>
-                    <select
-                      value={formData.sessionId}
-                      onChange={(e) => setFormData({ ...formData, sessionId: e.target.value })}
-                      className="w-full border border-neutral-300 rounded-xl px-3 py-2 text-xs text-neutral-900 bg-white focus:outline-none focus:border-black"
-                    >
-                      {seminars.length > 0 ? (
-                        seminars.map((s, idx) => (
-                          <option key={s.id || idx} value={s.title}>
-                            {s.title} ({s.speaker || s.satker})
-                          </option>
-                        ))
-                      ) : (
-                        <option value="Sesi Terakhir Wego-RB">Sesi Terakhir Wego-RB</option>
-                      )}
-                    </select>
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between items-center mb-1.5">
-                      <label className="block text-xs font-semibold text-neutral-800">
-                        Skor Penilaian Acara
-                      </label>
-                      <span className="text-[11px] font-medium text-neutral-500">
-                        {SCORE_LABELS[currentRating] || ''}
-                      </span>
+              {/* If opened specifically to evaluate a chosen session, display the Locked Session Summary Card */}
+              {isFeedbackType && activeSeminar && (
+                <div className="p-3.5 bg-neutral-50 rounded-2xl border border-neutral-200/90 flex items-center gap-3.5 shadow-2xs">
+                  {activeSeminar.thumb || activeSeminar.image ? (
+                    <img 
+                      src={activeSeminar.thumb || activeSeminar.image} 
+                      alt={activeSeminar.title} 
+                      className="w-12 h-16 rounded-xl object-cover shrink-0 border border-neutral-200 shadow-2xs" 
+                    />
+                  ) : (
+                    <div className="w-12 h-16 rounded-xl bg-neutral-200 flex items-center justify-center text-xs font-bold shrink-0">
+                      WEGO
                     </div>
-
-                    <div className="flex items-center gap-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          aria-label={`Beri skor ${star} dari 5`}
-                          onClick={() => setFormData({ ...formData, score: star })}
-                          onMouseEnter={() => setHoverScore(star)}
-                          onMouseLeave={() => setHoverScore(0)}
-                          className={`w-9 h-9 rounded-xl border flex items-center justify-center text-lg transition-all ${
-                            star <= currentRating
-                              ? 'bg-neutral-900 text-white border-neutral-900 scale-105 shadow-2xs'
-                              : 'bg-white text-neutral-300 border-neutral-200 hover:border-neutral-400'
-                          }`}
-                        >
-                          ✹
-                        </button>
-                      ))}
-                      <span className="ml-2 font-mono text-xs font-bold text-neutral-800">
-                        {currentRating} / 5
-                      </span>
-                    </div>
+                  )}
+                  <div className="flex-1 min-w-0 text-left">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-0.5">
+                      Sesi yang Dievaluasi:
+                    </span>
+                    <h4 className="font-sans font-bold text-sm text-neutral-900 leading-snug line-clamp-2">
+                      {activeSeminar.title}
+                    </h4>
+                    {activeSeminar.speaker && (
+                      <p className="text-xs text-neutral-500 mt-0.5 flex items-center gap-1.5 truncate">
+                        <span className="font-medium text-neutral-700">{activeSeminar.speaker}</span>
+                        {activeSeminar.satker && <span>• {activeSeminar.satker}</span>}
+                      </p>
+                    )}
                   </div>
                 </div>
               )}
 
+              {/* Show category select only if not opened specifically for session evaluation with locked seminar */}
+              {(!isFeedbackType || !activeSeminar) && (
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 mb-1">Kategori Partisipasi</label>
+                  <select 
+                    value={formData.type}
+                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                    className="w-full border border-neutral-300 rounded-xl px-4 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-black bg-white"
+                  >
+                    <option value="Usulan Topik">Usulan Topik Seminar</option>
+                    <option value="Evaluasi & Feedback Sesi Seminar">Evaluasi & Feedback Sesi Seminar</option>
+                    <option value="Siap Menjadi Narasumber (Wegoers)">Siap Menjadi Narasumber (Wegoers)</option>
+                    <option value="Pojok Gagasan Inovasi RB">Pojok Gagasan Inovasi RB</option>
+                  </select>
+                </div>
+              )}
+
+              {/* If feedback mode but no specific seminar was locked, let user pick from dropdown */}
+              {isFeedbackType && !activeSeminar && (
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-800 mb-1">
+                    Pilih Sesi yang Dinilai
+                  </label>
+                  <select
+                    value={formData.sessionId}
+                    onChange={(e) => setFormData({ ...formData, sessionId: e.target.value })}
+                    className="w-full border border-neutral-300 rounded-xl px-3 py-2 text-xs text-neutral-900 bg-white focus:outline-none focus:border-black"
+                  >
+                    {seminars.length > 0 ? (
+                      seminars.map((s, idx) => (
+                        <option key={s.id || idx} value={s.title}>
+                          {s.title} ({s.speaker || s.satker})
+                        </option>
+                      ))
+                    ) : (
+                      <option value="Sesi Terakhir Wego-RB">Sesi Terakhir Wego-RB</option>
+                    )}
+                  </select>
+                </div>
+              )}
+
+              {/* Interactive Star Rating Block for Feedback Mode */}
+              {isFeedbackType && (
+                <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200/80 space-y-2 animate-fade-in">
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="block text-xs font-semibold text-neutral-800">
+                      Skor Penilaian Acara
+                    </label>
+                    <span className="text-[11px] font-semibold text-neutral-700">
+                      {SCORE_LABELS[currentRating] || ''}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        aria-label={`Beri skor ${star} dari 5`}
+                        onClick={() => setFormData({ ...formData, score: star })}
+                        onMouseEnter={() => setHoverScore(star)}
+                        onMouseLeave={() => setHoverScore(0)}
+                        className={`w-9 h-9 rounded-xl border flex items-center justify-center text-lg transition-all ${
+                          star <= currentRating
+                            ? 'bg-neutral-900 text-white border-neutral-900 scale-105 shadow-2xs'
+                            : 'bg-white text-neutral-300 border-neutral-200 hover:border-neutral-400'
+                        }`}
+                      >
+                        ✹
+                      </button>
+                    ))}
+                    <span className="ml-2 font-mono text-xs font-bold text-neutral-800">
+                      {currentRating} / 5
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Name & Satker */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 mb-1">Nama Lengkap</label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="Contoh: Pratama Siregar" 
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full border border-neutral-300 rounded-xl px-4 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-black"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-neutral-700 mb-1">Satuan Kerja</label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="Contoh: BPS Kabupaten Langkat" 
+                    value={formData.satker}
+                    onChange={(e) => setFormData({ ...formData, satker: e.target.value })}
+                    className="w-full border border-neutral-300 rounded-xl px-4 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-black"
+                  />
+                </div>
+              </div>
+
+              {/* Notes / Feedback */}
               <div>
                 <label className="block text-xs font-semibold text-neutral-700 mb-1">
                   {isFeedbackType ? 'Catatan & Saran Perbaikan' : 'Uraian Ringkas Gagasan'}
@@ -249,7 +300,9 @@ export default function SubmissionModal({
                   disabled={submitting}
                   className="w-full btn-pill bg-black !text-white hover:bg-neutral-800 py-3 text-xs font-bold transition-all disabled:opacity-50"
                 >
-                  {submitting ? 'Mengirim Data...' : 'Kirimkan Sekarang →'}
+                  {submitting 
+                    ? 'Mengirim Data...' 
+                    : (isFeedbackType ? 'Kirimkan Nilai & Evaluasi ↗' : 'Kirimkan Sekarang →')}
                 </button>
               </div>
             </form>
