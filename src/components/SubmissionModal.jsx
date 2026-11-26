@@ -63,7 +63,7 @@ export default function SubmissionModal({
     e.preventDefault();
     setSubmitting(true);
 
-    const webhookUrl = import.meta.env.VITE_SUBMISSION_WEBHOOK_URL || '';
+    const webhookUrl = import.meta.env.VITE_SUBMISSION_WEBHOOK_URL || 'https://script.google.com/macros/s/AKfycbyk5KtjOLM3IJ456etM5Kbud4sntMHnrFFukvydZjl8VM1DQ-KeByRhvnPOqBcPhEWZ/exec';
     if (webhookUrl && typeof fetch === 'function') {
       try {
         fetch(webhookUrl, {
