@@ -7,8 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Fraunces', 'serif'],
-        sans: ['Plus Jakarta Sans', 'sans-serif'],
+        display: ['"Instrument Serif"', 'Fraunces', 'serif'],
+        fraunces: ['Fraunces', 'serif'],
+        sans: ['Inter', 'Plus Jakarta Sans', 'sans-serif'],
       },
       colors: {
         page: {

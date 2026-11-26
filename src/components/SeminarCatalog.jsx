@@ -7,7 +7,7 @@ export default function SeminarCatalog({ seminars = [] }) {
         <div>
           <span className="font-display italic text-sm text-neutral-500 block mb-1">Katalog Pembelajaran</span>
           <h3 className="font-sans text-xl md:text-2xl font-bold tracking-tight text-neutral-900">
-            Sesi Seminar Wego untuk Insan Statistik
+            Jelajahi <span className="small-pill font-bold">sesi seminar</span> terbuka untuk insan statistik ↗
           </h3>
           <p className="text-xs text-neutral-400 mt-1">
             • Terbuka untuk seluruh pegawai BPS se-Sumatera Utara.

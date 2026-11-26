@@ -25,10 +25,10 @@ export default function HeadlineStatement() {
             </svg>
             <span className="font-sans font-bold tracking-tight text-neutral-900 text-[0.85em]">inovasi reformasi birokrasi</span>
           </span>
-          <span className="font-display font-normal tracking-tight text-neutral-900">bersama komunitas</span>
+          <span className="font-display italic font-normal tracking-[-0.04em] text-neutral-900">bersama komunitas</span>
         </span>
         <span className="block">
-          <span className="font-display font-normal tracking-tight text-neutral-900">rekan kerja BPS se-Sumatera Utara.</span>
+          <span className="font-display italic font-normal tracking-[-0.04em] text-neutral-900">rekan kerja BPS se-Sumatera Utara.</span>
           <span className="inline-block text-[11px] sm:text-xs md:text-sm font-sans font-normal text-neutral-600 leading-tight align-middle ml-3 sm:ml-5 text-left not-italic">
             <a href="#seminar" className="hover:text-black">
               Jelajahi ekosistem<br />berbagi kami →

@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .font-display {
-  font-family: 'Fraunces', serif;
+  font-family: 'Instrument Serif', serif;
 }
 
 /* Custom Editorial Design Tokens */

@@ -7,7 +7,7 @@ export default function CommunityBoard({ communityAds = [], onOpenModal }) {
         <div>
           <span className="font-display italic text-sm text-neutral-500 block mb-1">Papan Gagasan Bersama</span>
           <h3 className="font-sans text-xl md:text-2xl font-bold tracking-tight text-neutral-900">
-            Kotak <span className="small-pill font-bold">Aspirasi</span> dan Kolaborasi Satker
+            Kotak <span className="small-pill font-bold">aspirasi</span> dan kolaborasi inovasi satker ✹
           </h3>
           <p className="text-xs text-neutral-400 mt-1">
             • Dipublikasikan rutin setiap edisi seminar Wego.

@@ -5,8 +5,8 @@ Program seminar dan ruang berbagi pengetahuan bagi insan BPS Provinsi Sumatera U
 ## Language
 
 **Wego**:
-Program seminar berkala dan wadah berbagi pengetahuan serta gagasan inovatif bagi pegawai BPS Provinsi Sumatera Utara dan satker kabupaten/kota.
-_Avoid_: Webinar biasa, rapat rutin
+Singkatan resmi dari "Wadah Edukasi dan Gagasan Optimal"; program seminar berkala dan wadah berbagi pengetahuan serta gagasan inovatif bagi pegawai BPS Provinsi Sumatera Utara dan satker kabupaten/kota.
+_Avoid_: Webinar biasa, rapat rutin, wegoberbagi
 
 **Wegoers**:
 Sebutan kehormatan bagi para insan BPS yang menjadi pemateri atau kontributor gagasan dalam sesi Wego.

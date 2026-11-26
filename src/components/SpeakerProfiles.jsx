@@ -5,9 +5,9 @@ export default function SpeakerProfiles({ speakers = [] }) {
     <section id="profiles" className="px-6 md:px-14 py-12 border-t border-neutral-100">
       <div className="flex justify-between items-end mb-8">
         <div>
-          <span className="font-display italic text-sm text-neutral-500 block mb-1">Profil Pemateri</span>
+          <span className="font-display italic text-sm text-neutral-500 block mb-1">Profil Narasumber</span>
           <h3 className="font-sans text-xl md:text-2xl font-bold tracking-tight text-neutral-900">
-            Kenali <span className="small-pill font-bold">para narasumber</span> dan temukan inspirasi gagasan.
+            Kenali <span className="small-pill font-bold">para narasumber</span> dan temukan inspirasi gagasan ✹
           </h3>
         </div>
         <div className="flex items-center gap-3">

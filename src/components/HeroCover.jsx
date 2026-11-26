@@ -9,9 +9,9 @@ export default function HeroCover() {
         className="w-full h-full object-cover object-center brightness-[0.78] contrast-[1.05]"
       />
 
-      {/* Brand Wordmark (Fraunces serif, white, large and airy, perfectly centered) */}
+      {/* Brand Wordmark (Instrument Serif condensed, tall, white, centered) */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center pointer-events-none">
-        <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.08] text-white font-normal tracking-[-0.035em] select-none opacity-95 max-w-5xl">
+        <h1 className="font-display italic text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.92] text-white font-normal tracking-[-0.04em] select-none opacity-95 max-w-5xl">
           Wadah Edukasi dan Gagasan Optimal
         </h1>
       </div>

@@ -7,7 +7,7 @@ export default function DownloadableTemplates({ templates = [] }) {
         <div>
           <span className="font-display italic text-sm text-neutral-500 block mb-1">Pojok Unduhan</span>
           <h3 className="font-sans text-xl md:text-2xl font-bold tracking-tight text-neutral-900">
-            Template & Perangkat Kerja Siap Pakai
+            Koleksi <span className="small-pill font-bold">perangkat kerja</span> & template siap pakai •
           </h3>
           <p className="text-xs text-neutral-400 mt-1">
             • Modul presentasi, skrip otomatisasi data, dan formulir evaluasi mandiri.

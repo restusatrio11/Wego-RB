@@ -7,7 +7,7 @@ export default function RegionalInnovations({ regionalGems = [] }) {
         <div>
           <span className="font-display italic text-sm text-neutral-500 block mb-1">Inspirasi & Rujukan</span>
           <h3 className="font-sans text-xl md:text-2xl font-bold tracking-tight text-neutral-900">
-            Karya & Inovasi Terpilih Daerah
+            Karya & <span className="small-pill font-bold">inovasi daerah</span> terpilih se-Sumatera Utara ↗
           </h3>
         </div>
         <div>
