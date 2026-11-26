@@ -24,7 +24,7 @@ export default function SubmissionModal({
     name: '',
     satker: '',
     type: initialType || 'Usulan Topik',
-    sessionId: initialSession || selectedSeminar?.title || (seminars.length > 0 ? seminars[0]?.title : ''),
+    sessionId: initialSession || selectedSeminar?.title || '',
     score: 5,
     desc: ''
   });
@@ -36,7 +36,7 @@ export default function SubmissionModal({
         name: '',
         satker: '',
         type: initialType || 'Usulan Topik',
-        sessionId: initialSession || selectedSeminar?.title || (seminars.length > 0 ? seminars[0]?.title : ''),
+        sessionId: initialSession || selectedSeminar?.title || '',
         score: 5,
         desc: ''
       });

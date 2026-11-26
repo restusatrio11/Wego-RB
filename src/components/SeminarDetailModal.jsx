@@ -34,37 +34,37 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose, onOpenFee
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs animate-fade-in overflow-y-auto"
     >
       <div className="bg-white rounded-3xl max-w-4xl w-full my-auto overflow-hidden relative shadow-2xl border border-neutral-200">
-        {/* Close Button */}
+        {/* Close Button: floating high-contrast badge safe on all viewport sizes */}
         <button 
           onClick={onClose}
           aria-label="Tutup Detail"
-          className="absolute top-4 right-4 z-30 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs border border-neutral-200 flex items-center justify-center text-neutral-500 hover:text-black hover:border-black transition-colors shadow-2xs"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-40 w-9 h-9 sm:w-8 sm:h-8 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200/90 flex items-center justify-center text-neutral-600 hover:text-black hover:border-black transition-all shadow-md active:scale-95"
         >
           ✕
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 max-h-[88vh] overflow-y-auto">
-          {/* Left Column: Portrait Flyer Poster (Fully Visible, Never Cropped) */}
-          <div className="md:col-span-5 bg-neutral-900/5 relative min-h-[300px] md:min-h-full flex items-center justify-center p-3 sm:p-5 overflow-hidden border-b md:border-b-0 md:border-r border-neutral-100">
+        <div className="grid grid-cols-1 md:grid-cols-12 max-h-[92vh] md:max-h-[86vh] overflow-y-auto">
+          {/* Left Column: Portrait Flyer Poster (Responsive scaling so details are never pushed off-screen on mobile) */}
+          <div className="md:col-span-5 bg-neutral-900/5 relative min-h-[190px] sm:min-h-[240px] md:min-h-full flex items-center justify-center p-3 sm:p-4 md:p-5 overflow-hidden border-b md:border-b-0 md:border-r border-neutral-100">
             {/* Ambient subtle blur of the poster for seamless framing */}
             <div 
               className="absolute inset-0 bg-cover bg-center filter blur-2xl opacity-20 scale-110 pointer-events-none"
               style={{ backgroundImage: `url(${flyerImage})` }}
             />
             
-            {/* Full Poster with object-contain */}
+            {/* Full Poster with responsive max-height */}
             <div className="relative z-10 w-full flex flex-col items-center justify-center">
               <img 
                 src={flyerImage} 
                 alt={seminar.title}
                 referrerPolicy="no-referrer"
                 onError={(e) => handleDriveImageError(e)}
-                className="w-full h-auto max-h-[50vh] md:max-h-[70vh] object-contain rounded-2xl shadow-md border border-neutral-200/60"
+                className="w-full h-auto max-h-[35vh] sm:max-h-[44vh] md:max-h-[70vh] object-contain rounded-2xl shadow-md border border-neutral-200/60"
               />
             </div>
 
-            <div className="absolute top-4 left-4 z-20">
-              <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-2xs ${
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20">
+              <span className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-2xs ${
                 isUpcoming 
                   ? 'bg-neutral-900 text-white' 
                   : 'bg-white/95 text-neutral-700 border border-neutral-200'
@@ -75,7 +75,7 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose, onOpenFee
           </div>
 
           {/* Right Column: Operational Details */}
-          <div className="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
+          <div className="md:col-span-7 p-4 sm:p-6 md:p-8 flex flex-col justify-between">
             <div>
               <span className="font-display italic text-xs text-neutral-500 block mb-1">
                 Sesi Wego • Pembelajaran & Inovasi

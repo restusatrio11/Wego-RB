@@ -23,22 +23,27 @@ export function convertDriveUrl(url) {
  */
 export function handleDriveImageError(e, fallbackUrl = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80') {
   if (!e || !e.currentTarget) return;
-  const currentSrc = e.currentTarget.src || '';
+  const img = e.currentTarget;
+  if (img.dataset.hasRetried) {
+    if (fallbackUrl && img.src !== fallbackUrl) {
+      img.src = fallbackUrl;
+    }
+    return;
+  }
+  img.dataset.hasRetried = 'true';
+
+  const currentSrc = img.src || '';
   if (currentSrc.includes('drive.google.com/thumbnail')) {
     const idMatch = currentSrc.match(/id=([a-zA-Z0-9_-]+)/);
     if (idMatch && idMatch[1]) {
-      e.currentTarget.src = `https://lh3.googleusercontent.com/d/${idMatch[1]}=w1200`;
-      return;
-    }
-  } else if (currentSrc.includes('googleusercontent.com')) {
-    const idMatch = currentSrc.match(/\/d\/([a-zA-Z0-9_-]+)/);
-    if (idMatch && idMatch[1]) {
-      e.currentTarget.src = `https://drive.usercontent.google.com/download?id=${idMatch[1]}`;
+      // Use clean image stream (not download endpoint which forces file saving)
+      img.src = `https://lh3.googleusercontent.com/d/${idMatch[1]}=w1200`;
       return;
     }
   }
+  
   if (fallbackUrl && currentSrc !== fallbackUrl) {
-    e.currentTarget.src = fallbackUrl;
+    img.src = fallbackUrl;
   }
 }
 

@@ -69,7 +69,7 @@ export default function HeadlineStatement() {
               className="w-full h-full object-cover" 
             />
           </span>
-           yang mencari  belajar & berbagi pengetahuan
+           yang mencari ruang belajar & berbagi pengetahuan
         </span>
 
         {/* Line 2 */}
