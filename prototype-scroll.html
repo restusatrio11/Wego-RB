@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wego-RB • Prototype Scroll & Motion Experience</title>
+
+  <!-- Google Fonts: Bodoni Moda, Instrument Serif, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['"Instrument Serif"', 'serif'],
+            bodoni: ['"Bodoni Moda"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lenis CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+
+  <style>
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    .lenis.lenis-scrolling iframe {
+      pointer-events: none;
+    }
+    .small-pill {
+      display: inline-block;
+      font-size: 0.72em;
+      border: 1px solid #171717;
+      border-radius: 9999px;
+      padding: 0.1em 0.85em;
+      margin: 0 0.25em;
+      line-height: 1.4;
+      vertical-align: middle;
+      font-style: normal;
+      background: rgba(255, 255, 255, 0.95);
+    }
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 9999px;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border: 1px solid #e5e5e5;
+    }
+  </style>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lenis CDN -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+</head>
+<body class="bg-white text-neutral-900 font-sans selection:bg-neutral-100 selection:text-black">
+
+  <!-- Floating Prototype HUD Controller -->
+  <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-black/90 text-white backdrop-blur-md px-5 py-3 rounded-full shadow-2xl border border-white/20 flex items-center gap-4 text-xs font-medium">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="font-bold uppercase tracking-wider text-[10px] text-neutral-400">Prototype Spike</span>
+    </div>
+
+    <div class="h-4 w-[1px] bg-white/20"></div>
+
+    <button id="toggleLenis" class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition-all">
+      Lenis: ON
+    </button>
+
+    <button id="toggleParallax" class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition-all">
+      Parallax: ON
+    </button>
+
+    <button id="togglePin" class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30 transition-all">
+      Pinned Scrub: ON
+    </button>
+
+    <div class="h-4 w-[1px] bg-white/20"></div>
+
+    <div class="text-[11px] font-mono text-neutral-300">
+      Y: <span id="scrollYVal">0</span>px
+    </div>
+  </div>
+
+  <!-- 1. Navbar -->
+  <header class="absolute top-0 left-0 right-0 z-30 px-6 md:px-14 py-6 flex justify-between items-center text-white text-xs font-medium">
+    <div class="flex items-center gap-8">
+      <span class="font-display italic text-2xl tracking-tight font-bold">wego.rb</span>
+      <nav class="hidden md:flex items-center gap-6 text-white/80 text-[13px]">
+        <a href="#seminar" class="hover:text-white transition-colors">Sesi Seminar</a>
+        <a href="#profiles" class="hover:text-white transition-colors">Wegoers</a>
+        <a href="#ads" class="hover:text-white transition-colors">Papan Gagasan</a>
+      </nav>
+    </div>
+    <span class="border border-white/30 rounded-full px-3.5 py-1 text-[11px] text-white/90">
+      BPS PROVINSI SUMATERA UTARA
+    </span>
+  </header>
+
+  <!-- 2. Hero Cover with Parallax -->
+  <section class="relative w-full h-[90vh] bg-neutral-900 overflow-hidden flex items-center justify-center">
+    <div class="hero-image-wrap absolute -top-[15%] left-0 right-0 bottom-[-15%] w-full h-[130%]">
+      <img 
+        id="heroImg"
+        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=2200&q=85" 
+        alt="Wego Hero Background" 
+        class="w-full h-full object-cover object-center brightness-[0.72] contrast-[1.05]"
+      >
+    </div>
+
+    <div class="relative z-10 text-center px-6 max-w-5xl pointer-events-none">
+      <h1 class="font-bodoni text-[16vw] md:text-[14.5vw] lg:text-[13vw] leading-[0.8] text-white font-normal tracking-[-0.05em] select-none opacity-95 drop-shadow-lg lowercase">
+        wegoberbagi
+      </h1>
+      <p class="mt-6 text-white/90 text-xs md:text-sm font-sans font-medium tracking-wide uppercase px-4 py-1.5 rounded-full border border-white/25 bg-black/30 backdrop-blur-xs inline-block">
+        Wadah Edukasi dan Gagasan Optimal • BPS Sumatera Utara
+      </p>
+    </div>
+
+    <div class="absolute bottom-8 left-6 md:left-14 max-w-sm text-white/70 text-xs leading-relaxed font-sans hidden sm:block pointer-events-none">
+      Ruang bertukar pikiran serta peningkatan kompetensi bagi insan BPS Sumatera Utara.
+    </div>
+  </section>
+
+  <!-- 3. Pinned Statement Section with Line-by-Line Scrub Reveal -->
+  <section id="statementSection" class="relative w-full min-h-screen py-24 px-6 md:px-14 flex items-center justify-center bg-white border-b border-neutral-100">
+    <div class="max-w-6xl w-full">
+      <h2 class="text-[2.6rem] sm:text-[3.8rem] md:text-[4.6vw] lg:text-[5.2vw] leading-[1.12] tracking-[-0.035em] text-neutral-900 font-sans font-bold">
+        <!-- Line 1 -->
+        <span class="statement-line block opacity-30 transition-opacity">
+          Untuk Pegawai BPS 
+          <span class="inline-block w-10 sm:w-16 md:w-20 h-12 sm:h-20 md:h-24 rounded-2xl overflow-hidden align-middle mx-2 border border-neutral-200 shadow-md relative top-[-0.06em]">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Insan BPS" class="w-full h-full object-cover">
+          </span>
+        </span>
+
+        <!-- Line 2 -->
+        <span class="statement-line block opacity-30 transition-opacity mt-2">
+          yang mencari ruang belajar & berbagi pengetahuan
+        </span>
+
+        <!-- Line 3 -->
+        <span class="statement-line block opacity-30 transition-opacity mt-2">
+          <span class="inline-flex items-center gap-2 border border-neutral-900 rounded-full px-4 py-1 align-baseline mr-2 text-[0.85em]">
+            <svg class="w-5 h-5 fill-neutral-900" viewBox="0 0 24 24"><polygon points="12,0 14.5,7 21.5,4 18,10.5 24,14 17,16.5 19,23.5 12,18.5 5,23.5 7,16.5 0,14 6,10.5 2.5,4 9.5,7"/></svg>
+            <span class="font-sans font-bold">inovasi reformasi birokrasi</span>
+          </span>
+          <span class="font-display italic font-normal tracking-[-0.04em] text-neutral-800">
+            bersama rekan kerja BPS se-Sumatera Utara.
+          </span>
+        </span>
+      </h2>
+
+      <div class="mt-8 flex items-center gap-4 text-xs text-neutral-500 font-medium">
+        <span class="px-3 py-1 rounded-full bg-neutral-100 text-neutral-700">Lenis + ScrollTrigger Synchronized</span>
+        <span>• Gulir ke bawah untuk melihat efek line-by-line illumination</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Seminar Catalog (Portrait Cards) -->
+  <section id="seminar" class="px-6 md:px-14 py-24 bg-neutral-50/50">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex justify-between items-end mb-10">
+        <div>
+          <span class="font-display italic text-sm text-neutral-500 block mb-1">Katalog Pembelajaran</span>
+          <h3 class="font-sans text-2xl md:text-3xl font-bold tracking-tight text-neutral-900">
+            Jelajahi <span class="small-pill font-bold">sesi seminar</span> terbuka untuk insan statistik ↗
+          </h3>
+          <p class="text-xs text-neutral-400 mt-1">
+            • Format poster potrait vertikal 3:4 dengan kartu interaktif.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3 Portrait Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="catalog-card group bg-white rounded-3xl p-5 border border-neutral-200/80 shadow-sm hover:shadow-xl hover:border-black/30 transition-all duration-300">
+          <div class="aspect-[3/4] overflow-hidden rounded-2xl bg-neutral-100 mb-4 relative">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80" alt="Flyer 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-neutral-900 text-white">Akan Datang</span>
+          </div>
+          <span class="text-[11px] text-neutral-400 font-medium block mb-1">Kamis, 15 April 2026 • 09.00 WIB</span>
+          <h4 class="font-sans font-bold text-lg text-neutral-900 mb-2 leading-snug">Pemanfaatan Web Scraping & Machine Learning Harga Pangan</h4>
+          <span class="text-xs text-neutral-600 block mb-4">Melody Hansen • BPS Kab. Deli Serdang</span>
+          <div class="pt-3 border-t border-neutral-100 flex justify-between items-center text-xs">
+            <span class="font-semibold text-neutral-900 group-hover:underline">Buka Rincian Sesi ↗</span>
+            <span class="text-[11px] text-neutral-400">Zoom Cloud</span>
+          </div>
+        </div>
+
+        <div class="catalog-card group bg-white rounded-3xl p-5 border border-neutral-200/80 shadow-sm hover:shadow-xl hover:border-black/30 transition-all duration-300">
+          <div class="aspect-[3/4] overflow-hidden rounded-2xl bg-neutral-100 mb-4 relative">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1000&q=80" alt="Flyer 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/95 text-neutral-700 border border-neutral-200">Selesai</span>
+          </div>
+          <span class="text-[11px] text-neutral-400 font-medium block mb-1">Selasa, 10 Maret 2026 • 09.00 WIB</span>
+          <h4 class="font-sans font-bold text-lg text-neutral-900 mb-2 leading-snug">Strategi Sukses Membangun Zona Integritas Menuju WBK/WBBM</h4>
+          <span class="text-xs text-neutral-600 block mb-4">Michelle Pontvert • BPS Kota Medan</span>
+          <div class="pt-3 border-t border-neutral-100 flex justify-between items-center text-xs">
+            <span class="font-semibold text-neutral-900 group-hover:underline">Buka Rincian Sesi ↗</span>
+            <span class="text-[11px] text-neutral-400">Ruang Vicon</span>
+          </div>
+        </div>
+
+        <div class="catalog-card group bg-white rounded-3xl p-5 border border-neutral-200/80 shadow-sm hover:shadow-xl hover:border-black/30 transition-all duration-300">
+          <div class="aspect-[3/4] overflow-hidden rounded-2xl bg-neutral-100 mb-4 relative">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80" alt="Flyer 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/95 text-neutral-700 border border-neutral-200">Selesai</span>
+          </div>
+          <span class="text-[11px] text-neutral-400 font-medium block mb-1">Rabu, 25 Februari 2026 • 13.30 WIB</span>
+          <h4 class="font-sans font-bold text-lg text-neutral-900 mb-2 leading-snug">Otomasi Rekonsiliasi Data PDRB Menggunakan R Shiny</h4>
+          <span class="text-xs text-neutral-600 block mb-4">Lexie Siregar • BPS Prov. Sumut</span>
+          <div class="pt-3 border-t border-neutral-100 flex justify-between items-center text-xs">
+            <span class="font-semibold text-neutral-900 group-hover:underline">Buka Rincian Sesi ↗</span>
+            <span class="text-[11px] text-neutral-400">Zoom Cloud</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Footer -->
+  <footer class="bg-black text-white py-20 px-6 md:px-14">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6 text-xs text-neutral-500">
+      <div>
+        <span class="font-display italic text-2xl text-white block mb-2">wego.rb</span>
+        <span>© 2026 Tim Kerja Inovasi & Reformasi Birokrasi BPS Provinsi Sumatera Utara.</span>
+      </div>
+      <div class="text-neutral-400">
+        Lenis Inertia + GSAP ScrollTrigger Spike
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT: Lenis + GSAP Integration Architecture -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    let lenis = null;
+    let isLenis = true;
+    let isParallax = true;
+    let isPin = true;
+    let parallaxTween = null;
+    let statementTrigger = null;
+
+    // 1. Initialize Lenis with Unified GSAP Ticker Clock
+    function initLenis() {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // exponential easeOut
+        orientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.5,
+        autoRaf: false // Driven strictly via GSAP ticker
+      });
+
+      // Synchronize Lenis scroll position with ScrollTrigger
+      lenis.on('scroll', (e) => {
+        ScrollTrigger.update();
+        document.getElementById('scrollYVal').textContent = Math.round(e.scroll);
+      });
+
+      // Unified Animation Frame Clock (seconds to ms)
+      gsap.ticker.add(tickerCallback);
+      gsap.ticker.lagSmoothing(0);
+
+      // Handle dynamic resize synchronization
+      ScrollTrigger.addEventListener('refresh', onScrollTriggerRefresh);
+    }
+
+    function tickerCallback(time) {
+      if (lenis && isLenis) {
+        lenis.raf(time * 1000);
+      }
+    }
+
+    function onScrollTriggerRefresh() {
+      if (lenis) lenis.resize();
+    }
+
+    // 2. Setup Parallax Effect on Hero Image
+    function setupParallax() {
+      if (parallaxTween) parallaxTween.kill();
+
+      if (!isParallax) return;
+
+      parallaxTween = gsap.to('#heroImg', {
+        yPercent: 20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero-image-wrap',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    }
+
+    // 3. Setup Pinned Statement with Line-by-Line Scrub Reveal
+    function setupPinnedStatement() {
+      if (statementTrigger) statementTrigger.kill();
+
+      if (!isPin) {
+        gsap.set('.statement-line', { opacity: 1 });
+        return;
+      }
+
+      // Initial state: dim opacity
+      gsap.set('.statement-line', { opacity: 0.25 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#statementSection',
+          start: 'top 15%',
+          end: '+=100%',
+          pin: true,
+          scrub: 0.6,
+          anticipatePin: 1
+        }
+      });
+
+      const lines = gsap.utils.toArray('.statement-line');
+      lines.forEach((line) => {
+        tl.to(line, {
+          opacity: 1,
+          duration: 1,
+          ease: 'power2.out'
+        }, '+=0.2');
+      });
+
+      statementTrigger = tl.scrollTrigger;
+    }
+
+    // Start everything
+    initLenis();
+    setupParallax();
+    setupPinnedStatement();
+
+    // Controller Toggles
+    const toggleLenisBtn = document.getElementById('toggleLenis');
+    toggleLenisBtn.addEventListener('click', () => {
+      isLenis = !isLenis;
+      if (isLenis) {
+        lenis.start();
+        toggleLenisBtn.textContent = 'Lenis: ON';
+        toggleLenisBtn.className = 'px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+      } else {
+        lenis.stop();
+        toggleLenisBtn.textContent = 'Lenis: OFF';
+        toggleLenisBtn.className = 'px-2.5 py-1 rounded-full bg-neutral-800 text-neutral-400 border border-neutral-700';
+      }
+    });
+
+    const toggleParallaxBtn = document.getElementById('toggleParallax');
+    toggleParallaxBtn.addEventListener('click', () => {
+      isParallax = !isParallax;
+      setupParallax();
+      ScrollTrigger.refresh();
+      if (isParallax) {
+        toggleParallaxBtn.textContent = 'Parallax: ON';
+        toggleParallaxBtn.className = 'px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+      } else {
+        toggleParallaxBtn.textContent = 'Parallax: OFF';
+        toggleParallaxBtn.className = 'px-2.5 py-1 rounded-full bg-neutral-800 text-neutral-400 border border-neutral-700';
+      }
+    });
+
+    const togglePinBtn = document.getElementById('togglePin');
+    togglePinBtn.addEventListener('click', () => {
+      isPin = !isPin;
+      setupPinnedStatement();
+      ScrollTrigger.refresh();
+      if (isPin) {
+        togglePinBtn.textContent = 'Pinned Scrub: ON';
+        togglePinBtn.className = 'px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+      } else {
+        togglePinBtn.textContent = 'Pinned Scrub: OFF';
+        togglePinBtn.className = 'px-2.5 py-1 rounded-full bg-neutral-800 text-neutral-400 border border-neutral-700';
+      }
+    });
+  </script>
+</body>
+</html>
