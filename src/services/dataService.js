@@ -245,7 +245,7 @@ export function useWegoData(sheetId) {
         const records = parseGvizResponse(text);
 
         if (isMounted && records && records.length > 0) {
-          if (records[0].title && records[0].thumb) {
+          if (records[0].title && (records[0].thumb || records[0].image)) {
             setData(prev => ({
               ...prev,
               seminars: records

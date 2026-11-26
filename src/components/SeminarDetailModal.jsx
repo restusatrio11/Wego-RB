@@ -76,7 +76,7 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose }) {
                   </div>
                   <div>
                     <span className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold block">
-                      Wegoers / Narasumber
+                      Wegoers
                     </span>
                     <span className="font-sans font-bold text-sm text-neutral-900 block">
                       {seminar.speaker}

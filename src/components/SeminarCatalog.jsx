@@ -36,8 +36,17 @@ export default function SeminarCatalog({ seminars = [] }) {
           return (
             <div 
               key={item.id} 
+              role="button"
+              tabIndex={0}
+              aria-label={`Buka detail sesi ${item.title}`}
               onClick={() => setSelectedSeminar(item)}
-              className="group cursor-pointer bg-white rounded-3xl p-4 sm:p-5 border border-neutral-200/80 hover:border-neutral-900/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setSelectedSeminar(item);
+                }
+              }}
+              className="group cursor-pointer bg-white rounded-3xl p-4 sm:p-5 border border-neutral-200/80 hover:border-neutral-900/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-neutral-900"
             >
               <div>
                 {/* 3:4 Aspect Ratio Portrait Flyer Frame */}
