@@ -8,6 +8,7 @@ import SpeakerProfiles from './components/SpeakerProfiles';
 import SeminarCatalog from './components/SeminarCatalog';
 import MidBanner from './components/MidBanner';
 import CommunityBoard from './components/CommunityBoard';
+import MarqueeTicker from './components/MarqueeTicker';
 import SocialGallery from './components/SocialGallery';
 import Footer from './components/Footer';
 import SubmissionModal from './components/SubmissionModal';
@@ -53,6 +54,9 @@ export default function App() {
           communityAds={communityAds} 
           onOpenModal={() => setModalOpen(true)} 
         />
+
+        {/* 7. Multi-Row Editorial Marquee Ticker */}
+        <MarqueeTicker onOpenModal={() => setModalOpen(true)} />
 
         {/* 8. Social Gallery */}
         <SocialGallery galleryPhotos={galleryPhotos} />

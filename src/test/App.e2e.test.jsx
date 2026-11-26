@@ -28,8 +28,9 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     // 6. Templates (Pojok Unduhan hidden)
     expect(screen.queryByText(/Official Wego Slide Deck PPTX/i)).not.toBeInTheDocument();
 
-    // 7. Community Board
+    // 7. Community Board & Marquee Ticker
     expect(screen.getByText(/BPS Kab. Asahan/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Pita Pengumuman Berjalan Wego-RB/i)).toBeInTheDocument();
 
     // 8. Regional Innovations (Inspirasi & Rujukan hidden)
     expect(screen.queryByText(/Inspirasi & Rujukan/i)).not.toBeInTheDocument();
