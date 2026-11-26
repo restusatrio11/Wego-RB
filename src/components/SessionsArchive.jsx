@@ -320,6 +320,7 @@ export default function SessionsArchive({
         isOpen={Boolean(selectedSeminar)}
         seminar={selectedSeminar} 
         onClose={() => setSelectedSeminar(null)} 
+        onOpenFeedback={onOpenSubmissionModal ? (sem) => onOpenSubmissionModal('Evaluasi & Feedback Sesi Seminar', sem.title) : undefined}
       />
 
       {/* Footer */}

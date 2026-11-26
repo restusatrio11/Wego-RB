@@ -11,8 +11,8 @@ export default function MidBanner({ onOpenModal }) {
           Program Wego BPS Provinsi Sumatera Utara membuka ruang seluas-luasnya bagi seluruh pegawai untuk mengajukan gagasan, membagikan praktik baik, dan mempercepat transformasi digital birokrasi.
         </p>
         <button 
-          onClick={onOpenModal}
-          className="btn-pill bg-white text-neutral-900 font-semibold px-6 py-3 border-transparent shadow-sm hover:bg-neutral-100"
+          onClick={() => onOpenModal && onOpenModal('Pojok Gagasan Inovasi RB')}
+          className="btn-pill bg-white text-neutral-900 font-semibold px-6 py-3 border-transparent shadow-sm hover:bg-neutral-100 active:scale-95 transition-transform"
         >
           Kirimkan Gagasan Inovasi Anda →
         </button>

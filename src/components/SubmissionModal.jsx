@@ -8,28 +8,40 @@ const SCORE_LABELS = {
   5: 'Luar Biasa / Sangat Menginspirasi'
 };
 
-export default function SubmissionModal({ isOpen, onClose, seminars = [] }) {
+export default function SubmissionModal({ 
+  isOpen, 
+  onClose, 
+  seminars = [],
+  initialType = 'Usulan Topik',
+  initialSession = ''
+}) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [hoverScore, setHoverScore] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     satker: '',
-    type: 'Usulan Topik',
-    sessionId: '',
+    type: initialType || 'Usulan Topik',
+    sessionId: initialSession || (seminars.length > 0 ? seminars[0]?.title : ''),
     score: 5,
     desc: ''
   });
 
-  // Set default session if seminars are provided
+  // Sync initial type and session only when modal opens
   useEffect(() => {
-    if (seminars.length > 0 && !formData.sessionId) {
-      setFormData(prev => ({
-        ...prev,
-        sessionId: seminars[0]?.title || ''
-      }));
+    if (isOpen) {
+      setFormData({
+        name: '',
+        satker: '',
+        type: initialType || 'Usulan Topik',
+        sessionId: initialSession || (seminars.length > 0 ? seminars[0]?.title : ''),
+        score: 5,
+        desc: ''
+      });
+      setSubmitted(false);
+      setSubmitting(false);
     }
-  }, [seminars, formData.sessionId]);
+  }, [isOpen, initialType, initialSession]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -47,14 +59,14 @@ export default function SubmissionModal({ isOpen, onClose, seminars = [] }) {
   const isFeedbackType = formData.type.toLowerCase().includes('evaluasi') || 
                          formData.type.toLowerCase().includes('feedback');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
 
     const webhookUrl = import.meta.env.VITE_SUBMISSION_WEBHOOK_URL || '';
-    if (webhookUrl) {
+    if (webhookUrl && typeof fetch === 'function') {
       try {
-        await fetch(webhookUrl, {
+        fetch(webhookUrl, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
@@ -62,6 +74,8 @@ export default function SubmissionModal({ isOpen, onClose, seminars = [] }) {
             ...formData,
             submittedAt: new Date().toISOString()
           })
+        }).catch((err) => {
+          console.warn('Submission webhook warning (proceeding):', err);
         });
       } catch (err) {
         console.warn('Submission webhook warning (proceeding):', err);

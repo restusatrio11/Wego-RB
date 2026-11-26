@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SeminarDetailModal from './SeminarDetailModal';
 
-export default function SeminarCatalog({ seminars = [] }) {
+export default function SeminarCatalog({ seminars = [], onOpenFeedback }) {
   const [selectedSeminar, setSelectedSeminar] = useState(null);
 
   return (
@@ -119,6 +119,7 @@ export default function SeminarCatalog({ seminars = [] }) {
         isOpen={Boolean(selectedSeminar)}
         seminar={selectedSeminar}
         onClose={() => setSelectedSeminar(null)}
+        onOpenFeedback={onOpenFeedback}
       />
     </section>
   );

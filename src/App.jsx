@@ -17,6 +17,10 @@ import { useWegoData } from './services/dataService';
 
 export default function App() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalConfig, setModalConfig] = useState({
+    type: 'Usulan Topik',
+    session: ''
+  });
   const [currentHash, setCurrentHash] = useState(() => {
     return typeof window !== 'undefined' ? window.location.hash : '';
   });
@@ -24,6 +28,11 @@ export default function App() {
   // Connects to Google Sheets if configured in Vite env, otherwise uses curated default data
   const sheetId = import.meta.env.VITE_GOOGLE_SHEETS_ID || '1j-g4KUlvcFejCJungNi7Cz4wLKZ3myfzCLu1WGw0bfA';
   const { speakers, seminars, communityAds, galleryPhotos } = useWegoData(sheetId);
+
+  const handleOpenModal = (type = 'Usulan Topik', session = '') => {
+    setModalConfig({ type, session });
+    setModalOpen(true);
+  };
 
   // Sync route with window hash changes
   useEffect(() => {
@@ -62,7 +71,7 @@ export default function App() {
           onNavigateHome={() => {
             window.location.hash = '';
           }}
-          onOpenSubmissionModal={() => setModalOpen(true)}
+          onOpenSubmissionModal={(type, session) => handleOpenModal(type || 'Usulan Topik', session || '')}
         />
       ) : (
         <div className="min-h-screen bg-white text-page-text selection:bg-neutral-100 selection:text-black">
@@ -77,25 +86,28 @@ export default function App() {
           <SpeakerProfiles speakers={speakers} />
 
           {/* 3. Seminar Catalog */}
-          <SeminarCatalog seminars={seminars} />
+          <SeminarCatalog 
+            seminars={seminars} 
+            onOpenFeedback={(sem) => handleOpenModal('Evaluasi & Feedback Sesi Seminar', sem.title)}
+          />
 
           {/* 4. Mid CTA Banner */}
-          <MidBanner onOpenModal={() => setModalOpen(true)} />
+          <MidBanner onOpenModal={(type) => handleOpenModal(type || 'Pojok Gagasan Inovasi RB')} />
 
           {/* 6. Community Board (Kotak Aspirasi) */}
           <CommunityBoard 
             communityAds={communityAds} 
-            onOpenModal={() => setModalOpen(true)} 
+            onOpenModal={() => handleOpenModal('Usulan Topik')} 
           />
 
           {/* 7. Multi-Row Editorial Marquee Ticker */}
-          <MarqueeTicker onOpenModal={() => setModalOpen(true)} />
+          <MarqueeTicker onOpenModal={() => handleOpenModal('Usulan Topik')} />
 
           {/* 8. Social Gallery */}
           <SocialGallery galleryPhotos={galleryPhotos} />
 
           {/* 9. Footer & Newsletter */}
-          <Footer onOpenModal={() => setModalOpen(true)} />
+          <Footer onOpenModal={(type) => handleOpenModal(type || 'Usulan Topik')} />
         </div>
       )}
 
@@ -104,6 +116,8 @@ export default function App() {
         isOpen={modalOpen} 
         onClose={() => setModalOpen(false)} 
         seminars={seminars}
+        initialType={modalConfig.type}
+        initialSession={modalConfig.session}
       />
     </SmoothScrollProvider>
   );

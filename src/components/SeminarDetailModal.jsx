@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-export default function SeminarDetailModal({ isOpen, seminar, onClose }) {
+export default function SeminarDetailModal({ isOpen, seminar, onClose, onOpenFeedback }) {
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {
@@ -172,6 +172,20 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose }) {
                   Unduh Slide Materi ↗
                 </a>
               </div>
+
+              {onOpenFeedback && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    onOpenFeedback(seminar);
+                  }}
+                  className="btn-pill bg-neutral-50 text-neutral-800 border-neutral-300 hover:border-black text-center text-xs justify-center flex items-center gap-1.5 w-full mt-2 transition-all hover:bg-neutral-100"
+                >
+                  <span>✹</span>
+                  <span>Beri Nilai & Evaluasi Sesi Ini ↗</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
