@@ -105,6 +105,66 @@ describe('useWegoData & parseGvizResponse (GViz Data Pipeline Seam)', () => {
       expect(sem.zoomUrl).toBe('https://zoom.us/j/12345');
     });
 
+    it('promotes first row to headers when cols have no labels (Google Sheets CSV import behavior)', () => {
+      const mockGviz = `google.visualization.Query.setResponse({
+        "status": "ok",
+        "table": {
+          "cols": [
+            {"id": "A", "label": "", "type": "string"},
+            {"id": "B", "label": "", "type": "string"},
+            {"id": "C", "label": "", "type": "string"}
+          ],
+          "rows": [
+            {
+              "c": [
+                {"v": "id"},
+                {"v": "nama"},
+                {"v": "satker"}
+              ]
+            },
+            {
+              "c": [
+                {"v": "SPK-01"},
+                {"v": "Lexie Siregar"},
+                {"v": "BPS Prov. Sumut"}
+              ]
+            }
+          ]
+        }
+      });`;
+
+      const result = parseGvizResponse(mockGviz);
+      expect(result).toHaveLength(1);
+      expect(result[0].id).toBe('SPK-01');
+      expect(result[0].nama).toBe('Lexie Siregar');
+      expect(result[0].satker).toBe('BPS Prov. Sumut');
+    });
+
+    it('extracts formatted date from cell.f when cell.v is Date(...) wrapper', () => {
+      const mockGviz = `google.visualization.Query.setResponse({
+        "status": "ok",
+        "table": {
+          "cols": [
+            {"id": "A", "label": "id", "type": "string"},
+            {"id": "B", "label": "tanggal", "type": "date"}
+          ],
+          "rows": [
+            {
+              "c": [
+                {"v": "WEGO-01"},
+                {"v": "Date(2024,10,15)", "f": "Jumat, 15 November 2024"}
+              ]
+            }
+          ]
+        }
+      });`;
+
+      const result = parseGvizResponse(mockGviz);
+      expect(result).toHaveLength(1);
+      expect(result[0].id).toBe('WEGO-01');
+      expect(result[0].date).toBe('Jumat, 15 November 2024');
+    });
+
     it('throws an error on malformed or invalid GViz string', () => {
       expect(() => parseGvizResponse('invalid-data-string')).toThrow(/Invalid GViz response format/);
     });

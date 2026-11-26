@@ -22,7 +22,7 @@ export default function App() {
   });
   
   // Connects to Google Sheets if configured in Vite env, otherwise uses curated default data
-  const sheetId = import.meta.env.VITE_GOOGLE_SHEETS_ID || '';
+  const sheetId = import.meta.env.VITE_GOOGLE_SHEETS_ID || '1j-g4KUlvcFejCJungNi7Cz4wLKZ3myfzCLu1WGw0bfA';
   const { speakers, seminars, communityAds, galleryPhotos } = useWegoData(sheetId);
 
   // Sync route with window hash changes

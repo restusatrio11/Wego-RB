@@ -237,17 +237,50 @@ export function parseGvizResponse(rawText) {
   }
 
   const table = payload.table;
-  const headers = table.cols.map((col, idx) => {
-    if (col.label && col.label.trim()) {
-      return col.label.trim();
-    }
-    return col.id || `col_${idx}`;
-  });
+  const cols = table.cols || [];
+  let rows = table.rows || [];
 
-  return table.rows.map(row => {
+  // Check if cols have meaningful labels (or just generic column letters A, B, C...)
+  const hasColLabels = cols.some(col => col.label && col.label.trim().length > 0);
+  
+  let headers = [];
+  if (!hasColLabels && rows.length > 0) {
+    // Check if the first row values are string headers
+    const firstRowVals = (rows[0].c || []).map(cell => cell && cell.v !== null && cell.v !== undefined ? String(cell.v).trim() : '');
+    const looksLikeHeader = firstRowVals.some(val => {
+      const clean = val.toLowerCase().replace(/[\s_-]+/g, '');
+      return Boolean(INVERTED_HEADER_LOOKUP[clean]) || ['id', 'nama', 'judul', 'satker', 'kategori', 'keterangan'].includes(clean);
+    });
+    if (looksLikeHeader) {
+      headers = firstRowVals;
+      rows = rows.slice(1);
+    }
+  }
+
+  if (headers.length === 0) {
+    headers = cols.map((col, idx) => {
+      if (col.label && col.label.trim()) {
+        return col.label.trim();
+      }
+      return col.id || `col_${idx}`;
+    });
+  }
+
+  return rows.map(row => {
     const item = {};
     headers.forEach((header, idx) => {
-      let val = row.c && row.c[idx] ? row.c[idx].v : null;
+      if (!header) return;
+      const cell = row.c && row.c[idx] ? row.c[idx] : null;
+      let val = null;
+      if (cell) {
+        if (cell.f && typeof cell.v === 'string' && cell.v.startsWith('Date(')) {
+          val = cell.f;
+        } else if (cell.v !== null && cell.v !== undefined) {
+          val = cell.v;
+        } else if (cell.f) {
+          val = cell.f;
+        }
+      }
       if (typeof val === 'string' && val.includes('drive.google.com')) {
         val = convertDriveUrl(val);
       }
