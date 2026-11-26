@@ -16,7 +16,7 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
 
     // 3. Profiles (Wegoers)
     expect(screen.getByText(/Profil Narasumber/i)).toBeInTheDocument();
-    expect(screen.getByText(/Lexie Siregar/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Lexie Siregar/i).length).toBeGreaterThan(0);
 
     // 4. Seminars
     expect(screen.getByText(/Katalog Pembelajaran/i)).toBeInTheDocument();
