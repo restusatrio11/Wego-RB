@@ -31,6 +31,9 @@ export default function SmoothScrollProvider({ children }) {
       });
 
       lenisRef.current = lenis;
+      if (typeof window !== 'undefined') {
+        window.__lenis = lenis;
+      }
 
       // Sync Lenis scroll with ScrollTrigger
       lenis.on('scroll', ScrollTrigger.update);
@@ -54,6 +57,9 @@ export default function SmoothScrollProvider({ children }) {
         gsap.ticker.remove(tickerCallback);
         lenis.destroy();
         lenisRef.current = null;
+        if (typeof window !== 'undefined') {
+          delete window.__lenis;
+        }
       };
     } catch (e) {
       console.warn('[SmoothScroll] Initializing fallback scroll:', e.message);

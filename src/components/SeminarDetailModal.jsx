@@ -4,13 +4,28 @@ import { handleDriveImageError } from '../services/dataService';
 export default function SeminarDetailModal({ isOpen, seminar, onClose, onOpenFeedback }) {
   useEffect(() => {
     if (!isOpen) return;
+
+    // 1. Prevent background page scroll while modal is active
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    // 2. Pause Lenis smooth scrolling so mouse wheel does not scroll the background page
+    if (typeof window !== 'undefined' && window.__lenis) {
+      window.__lenis.stop();
+    }
+
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      if (typeof window !== 'undefined' && window.__lenis) {
+        window.__lenis.start();
+      }
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen, onClose]);
 
   if (!isOpen || !seminar) return null;
@@ -28,12 +43,16 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose, onOpenFee
       role="dialog"
       aria-modal="true"
       aria-label="Rincian Operasional Sesi"
+      data-lenis-prevent="true"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs animate-fade-in overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/65 backdrop-blur-xs animate-fade-in overflow-y-auto overscroll-contain"
     >
-      <div className="bg-white rounded-3xl max-w-4xl w-full my-auto overflow-hidden relative shadow-2xl border border-neutral-200">
+      <div 
+        data-lenis-prevent="true"
+        className="bg-white rounded-3xl max-w-4xl w-full my-auto overflow-hidden relative shadow-2xl border border-neutral-200"
+      >
         {/* Close Button: floating high-contrast badge safe on all viewport sizes */}
         <button 
           onClick={onClose}
@@ -43,7 +62,10 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose, onOpenFee
           ✕
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 max-h-[92vh] md:max-h-[86vh] overflow-y-auto">
+        <div 
+          data-lenis-prevent="true"
+          className="grid grid-cols-1 md:grid-cols-12 max-h-[92vh] md:max-h-[86vh] overflow-y-auto overscroll-contain"
+        >
           {/* Left Column: Portrait Flyer Poster (Responsive scaling so details are never pushed off-screen on mobile) */}
           <div className="md:col-span-5 bg-neutral-900/5 relative min-h-[190px] sm:min-h-[240px] md:min-h-full flex items-center justify-center p-3 sm:p-4 md:p-5 overflow-hidden border-b md:border-b-0 md:border-r border-neutral-100">
             {/* Ambient subtle blur of the poster for seamless framing */}

@@ -47,13 +47,30 @@ export default function SubmissionModal({
 
   useEffect(() => {
     if (!isOpen) return;
+
+    // 1. Lock document body scroll
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    // 2. Pause Lenis smooth scrolling so background page never scrolls
+    if (typeof window !== 'undefined' && window.__lenis) {
+      window.__lenis.stop();
+    }
+
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
         onClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      if (typeof window !== 'undefined' && window.__lenis) {
+        window.__lenis.start();
+      }
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -99,12 +116,16 @@ export default function SubmissionModal({
 
   return (
     <div 
+      data-lenis-prevent="true"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto overscroll-contain"
     >
-      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl border border-neutral-200 my-8">
+      <div 
+        data-lenis-prevent="true"
+        className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl border border-neutral-200 my-8 overscroll-contain"
+      >
         <button 
           onClick={onClose}
           aria-label="✕"

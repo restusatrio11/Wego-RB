@@ -99,4 +99,17 @@ describe('SeminarDetailModal Component (Modal Interaction Seam)', () => {
     fireEvent.keyDown(window, { key: 'Escape', code: 'Escape' });
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
+
+  it('locks body scroll and pauses Lenis when open, restoring on unmount', () => {
+    window.__lenis = { stop: vi.fn(), start: vi.fn() };
+    const { unmount } = render(<SeminarDetailModal isOpen={true} seminar={mockSeminar} onClose={vi.fn()} />);
+
+    expect(document.body.style.overflow).toBe('hidden');
+    expect(window.__lenis.stop).toHaveBeenCalled();
+
+    unmount();
+    expect(document.body.style.overflow).toBe('');
+    expect(window.__lenis.start).toHaveBeenCalled();
+    delete window.__lenis;
+  });
 });
