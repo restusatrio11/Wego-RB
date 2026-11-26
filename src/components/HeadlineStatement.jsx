@@ -64,7 +64,7 @@ export default function HeadlineStatement() {
           Untuk Pegawai BPS{' '}
           <span className="inline-block w-8 sm:w-12 md:w-14 lg:w-16 xl:w-20 h-10 sm:h-15 md:h-18 lg:h-20 xl:h-24 rounded-lg sm:rounded-xl overflow-hidden align-middle mx-1.5 sm:mx-3 border border-neutral-200 shadow-sm relative top-[-0.06em]">
             <img 
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" 
+              src="https://images.unsplash.com/photo-1594122230689-45899d9e6f69?auto=format&fit=crop&w=400&q=80" 
               alt="Insan BPS" 
               className="w-full h-full object-cover" 
             />
