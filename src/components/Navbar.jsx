@@ -10,7 +10,6 @@ export default function Navbar() {
           <a href="#profiles" className="hover:text-white transition-colors">Wegoers</a>
           <a href="#templates" className="hover:text-white transition-colors">Unduhan</a>
           <a href="#ads" className="hover:text-white transition-colors">Papan Gagasan</a>
-          <a href="#gems" className="hover:text-white transition-colors">Inovasi Daerah</a>
         </nav>
       </div>
       <div>

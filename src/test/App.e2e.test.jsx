@@ -31,8 +31,8 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     // 7. Community Board
     expect(screen.getByText(/BPS Kab. Asahan/i)).toBeInTheDocument();
 
-    // 8. Regional Innovations
-    expect(screen.getByText(/Portal Satu Data Sumut/i)).toBeInTheDocument();
+    // 8. Regional Innovations (Inspirasi & Rujukan hidden)
+    expect(screen.queryByText(/Inspirasi & Rujukan/i)).not.toBeInTheDocument();
 
     // 9. Social Gallery
     expect(screen.getByText(/@bpsprovsumut/i)).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     const nav = container.querySelector('nav');
     expect(nav).toBeInTheDocument();
 
-    const expectedAnchors = ['#seminar', '#profiles', '#templates', '#ads', '#gems'];
+    const expectedAnchors = ['#seminar', '#profiles', '#templates', '#ads'];
 
     expectedAnchors.forEach((hash) => {
       const link = nav.querySelector(`a[href="${hash}"]`);

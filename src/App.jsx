@@ -47,8 +47,8 @@ export default function App() {
         onOpenModal={() => setModalOpen(true)} 
       />
 
-      {/* 7. Regional Innovations */}
-      <RegionalInnovations regionalGems={regionalGems} />
+      {/* 7. Regional Innovations (Inspirasi & Rujukan - hidden sementara karena belum terpakai) */}
+      {/* <RegionalInnovations regionalGems={regionalGems} /> */}
 
       {/* 8. Social Gallery */}
       <SocialGallery galleryPhotos={galleryPhotos} />
