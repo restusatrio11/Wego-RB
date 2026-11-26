@@ -170,10 +170,10 @@ export default function SpeakerProfiles({ speakers = [] }) {
                 <span className="location-tag">{spk.satker}</span>
               </div>
               <h4 className="font-sans font-bold text-base text-neutral-900 leading-snug group-hover:underline">
-                {spk.name}
+                {spk.name || spk.speaker || spk.nama}
               </h4>
               <p className="text-xs text-neutral-500 leading-tight mt-0.5">
-                {spk.role}
+                {spk.role || spk.speakerRole || spk.peran}
               </p>
             </div>
           ))}

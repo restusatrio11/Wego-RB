@@ -353,7 +353,10 @@ export function useWegoData(sheetId) {
         if (results[1].status === 'fulfilled' && Array.isArray(results[1].value) && results[1].value.length > 0) {
           updates.speakers = results[1].value.map(spk => ({
             ...spk,
-            image: spk.image || spk.thumb
+            name: spk.name || spk.speaker || spk.nama,
+            role: spk.role || spk.speakerRole || spk.peran,
+            satker: spk.satker || spk.location || 'BPS Sumut',
+            image: spk.image || spk.foto || spk.thumb
           }));
         } else if (results[1].status === 'rejected') {
           errors.push(`Speakers: ${results[1].reason?.message || 'failed'}`);
