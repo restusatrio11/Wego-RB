@@ -1,5 +1,5 @@
-id,name,satker,role,avatar_url,quote,topics
-SPK-01,"Hafiz Siregar, S.Tr.Stat",BPS Prov. Sumut,Data Scientist / IPDS,https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80,Data tanpa visualisasi ibarat kopi tanpa gula: pahit diinterpretasi pimpinan.,"Machine Learning, Web Scraping, Python"
-SPK-02,"Novi Triastuti, M.Si",BPS Kota Medan,Statistisi Ahli Muda,https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80,Reformasi birokrasi dimulai dari ketepatan proses kerja harian di tingkat paling dasar.,"Zona Integritas, Manajemen Perubahan, Pelayanan Publik"
-SPK-03,"Rizky Pratama, S.Si",BPS Kab. Deli Serdang,Pranata Komputer,https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80,Satu jam membuat otomasi skrip menghemat 20 jam pekerjaan rekapitulasi manual.,"Otomasi Python, DuckDB, Streamlit"
-SPK-04,"Dewi Lestari, S.E",BPS Kab. Toba,Analis SDM Aparatur,https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80,Pelayanan publik yang tulus adalah wujud nyata integritas seorang abdi negara.,"Manajemen ASN, Komunikasi Efektif, Soft Skills"
+id,nama,satker,peran,foto
+SPK-01,"Lexie Siregar, S.Tr.Stat",BPS Prov. Sumut,Data Scientist / IPDS,https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=80
+SPK-02,"Michelle Pontvert, S.Si",BPS Kota Medan,Statistisi Ahli Muda / Tim RB,https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80
+SPK-03,"Melody Hansen, S.Kom",BPS Kab. Deli Serdang,Pranata Komputer / Otomasi,https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=700&q=80
+SPK-04,"Chelli Tampubolon, S.AP",BPS Kab. Toba,Analis SDM Aparatur / Pelayanan,https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=700&q=80

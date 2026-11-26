@@ -17,6 +17,41 @@ export function convertDriveUrl(url) {
 }
 
 // Fallback curated dataset matching BPS Sumatera Utara domain
+export const HEADER_ALIAS_MAP = {
+  title: ['title', 'judul', 'topik', 'tema', 'sesi', 'namasesi', 'namaworkshop', 'namaacara', 'materiutama'],
+  desc: ['desc', 'description', 'deskripsi', 'ringkasan', 'keterangan', 'detail', 'uraian'],
+  speaker: ['speaker', 'pemateri', 'narasumber', 'pembicara', 'namapemateri', 'namanarasumber', 'speakername', 'nama', 'name', 'wegoers'],
+  speakerRole: ['speakerrole', 'role', 'jabatan', 'peran', 'posisi', 'unitkerja', 'satkerpemateri'],
+  satker: ['satker', 'unitkerja', 'asalsatker', 'instansi', 'agency', 'kantor', 'lokasisatker', 'location', 'lokasi'],
+  date: ['date', 'tanggal', 'tgl', 'hari'],
+  time: ['time', 'waktu', 'jam', 'pukul'],
+  venue: ['venue', 'tempat', 'ruangan', 'platform'],
+  status: ['status', 'state', 'statuskegiatan'],
+  thumb: ['thumb', 'thumbnail', 'flyer', 'fotoflyer', 'poster', 'cover', 'banner', 'gambaran', 'fotoposter'],
+  image: ['image', 'foto', 'fotonarasumber', 'avatar', 'avatarurl', 'fotoprofil', 'profile', 'gambar', 'url', 'photourl', 'fotourl'],
+  presensiUrl: ['presensiurl', 'linkpresensi', 'presensi', 'daftarhadir', 'linkdaftarhadir', 'absen', 'absensi'],
+  zoomUrl: ['zoomurl', 'linkzoom', 'zoom', 'linkmeeting', 'meetinglink', 'linkwebinar'],
+  vbgUrl: ['vbgurl', 'linkvbg', 'virtualbackground', 'vbg', 'background'],
+  slideUrl: ['slideurl', 'linkslide', 'materi', 'slide', 'bahantayang', 'deckurl', 'ppt', 'deck', 'filemateri'],
+  videoUrl: ['videourl', 'linkrekaman', 'rekaman', 'video', 'youtube', 'recording', 'linkvideo', 'tautanvideo'],
+  type: ['type', 'jenis', 'kategori', 'tipe', 'tag'],
+  text: ['text', 'teks', 'pesan', 'aspirasi', 'usulan', 'isi', 'ringkasangagasan'],
+  action: ['action', 'aksi', 'tombol', 'cta', 'link', 'tautan']
+};
+
+const INVERTED_HEADER_LOOKUP = Object.entries(HEADER_ALIAS_MAP).reduce((acc, [canonical, aliases]) => {
+  aliases.forEach((alias) => {
+    acc[alias] = canonical;
+  });
+  return acc;
+}, {});
+
+export function normalizeHeader(header) {
+  if (!header || typeof header !== 'string') return header;
+  const clean = header.trim().toLowerCase().replace(/[\s_-]+/g, '');
+  return INVERTED_HEADER_LOOKUP[clean] || header.trim();
+}
+
 export const DEFAULT_DATA = {
   speakers: [
     {
@@ -216,14 +251,34 @@ export function parseGvizResponse(rawText) {
       if (typeof val === 'string' && val.includes('drive.google.com')) {
         val = convertDriveUrl(val);
       }
-      item[header] = val;
+      const canonicalKey = normalizeHeader(header);
+      item[canonicalKey] = val;
+      if (canonicalKey !== header) {
+        item[header] = val;
+      }
     });
+    // Ensure symmetric compatibility between alias properties
+    if (item.thumb && !item.image) item.image = item.thumb;
+    if (item.image && !item.thumb) item.thumb = item.image;
+    if (item.slideUrl && !item.deckUrl) item.deckUrl = item.slideUrl;
+    if (item.deckUrl && !item.slideUrl) item.slideUrl = item.deckUrl;
     return item;
   });
 }
 
 /**
- * Custom React hook to fetch live CMS data from Google Sheets with instant fallback.
+ * Fetches a single sheet tab by name via GViz API
+ */
+export async function fetchSheetTab(sheetId, tabName) {
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tabName)}&_t=${Date.now()}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP error ${res.status} fetching tab ${tabName}`);
+  const text = await res.text();
+  return parseGvizResponse(text);
+}
+
+/**
+ * Custom React hook to fetch live CMS data from Google Sheets across multiple tabs with instant fallback.
  */
 export function useWegoData(sheetId) {
   const [data, setData] = useState(DEFAULT_DATA);
@@ -237,25 +292,90 @@ export function useWegoData(sheetId) {
     async function loadData() {
       setLoading(true);
       try {
-        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        
-        const text = await res.text();
-        const records = parseGvizResponse(text);
+        const results = await Promise.allSettled([
+          fetchSheetTab(sheetId, 'Seminars'),
+          fetchSheetTab(sheetId, 'Speakers'),
+          fetchSheetTab(sheetId, 'CommunityAds'),
+          fetchSheetTab(sheetId, 'Gallery')
+        ]);
 
-        if (isMounted && records && records.length > 0) {
-          if (records[0].title && (records[0].thumb || records[0].image)) {
-            setData(prev => ({
-              ...prev,
-              seminars: records
-            }));
-          } else if (records[0].name && records[0].satker) {
-            setData(prev => ({
-              ...prev,
-              speakers: records
-            }));
+        if (!isMounted) return;
+
+        const updates = {};
+        const errors = [];
+
+        // Tab 0: Seminars
+        if (results[0].status === 'fulfilled' && Array.isArray(results[0].value) && results[0].value.length > 0) {
+          updates.seminars = results[0].value.map(sem => ({
+            ...sem,
+            thumb: sem.thumb || sem.image,
+            image: sem.image || sem.thumb,
+            status: sem.status ? String(sem.status).toLowerCase() : 'upcoming'
+          }));
+        } else if (results[0].status === 'rejected') {
+          errors.push(`Seminars: ${results[0].reason?.message || 'failed'}`);
+        }
+
+        // Tab 1: Speakers
+        if (results[1].status === 'fulfilled' && Array.isArray(results[1].value) && results[1].value.length > 0) {
+          updates.speakers = results[1].value.map(spk => ({
+            ...spk,
+            image: spk.image || spk.thumb
+          }));
+        } else if (results[1].status === 'rejected') {
+          errors.push(`Speakers: ${results[1].reason?.message || 'failed'}`);
+        }
+
+        // Tab 2: CommunityAds
+        if (results[2].status === 'fulfilled' && Array.isArray(results[2].value) && results[2].value.length > 0) {
+          updates.communityAds = results[2].value.map(ad => ({
+            type: ad.type || ad.kategori || 'Usulan Topik',
+            location: ad.location || ad.satker || 'BPS Sumut',
+            text: ad.text || ad.teks || '',
+            action: ad.action || ad.aksi || 'Dukung Topik →'
+          }));
+        } else if (results[2].status === 'rejected') {
+          errors.push(`CommunityAds: ${results[2].reason?.message || 'failed'}`);
+        }
+
+        // Tab 3: Gallery
+        if (results[3].status === 'fulfilled' && Array.isArray(results[3].value) && results[3].value.length > 0) {
+          const urls = results[3].value
+            .map(row => row.foto_url || row.image || row.thumb || row.url || Object.values(row).find(v => typeof v === 'string' && (v.startsWith('http') || v.includes('drive.google.com'))))
+            .filter(Boolean)
+            .map(convertDriveUrl);
+          if (urls.length > 0) {
+            updates.galleryPhotos = urls;
           }
+        } else if (results[3].status === 'rejected') {
+          errors.push(`Gallery: ${results[3].reason?.message || 'failed'}`);
+        }
+
+        // Fallback for single-tab legacy spreadsheets (if all 4 multi-tab requests failed)
+        if (Object.keys(updates).length === 0 && errors.length === 4) {
+          const fallbackUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+          const fallbackRes = await fetch(fallbackUrl);
+          if (fallbackRes.ok) {
+            const fallbackText = await fallbackRes.text();
+            const fallbackRecords = parseGvizResponse(fallbackText);
+            if (fallbackRecords.length > 0) {
+              if (fallbackRecords[0].title && (fallbackRecords[0].thumb || fallbackRecords[0].image)) {
+                updates.seminars = fallbackRecords;
+              } else if (fallbackRecords[0].name && fallbackRecords[0].satker) {
+                updates.speakers = fallbackRecords;
+              }
+            }
+          }
+        }
+
+        setData(prev => ({
+          ...prev,
+          ...updates
+        }));
+
+        if (errors.length > 0 && Object.keys(updates).length === 0) {
+          setError(errors.join('; '));
+        } else {
           setError(null);
         }
       } catch (err) {

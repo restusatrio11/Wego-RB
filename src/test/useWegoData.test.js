@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { parseGvizResponse, useWegoData, DEFAULT_DATA } from '../services/dataService';
+import { parseGvizResponse, normalizeHeader, useWegoData, DEFAULT_DATA } from '../services/dataService';
 
 describe('useWegoData & parseGvizResponse (GViz Data Pipeline Seam)', () => {
   beforeEach(() => {
@@ -192,6 +192,56 @@ describe('useWegoData & parseGvizResponse (GViz Data Pipeline Seam)', () => {
       expect(result.current.seminars[0].id).toBe('sem-99');
       expect(result.current.seminars[0].title).toBe('Otomasi Satu Data Indonesia');
       expect(result.current.seminars[0].thumb).toBe('https://drive.google.com/thumbnail?id=live-thumb-id&sz=w1200');
+    });
+
+    it('normalizes Indonesian public-sector headers to canonical entity properties', () => {
+      expect(normalizeHeader('Judul')).toBe('title');
+      expect(normalizeHeader('Topik')).toBe('title');
+      expect(normalizeHeader('Pemateri')).toBe('speaker');
+      expect(normalizeHeader('Narasumber')).toBe('speaker');
+      expect(normalizeHeader('Satker')).toBe('satker');
+      expect(normalizeHeader('Unit Kerja')).toBe('satker');
+      expect(normalizeHeader('Link Presensi')).toBe('presensiUrl');
+      expect(normalizeHeader('Link Zoom')).toBe('zoomUrl');
+      expect(normalizeHeader('Link VBG')).toBe('vbgUrl');
+      expect(normalizeHeader('Link Slide')).toBe('slideUrl');
+      expect(normalizeHeader('Foto Flyer')).toBe('thumb');
+    });
+
+    it('parses GViz payload containing Indonesian headers and maps them seamlessly', () => {
+      const indonesianGviz = `google.visualization.Query.setResponse({
+        "status": "ok",
+        "table": {
+          "cols": [
+            {"id": "A", "label": "id", "type": "string"},
+            {"id": "B", "label": "Judul", "type": "string"},
+            {"id": "C", "label": "Pemateri", "type": "string"},
+            {"id": "D", "label": "Unit Kerja", "type": "string"},
+            {"id": "E", "label": "Link Presensi", "type": "string"},
+            {"id": "F", "label": "Foto Flyer", "type": "string"}
+          ],
+          "rows": [
+            {
+              "c": [
+                {"v": "WEGO-ID-1"},
+                {"v": "Inovasi Pelayanan Statistik Desa Cantik"},
+                {"v": "Budi Santoso, SST"},
+                {"v": "BPS Kab. Karo"},
+                {"v": "https://s.bps.go.id/presensi-desa-cantik"},
+                {"v": "https://drive.google.com/file/d/flyer-karo-id/view"}
+              ]
+            }
+          ]
+        }
+      });`;
+
+      const result = parseGvizResponse(indonesianGviz);
+      expect(result).toHaveLength(1);
+      expect(result[0].title).toBe('Inovasi Pelayanan Statistik Desa Cantik');
+      expect(result[0].speaker).toBe('Budi Santoso, SST');
+      expect(result[0].satker).toBe('BPS Kab. Karo');
+      expect(result[0].presensiUrl).toBe('https://s.bps.go.id/presensi-desa-cantik');
+      expect(result[0].thumb).toBe('https://drive.google.com/thumbnail?id=flyer-karo-id&sz=w1200');
     });
   });
 });
