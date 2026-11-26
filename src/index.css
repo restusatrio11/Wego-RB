@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+}
+
+/* Custom Editorial Design Tokens */
+.btn-pill {
+  @apply rounded-full border border-neutral-300 px-5 py-2 text-xs font-medium text-neutral-800 transition-all hover:border-neutral-900 hover:text-black;
+}
+
+.location-tag {
+  @apply inline-block rounded-full border border-neutral-200 px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-neutral-500 font-medium;
+}
+
+.btn-arrow {
+  @apply w-7 h-7 rounded-full border border-neutral-300 flex items-center justify-center text-xs text-neutral-500 hover:border-neutral-900 hover:text-neutral-900 transition-colors;
+}
+
+.small-pill {
+  @apply inline-block rounded-full border border-neutral-900 px-3 py-0.5 text-[0.8em] font-sans;
+}
