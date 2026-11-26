@@ -16,6 +16,14 @@ _Avoid_: Pemateri umum, pembicara luar
 Satu episode seminar atau sharing knowledge tertentu yang mencakup topik, tanggal pelaksanaan, pemateri, dokumentasi materi, dan rekaman sesi.
 _Avoid_: Event, meeting
 
+**Kartu Sesi**:
+Representasi visual potrait vertikal (rasio poster) dari Sesi Wego pada Katalog Pembelajaran, memuat poster seminar, status kegiatan, judul topik, dan pemateri.
+_Avoid_: Banner horizontal, row list
+
+**Modal Detail Sesi**:
+Dialog modal interaktif yang muncul saat Kartu Sesi diklik, menyajikan rincian operasional lengkap: tanggal/waktu, lokasi/platform, tautan presensi, tautan virtual background, slide materi, dan tautan akses seminar atau rekaman.
+_Avoid_: Halaman baru, inline accordion
+
 **Kotak Gagasan**:
 Kanal partisipatif bagi pegawai BPS untuk mengajukan topik baru atau mendaftarkan diri secara sukarela menjadi pemateri sesi berikutnya.
 _Avoid_: Form kritik saran, kotak pengaduan
