@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import SeminarDetailModal from './SeminarDetailModal';
+import { handleDriveImageError } from '../services/dataService';
 
 export default function SessionsArchive({ 
   seminars = [], 
@@ -212,6 +213,8 @@ export default function SessionsArchive({
                       <img
                         src={flyerImage}
                         alt={item.title}
+                        referrerPolicy="no-referrer"
+                        onError={(e) => handleDriveImageError(e)}
                         className="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-500"
                         loading="lazy"
                       />

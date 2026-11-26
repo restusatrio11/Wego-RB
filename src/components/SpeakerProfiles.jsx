@@ -162,6 +162,7 @@ export default function SpeakerProfiles({ speakers = [] }) {
                 <img 
                   src={spk.image} 
                   alt={spk.name} 
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-300 pointer-events-none"
                   loading="lazy"
                 />

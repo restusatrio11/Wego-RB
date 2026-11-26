@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { handleDriveImageError } from '../services/dataService';
 
 export default function SeminarDetailModal({ isOpen, seminar, onClose, onOpenFeedback }) {
   useEffect(() => {
@@ -48,6 +49,8 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose, onOpenFee
             <img 
               src={flyerImage} 
               alt={seminar.title}
+              referrerPolicy="no-referrer"
+              onError={(e) => handleDriveImageError(e)}
               className="w-full h-full object-cover object-center"
             />
             <div className="absolute top-4 left-4">

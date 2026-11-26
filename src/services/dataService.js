@@ -16,6 +16,32 @@ export function convertDriveUrl(url) {
   return url;
 }
 
+/**
+ * Robust error handler for Google Drive images:
+ * If the primary drive.google.com/thumbnail endpoint fails or is throttled,
+ * automatically retries with lh3.googleusercontent.com CDN before falling back to default placeholder.
+ */
+export function handleDriveImageError(e, fallbackUrl = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80') {
+  if (!e || !e.currentTarget) return;
+  const currentSrc = e.currentTarget.src || '';
+  if (currentSrc.includes('drive.google.com/thumbnail')) {
+    const idMatch = currentSrc.match(/id=([a-zA-Z0-9_-]+)/);
+    if (idMatch && idMatch[1]) {
+      e.currentTarget.src = `https://lh3.googleusercontent.com/d/${idMatch[1]}=w1200`;
+      return;
+    }
+  } else if (currentSrc.includes('googleusercontent.com')) {
+    const idMatch = currentSrc.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (idMatch && idMatch[1]) {
+      e.currentTarget.src = `https://drive.usercontent.google.com/download?id=${idMatch[1]}`;
+      return;
+    }
+  }
+  if (fallbackUrl && currentSrc !== fallbackUrl) {
+    e.currentTarget.src = fallbackUrl;
+  }
+}
+
 // Fallback curated dataset matching BPS Sumatera Utara domain
 export const HEADER_ALIAS_MAP = {
   title: ['title', 'judul', 'topik', 'tema', 'sesi', 'namasesi', 'namaworkshop', 'namaacara', 'materiutama'],
@@ -339,12 +365,14 @@ export function useWegoData(sheetId) {
 
         // Tab 0: Seminars
         if (results[0].status === 'fulfilled' && Array.isArray(results[0].value) && results[0].value.length > 0) {
-          updates.seminars = results[0].value.map(sem => ({
-            ...sem,
-            thumb: sem.thumb || sem.image,
-            image: sem.image || sem.thumb,
-            status: sem.status ? String(sem.status).toLowerCase() : 'upcoming'
-          }));
+          updates.seminars = results[0].value
+            .filter(sem => sem && (sem.title || sem.judul || sem.name))
+            .map(sem => ({
+              ...sem,
+              thumb: sem.thumb || sem.image,
+              image: sem.image || sem.thumb,
+              status: sem.status ? String(sem.status).toLowerCase() : 'upcoming'
+            }));
         } else if (results[0].status === 'rejected') {
           errors.push(`Seminars: ${results[0].reason?.message || 'failed'}`);
         }

@@ -40,7 +40,7 @@ export default function HeroCover() {
       <div className="hero-parallax-container absolute -top-[12%] left-0 right-0 h-[124%] w-full">
         <img 
           ref={imgRef}
-          src="./bgwegohero.jpg" 
+          src="./bgwegohero.png" 
           alt="Wego BPS Sumatera Utara"
           className="w-full h-full object-cover object-center  contrast-[1.05]"
         />

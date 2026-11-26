@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { handleDriveImageError } from '../services/dataService';
 
 const SCORE_LABELS = {
   1: 'Kurang Memuaskan',
@@ -146,6 +147,8 @@ export default function SubmissionModal({
                     <img 
                       src={activeSeminar.thumb || activeSeminar.image} 
                       alt={activeSeminar.title} 
+                      referrerPolicy="no-referrer"
+                      onError={(e) => handleDriveImageError(e)}
                       className="w-12 h-16 rounded-xl object-cover shrink-0 border border-neutral-200 shadow-2xs" 
                     />
                   ) : (

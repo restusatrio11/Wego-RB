@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SeminarDetailModal from './SeminarDetailModal';
+import { handleDriveImageError } from '../services/dataService';
 
 export default function SeminarCatalog({ seminars = [], onOpenFeedback }) {
   const [selectedSeminar, setSelectedSeminar] = useState(null);
@@ -54,6 +55,8 @@ export default function SeminarCatalog({ seminars = [], onOpenFeedback }) {
                   <img 
                     src={flyerImage} 
                     alt={item.title} 
+                    referrerPolicy="no-referrer"
+                    onError={(e) => handleDriveImageError(e)}
                     className="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
