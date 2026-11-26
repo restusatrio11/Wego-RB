@@ -37,17 +37,12 @@ Landing page ini mengadopsi estetika editorial bergaya **`ilovecreatives`** (ses
 - **Sans-Serif Body**: `"Plus Jakarta Sans", sans-serif` (Google Fonts) — Digunakan untuk teks body, deskripsi seminar, dan navigasi (bobot 400, 500, 600, 700).
 - **Monospace Accent**: `"Space Mono", monospace` (Google Fonts) — Digunakan untuk pill badges, status episode, tanggal, dan running marquee ticker (bobot 400 dan 700).
 
-### 2.2 Color Tokens & Tailwind Extension
-- **Editorial Warm Cream (`#FBF8F3`)**: Latar belakang utama seluruh halaman majalah web.
-- **High-Contrast Text (`#121212`)**: Teks hitam pekat tegas untuk kontras maksimal.
-- **Secondary Card Background (`#F4EFE6`)**: Warna latar belakang section bergantian.
-- **BPS Pastel Accents**:
-  - `bps-blue` (`#0284C7`) & `bps-pastelBlue` (`#DDF4FF`): Tag kategori Teknologi & Data Science.
-  - `bps-orange` (`#EA580C`) & `bps-pastelOrange` (`#FFE9D5`): Tag kategori Reformasi Birokrasi & ZI.
-  - `bps-green` (`#16A34A`) & `bps-pastelGreen` (`#E3FBE3`): Tag kategori Statistik Sektoral.
-  - `bps-pastelPurple` (`#F3E8FF`): Tag kategori Visualisasi & Softskills.
-  - `bps-yellow` (`#FACC15`): Simbol asterisk dan highlight teks running ticker.
-- **Border & Hard Drop Shadow**: Garis pembatas tegas 1px/2px hitam dengan bayangan retro 4px (`shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`).
+### 2.2 Color Tokens & Editorial Styling
+- **Latar Belakang Bersih (`#FFFFFF` & `#FBFBFA`)**: Latar belakang putih bersih dan abu-abu sangat muda yang lapang dan elegan, menghindari kesan kaku atau tebal.
+- **Tipografi Hitam Pekat (`#111111`)**: Teks hitam dengan kontras tinggi yang mudah dibaca.
+- **Warna Aksen Halus**: Palet netral abu-abu lembut (`#767672`) untuk teks keterangan sekunder dan border halus (`#E8E8E4`).
+- **Garis & Sudut Halus**: Sudut membulat lembut (`rounded-2xl`, `rounded-3xl`, `rounded-full`), garis border tipis 1px abu-abu netral, tanpa bayangan hitam tebal (non-brutalism).
+- **Bebas Emoticon**: Menggunakan teks murni dan tipografi editorial berkualitas tinggi tanpa ikon emoji/emoticon yang berlebihan.
 
 ---
 
