@@ -1,11 +1,7 @@
-import React, { createContext, useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-export const SmoothScrollContext = createContext({ lenis: null });
-
-export const useSmoothScroll = () => useContext(SmoothScrollContext);
 
 export default function SmoothScrollProvider({ children }) {
   const lenisRef = useRef(null);
@@ -64,9 +60,5 @@ export default function SmoothScrollProvider({ children }) {
     }
   }, []);
 
-  return (
-    <SmoothScrollContext.Provider value={{ lenis: lenisRef.current }}>
-      {children}
-    </SmoothScrollContext.Provider>
-  );
+  return <>{children}</>;
 }
