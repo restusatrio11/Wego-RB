@@ -13,6 +13,7 @@ import SocialGallery from './components/SocialGallery';
 import Footer from './components/Footer';
 import SubmissionModal from './components/SubmissionModal';
 import SessionsArchive from './components/SessionsArchive';
+import SplashScreen from './components/SplashScreen';
 import { useWegoData } from './services/dataService';
 
 export default function App() {
@@ -121,6 +122,15 @@ export default function App() {
         initialSession={modalConfig.session}
         selectedSeminar={modalConfig.selectedSeminar}
       />
+
+      {/* Editorial Monochrome Splash Screen (plays once per session) */}
+      <SplashScreen onComplete={() => {
+        try {
+          ScrollTrigger.refresh();
+        } catch (e) {
+          // safe in test/headless
+        }
+      }} />
     </SmoothScrollProvider>
   );
 }

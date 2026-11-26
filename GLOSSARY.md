@@ -31,3 +31,7 @@ _Avoid_: Halaman baru, inline accordion
 **Kotak Gagasan**:
 Kanal partisipatif bagi pegawai BPS untuk mengajukan topik baru atau mendaftarkan diri secara sukarela menjadi pemateri sesi berikutnya.
 _Avoid_: Form kritik saran, kotak pengaduan
+
+**Layar Pembuka (Splash Screen)**:
+Tampilan pembuka editorial monokromatik berdurasi singkat (~1.8 detik) saat awal pengguna mengakses situs dalam satu sesi penjelajahan (`sessionStorage`), menampilkan monogram `wego`, lambang resmi, dan identitas program sebelum transisi halus menyingkapkan halaman utama.
+_Avoid_: Loading spinner statis biasa, preloader kaku yang memblokir navigasi berulang
