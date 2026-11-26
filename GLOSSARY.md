@@ -35,3 +35,7 @@ _Avoid_: Form kritik saran, kotak pengaduan
 **Layar Pembuka (Splash Screen)**:
 Tampilan pembuka editorial monokromatik berdurasi singkat (~1.8 detik) saat awal pengguna mengakses situs dalam satu sesi penjelajahan (`sessionStorage`), menampilkan monogram `wego`, lambang resmi, dan identitas program sebelum transisi halus menyingkapkan halaman utama.
 _Avoid_: Loading spinner statis biasa, preloader kaku yang memblokir navigasi berulang
+
+**Sampul Utama (Hero Cover)**:
+Area visual pembuka di bagian paling atas beranda yang memadukan latar fotografi suasana seminar berskala besar (*cinematic auditorium/conference*) dengan monogram raksasa `wego`, identitas BPS Provinsi Sumatera Utara, dan efek kedalaman gerak paralaks.
+_Avoid_: Banner carousel slider bergerak, header teks polos tanpa latar pembangun atmosfer

@@ -12,11 +12,19 @@ describe('HeroCover Component (Depth Parallax & Display Seam)', () => {
     expect(screen.getByText(/Ruang bertukar pikiran serta peningkatan kompetensi/i)).toBeInTheDocument();
   });
 
-  it('renders parallax image wrapper with vertical bleed container', () => {
+  it('renders parallax image wrapper with vertical bleed container, webp source, and contrast overlays', () => {
     const { container } = render(<HeroCover />);
 
     const heroImg = container.querySelector('img[alt="Wego BPS Sumatera Utara"]');
     expect(heroImg).toBeInTheDocument();
     expect(heroImg.closest('.hero-parallax-container')).toBeInTheDocument();
+
+    const webpSource = container.querySelector('source[srcset="/bg-hero-seminar.webp"]');
+    expect(webpSource).toBeInTheDocument();
+    expect(webpSource).toHaveAttribute('type', 'image/webp');
+
+    // Dual-gradient contrast shields for WCAG readability
+    const overlays = container.querySelectorAll('.hero-parallax-container > div[aria-hidden="true"]');
+    expect(overlays.length).toBeGreaterThanOrEqual(2);
   });
 });
