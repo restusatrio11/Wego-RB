@@ -10,9 +10,9 @@ export default function Navbar() {
             alt="Logo WEGOSID!" 
             className="h-7 md:h-8 w-auto object-contain brightness-110 drop-shadow-xs group-hover:opacity-90 transition-opacity" 
           />
-          <span className="font-display italic text-lg tracking-tight font-bold hidden sm:inline">
+          {/* <span className="font-display italic text-lg tracking-tight font-bold hidden sm:inline">
             wego.rb
-          </span>
+          </span> */}
         </a>
         <nav className="hidden md:flex items-center gap-6 text-white/80 text-[13px]">
           <a href="#seminar" className="hover:text-white transition-colors">Sesi Seminar</a>

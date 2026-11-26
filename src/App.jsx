@@ -96,14 +96,15 @@ export default function App() {
 
           {/* 9. Footer & Newsletter */}
           <Footer onOpenModal={() => setModalOpen(true)} />
-
-          {/* 10. Interactive Submission Modal */}
-          <SubmissionModal 
-            isOpen={modalOpen} 
-            onClose={() => setModalOpen(false)} 
-          />
         </div>
       )}
+
+      {/* Global Interactive Submission & Feedback Modal */}
+      <SubmissionModal 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        seminars={seminars}
+      />
     </SmoothScrollProvider>
   );
 }

@@ -133,3 +133,31 @@ Seluruh aset gambar (poster flyer, foto narasumber, virtual background, slide PP
      ```
      VITE_GOOGLE_SHEETS_ID=1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms
      ```
+
+
+---
+
+## 5. Cara Menghubungkan Form Usulan & Skor Penilaian Acara ke Spreadsheet
+
+Agar data dari tombol **"Pasang Usulan Anda"** dan form **"Evaluasi & Feedback Sesi Seminar"** di website langsung otomatis tersimpan ke tab spreadsheet baru tanpa perlu database server:
+
+1. Buka spreadsheet Wego-RB Anda di browser.
+2. Klik menu **Ekstensi (Extensions)** > pilih **Apps Script**.
+3. Hapus kode bawaan yang ada, lalu salin (*copy-paste*) kode skrip siap pakai dari file:
+   [docs/sheets-template/apps-script.js](file:///D:/Pekerjaan%20BPS1200/Tim%20Inovasi/Website/LandingPage/Wego-RB/docs/sheets-template/apps-script.js).
+4. Klik tombol **Simpan (Save)** (ikon disket atau `Ctrl + S`).
+5. Klik tombol biru **Terapkan (Deploy)** di pojok kanan atas > pilih **Penerapan baru (New deployment)**.
+6. Klik ikon roda gigi di sebelah kiri judul > pilih tipe **Aplikasi Web (Web app)**.
+7. Atur konfigurasi:
+   - **Deskripsi**: `Wego-RB Form & Feedback Webhook`
+   - **Jalankan sebagai (Execute as)**: `Saya (email akun Anda)`
+   - **Yang memiliki akses (Who has access)**: **`Siapa saja (Anyone)`** *(PENTING: agar pengunjung website dapat mengirim form tanpa login Google)*.
+8. Klik tombol **Terapkan (Deploy)**. Jika muncul permintaan izin akses akun Google, klik *Review permissions* > pilih akun Anda > klik *Advanced* > klik *Go to Wego-RB (unsafe)* > klik *Allow*.
+9. Salin tautan **URL Aplikasi Web (Web app URL)** yang dihasilkan (berawalan `https://script.google.com/macros/s/.../exec`).
+10. Masukkan URL tersebut ke file `.env` website:
+    ```bash
+    VITE_SUBMISSION_WEBHOOK_URL=https://script.google.com/macros/s/AKfycb.../exec
+    ```
+
+> [!NOTE]
+> Begitu ada usulan atau feedback masuk, skrip otomatis membuat tab baru **`Feedback_Sesi`** (untuk skor bintang 1–5 dan ulasan seminar) dan **`Submissions`** (untuk usulan gagasan dan pendaftaran narasumber) secara otomatis lengkap dengan baris header tebal!

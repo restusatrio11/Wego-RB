@@ -82,7 +82,7 @@ export default function SessionsArchive({
             className="h-6 md:h-7 w-auto object-contain" 
           />
           <span className="font-bodoni text-2xl lowercase tracking-tighter text-black">
-            wegoberbagi
+            wego
           </span>
         </a>
       </nav>

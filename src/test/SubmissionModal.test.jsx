@@ -69,4 +69,22 @@ describe('SubmissionModal Component (User Interaction Seam)', () => {
     expect(handleClose).toHaveBeenCalledTimes(1);
     vi.useRealTimers();
   });
+
+  it('renders session select and interactive star rating when choosing Evaluasi Sesi Seminar', () => {
+    const mockSeminars = [
+      { id: 'sem-1', title: 'Web Scraping Harga Pangan', speaker: 'Lexie Siregar' }
+    ];
+    render(<SubmissionModal isOpen={true} onClose={vi.fn()} seminars={mockSeminars} />);
+
+    const selectCategory = screen.getByRole('combobox');
+    fireEvent.change(selectCategory, { target: { value: 'Evaluasi & Feedback Sesi Seminar' } });
+
+    expect(screen.getByText(/Pilih Sesi yang Dinilai/i)).toBeInTheDocument();
+    expect(screen.getByText(/Skor Penilaian Acara/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Beri skor 5 dari 5/i)).toBeInTheDocument();
+
+    const star4 = screen.getByLabelText(/Beri skor 4 dari 5/i);
+    fireEvent.click(star4);
+    expect(screen.getByText(/4 \/ 5/i)).toBeInTheDocument();
+  });
 });
