@@ -12,7 +12,7 @@ describe('App Full-Page Landmark & Navigation Integration (Highest Seam)', () =>
     expect(screen.getByText(/Wadah Edukasi dan Gagasan Optimal • BPS Sumatera Utara/i)).toBeInTheDocument();
 
     // 2. Statement Headline
-    expect(screen.getByRole('heading', { level: 2, name: /Untuk insan statistik/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: /Untuk Pegawai BPS/i })).toBeInTheDocument();
 
     // 3. Profiles (Wegoers)
     expect(screen.getByText(/Profil Narasumber/i)).toBeInTheDocument();
