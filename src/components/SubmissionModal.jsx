@@ -149,7 +149,7 @@ export default function SubmissionModal({
                       alt={activeSeminar.title} 
                       referrerPolicy="no-referrer"
                       onError={(e) => handleDriveImageError(e)}
-                      className="w-12 h-16 rounded-xl object-cover shrink-0 border border-neutral-200 shadow-2xs" 
+                      className="w-12 h-16 rounded-xl object-contain bg-neutral-100 shrink-0 border border-neutral-200 shadow-2xs" 
                     />
                   ) : (
                     <div className="w-12 h-16 rounded-xl bg-neutral-200 flex items-center justify-center text-xs font-bold shrink-0">

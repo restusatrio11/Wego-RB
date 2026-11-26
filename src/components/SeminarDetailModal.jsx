@@ -33,31 +33,41 @@ export default function SeminarDetailModal({ isOpen, seminar, onClose, onOpenFee
       }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs animate-fade-in overflow-y-auto"
     >
-      <div className="bg-white rounded-3xl max-w-3xl w-full my-auto overflow-hidden relative shadow-2xl border border-neutral-200">
+      <div className="bg-white rounded-3xl max-w-4xl w-full my-auto overflow-hidden relative shadow-2xl border border-neutral-200">
         {/* Close Button */}
         <button 
           onClick={onClose}
           aria-label="Tutup Detail"
-          className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-white/90 border border-neutral-200 flex items-center justify-center text-neutral-500 hover:text-black hover:border-black transition-colors"
+          className="absolute top-4 right-4 z-30 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs border border-neutral-200 flex items-center justify-center text-neutral-500 hover:text-black hover:border-black transition-colors shadow-2xs"
         >
           ✕
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 max-h-[85vh] overflow-y-auto">
-          {/* Left Column: Portrait Flyer Poster */}
-          <div className="md:col-span-5 bg-neutral-100 relative min-h-[260px] md:min-h-full">
-            <img 
-              src={flyerImage} 
-              alt={seminar.title}
-              referrerPolicy="no-referrer"
-              onError={(e) => handleDriveImageError(e)}
-              className="w-full h-full object-cover object-center"
+        <div className="grid grid-cols-1 md:grid-cols-12 max-h-[88vh] overflow-y-auto">
+          {/* Left Column: Portrait Flyer Poster (Fully Visible, Never Cropped) */}
+          <div className="md:col-span-5 bg-neutral-900/5 relative min-h-[300px] md:min-h-full flex items-center justify-center p-3 sm:p-5 overflow-hidden border-b md:border-b-0 md:border-r border-neutral-100">
+            {/* Ambient subtle blur of the poster for seamless framing */}
+            <div 
+              className="absolute inset-0 bg-cover bg-center filter blur-2xl opacity-20 scale-110 pointer-events-none"
+              style={{ backgroundImage: `url(${flyerImage})` }}
             />
-            <div className="absolute top-4 left-4">
-              <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+            
+            {/* Full Poster with object-contain */}
+            <div className="relative z-10 w-full flex flex-col items-center justify-center">
+              <img 
+                src={flyerImage} 
+                alt={seminar.title}
+                referrerPolicy="no-referrer"
+                onError={(e) => handleDriveImageError(e)}
+                className="w-full h-auto max-h-[50vh] md:max-h-[70vh] object-contain rounded-2xl shadow-md border border-neutral-200/60"
+              />
+            </div>
+
+            <div className="absolute top-4 left-4 z-20">
+              <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-2xs ${
                 isUpcoming 
                   ? 'bg-neutral-900 text-white' 
-                  : 'bg-white/90 text-neutral-700 border border-neutral-200'
+                  : 'bg-white/95 text-neutral-700 border border-neutral-200'
               }`}>
                 {isUpcoming ? 'Akan Datang' : 'Selesai'}
               </span>
