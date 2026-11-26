@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wego-RB — Prototype UI & Design Tokens</title>
+  
+  <!-- Google Fonts: Playfair Display + Plus Jakarta Sans + Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            editorial: {
+              bg: '#FBF8F3',
+              card: '#F4EFE6',
+              text: '#121212',
+              muted: '#66635D',
+              border: '#222222',
+              accent: '#EAE3D6',
+            },
+            bps: {
+              blue: '#0284C7',
+              navy: '#0C4A6E',
+              orange: '#EA580C',
+              green: '#16A34A',
+              yellow: '#FACC15',
+              pastelBlue: '#DDF4FF',
+              pastelOrange: '#FFE9D5',
+              pastelGreen: '#E3FBE3',
+              pastelPurple: '#F3E8FF',
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"Space Mono"', 'monospace'],
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            }
+          },
+          animation: {
+            marquee: 'marquee 25s linear infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React 18 & Babel Standalone -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      background-color: #FBF8F3;
+      color: #121212;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    .editorial-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      border: 1px solid #121212;
+      border-radius: 9999px;
+      padding: 0.15rem 0.65rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: white;
+    }
+    .editorial-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #121212;
+      border-radius: 9999px;
+      padding: 0.35rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      transition: all 0.15s ease;
+      background: white;
+      cursor: pointer;
+    }
+    .editorial-pill-btn:hover {
+      background: #121212;
+      color: white;
+    }
+    .editorial-pill-btn-dark {
+      background: #121212;
+      color: white;
+    }
+    .editorial-pill-btn-dark:hover {
+      background: #333333;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // --- Mock Data ---
+    const speakersData = [
+      {
+        id: "spk-1",
+        name: "Hafiz Siregar, S.Tr.Stat",
+        satker: "BPS Prov. Sumut",
+        role: "Data Scientist / IPDS",
+        quote: "Data tanpa visualisasi ibarat kopi tanpa gula: pahit diinterpretasi.",
+        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "spk-2",
+        name: "Novi Triastuti, M.Si",
+        satker: "BPS Kota Medan",
+        role: "Statistisi Ahli Muda",
+        quote: "Reformasi birokrasi dimulai dari perbaikan proses kerja harian terkecil.",
+        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "spk-3",
+        name: "Rizky Pratama, S.Si",
+        satker: "BPS Kab. Deli Serdang",
+        role: "Pranata Komputer",
+        quote: "Otomasi skrip Python menyelamatkan 20 jam kerja lembur mingguan.",
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: "spk-4",
+        name: "Dewi Lestari, S.E",
+        satker: "BPS Kab. Toba",
+        role: "Analis SDM Aparatur",
+        quote: "Zona Integritas bukan piagam di dinding, tapi komitmen pelayanan hati.",
+        image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+      }
+    ];
+
+    const upcomingSeminar = {
+      id: "sem-upcoming",
+      title: "Pemanfaatan Web Scraping & Machine Learning untuk Statistik Harga Pangan",
+      date: "Jumat, 5 Desember 2026",
+      time: "09:00 - 11:30 WIB",
+      category: "Teknologi & Big Data",
+      categoryColor: "bg-bps-pastelBlue text-bps-navy",
+      speaker: speakersData[0],
+      zoomUrl: "https://zoom.us/j/sample-wego",
+      description: "Mempelajari teknik ekstraksi data harga pangan harian dari marketplace dan portal berita menggunakan Python & BeautifulSoup untuk validasi angka inflasi daerah."
+    };
+
+    const pastSeminars = [
+      {
+        id: "sem-10",
+        title: "Strategi Sukses Membangun Zona Integritas Menuju WBK/WBBM",
+        date: "14 November 2026",
+        category: "Reformasi Birokrasi",
+        categoryColor: "bg-bps-pastelOrange text-bps-orange",
+        speaker: "Novi Triastuti, M.Si",
+        deckUrl: "https://drive.google.com",
+        videoUrl: "https://youtube.com",
+        thumb: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "sem-09",
+        title: "Data Storytelling: Mengubah Tabel Statistik Menjadi Infografis Viral",
+        date: "28 Oktober 2026",
+        category: "Visualisasi & Komunikasi",
+        categoryColor: "bg-bps-pastelPurple text-purple-900",
+        speaker: "Hafiz Siregar, S.Tr.Stat",
+        deckUrl: "https://drive.google.com",
+        videoUrl: "https://youtube.com",
+        thumb: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "sem-08",
+        title: "Pembuatan Dashboard Interaktif Berbasis Streamlit & DuckDB",
+        date: "10 Oktober 2026",
+        category: "Teknologi & Big Data",
+        categoryColor: "bg-bps-pastelBlue text-bps-navy",
+        speaker: "Rizky Pratama, S.Si",
+        deckUrl: "https://drive.google.com",
+        videoUrl: "https://youtube.com",
+        thumb: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80"
+      }
+    ];
+
+    // --- Component: Global Top Header ---
+    function Header() {
+      return (
+        <header className="border-b border-black py-4 px-6 md:px-12 flex justify-between items-center bg-[#FBF8F3] sticky top-0 z-40">
+          <div className="flex items-center gap-3">
+            <span className="font-serif text-3xl font-black tracking-tight">wego<span className="italic font-normal text-bps-orange">.rb</span></span>
+            <span className="editorial-badge bg-bps-pastelOrange text-bps-orange">BPS SUMUT</span>
+          </div>
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="#speakers" className="hover:underline">Wegoers</a>
+            <a href="#seminars" className="hover:underline">Arsip Seminar</a>
+            <a href="#gagasan" className="hover:underline">Kotak Gagasan</a>
+            <a href="#about" className="hover:underline">Tentang RB</a>
+          </nav>
+          <div>
+            <a href="#gagasan" className="editorial-pill-btn editorial-pill-btn-dark">
+              Ajukan Topik ✹
+            </a>
+          </div>
+        </header>
+      );
+    }
+
+    // --- Component: Ticker Tape Marquee ---
+    function Marquee() {
+      return (
+        <div className="border-y border-black bg-black text-white py-2.5 overflow-hidden whitespace-nowrap flex">
+          <div className="flex gap-8 animate-marquee items-center font-mono text-xs tracking-wider">
+            <span>✹ WEGO BPS PROVINSI SUMATERA UTARA</span>
+            <span className="text-bps-yellow">•</span>
+            <span>WADAH EDUKASI & GAGASAN ORANG BPS</span>
+            <span className="text-bps-yellow">•</span>
+            <span>EPISODE 11: JUMAT, 5 DESEMBER 2026</span>
+            <span className="text-bps-yellow">•</span>
+            <span>35+ SESI TELAH TERLAKSANA</span>
+            <span className="text-bps-yellow">•</span>
+            <span>BUDAYA REFORMASI BIROKRASI & ZONA INTEGRITAS</span>
+            <span className="text-bps-yellow">•</span>
+            <span>KAMI BERBAGI KAMI BERKEMBANG</span>
+            <span className="text-bps-yellow">•</span>
+            <span>✹ WEGO BPS PROVINSI SUMATERA UTARA</span>
+            <span className="text-bps-yellow">•</span>
+            <span>WADAH EDUKASI & GAGASAN ORANG BPS</span>
+            <span className="text-bps-yellow">•</span>
+            <span>EPISODE 11: JUMAT, 5 DESEMBER 2026</span>
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // VARIANT A: Pure Editorial Magazine (1:1 ilovecreatives)
+    // ==========================================
+    function VariantA() {
+      return (
+        <div className="pb-28">
+          {/* Hero Section */}
+          <section className="px-6 md:px-12 py-12 md:py-20 max-w-7xl mx-auto">
+            <div className="flex flex-col lg:flex-row gap-12 items-start">
+              <div className="flex-1">
+                <div className="mb-4">
+                  <span className="editorial-badge bg-white">INSAN STATISTIK SUMUT ✦</span>
+                </div>
+                <h1 className="font-serif text-5xl md:text-7xl font-normal leading-[1.08] tracking-tight text-editorial-text mb-8">
+                  Ruang berbagi <span className="italic font-light">insight</span> & gagasan inovatif bagi <span className="inline-block px-3 py-1 bg-bps-pastelBlue border border-black rounded-full font-mono text-xl md:text-2xl not-italic align-middle">para wegoers</span> di penjuru Sumatera Utara.
+                </h1>
+                <p className="text-editorial-muted text-lg max-w-xl mb-8 leading-relaxed">
+                  Bukan webinar biasa. Wego adalah forum santai namun berdampak untuk menularkan keahlian teknologi, metodologi statistik, dan semangat Reformasi Birokrasi dari kita untuk kita.
+                </p>
+                <div className="flex flex-wrap gap-4 items-center">
+                  <a href="#seminars" className="editorial-pill-btn editorial-pill-btn-dark text-sm px-6 py-2.5">
+                    Jelajahi Arsip Seminar 👁️
+                  </a>
+                  <a href="#gagasan" className="editorial-pill-btn text-sm px-6 py-2.5">
+                    Daftar Jadi Pemateri ✍️
+                  </a>
+                </div>
+              </div>
+
+              {/* Upcoming Spotlight Card in Hero */}
+              <div className="w-full lg:w-96 border border-black bg-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="editorial-badge bg-bps-yellow text-black font-bold">NEXT UP ✹</span>
+                  <span className="font-mono text-xs">{upcomingSeminar.date}</span>
+                </div>
+                <h3 className="font-serif text-xl font-bold mb-3 leading-snug">
+                  {upcomingSeminar.title}
+                </h3>
+                <p className="text-sm text-editorial-muted mb-4 line-clamp-3">
+                  {upcomingSeminar.description}
+                </p>
+                <div className="border-t border-black/10 pt-4 flex items-center gap-3 mb-6">
+                  <img src={upcomingSeminar.speaker.image} alt={upcomingSeminar.speaker.name} className="w-12 h-12 rounded-full object-cover border border-black grayscale" />
+                  <div>
+                    <div className="font-bold text-sm">{upcomingSeminar.speaker.name}</div>
+                    <div className="text-xs text-editorial-muted">{upcomingSeminar.speaker.satker}</div>
+                  </div>
+                </div>
+                <a href={upcomingSeminar.zoomUrl} target="_blank" className="block text-center w-full editorial-pill-btn editorial-pill-btn-dark py-2">
+                  Daftar & Pasang Pengingat 📅
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <Marquee />
+
+          {/* Section: Wegoers Profiles (Mirip Creative Profiles) */}
+          <section id="speakers" className="px-6 md:px-12 py-16 max-w-7xl mx-auto">
+            <div className="flex justify-between items-baseline mb-8 border-b border-black pb-4">
+              <div>
+                <span className="font-mono text-xs uppercase tracking-wider text-editorial-muted">Profil Pemateri</span>
+                <h2 className="font-serif text-3xl md:text-4xl font-normal mt-1">Wegoers Hall of Fame <span className="font-sans text-xl">👀</span></h2>
+              </div>
+              <span className="font-mono text-xs">Total: 42+ Rekan BPS</span>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {speakersData.map(spk => (
+                <div key={spk.id} className="group border border-black bg-white p-3 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all">
+                  <div className="aspect-[4/5] overflow-hidden bg-gray-200 border border-black mb-3">
+                    <img src={spk.image} alt={spk.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                  </div>
+                  <div className="flex gap-1 mb-1">
+                    <span className="editorial-badge text-[9px] px-1.5 py-0">{spk.satker}</span>
+                  </div>
+                  <h4 className="font-serif font-bold text-sm leading-snug">{spk.name}</h4>
+                  <p className="text-xs text-editorial-muted mb-2">{spk.role}</p>
+                  <p className="text-[11px] italic font-serif text-gray-700 border-t border-black/10 pt-2 line-clamp-2">
+                    "{spk.quote}"
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Section: Seminar Archive (Mirip Edutainment Courses) */}
+          <section id="seminars" className="px-6 md:px-12 py-16 bg-[#F4EFE6] border-y border-black">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex justify-between items-baseline mb-8 border-b border-black pb-4">
+                <div>
+                  <span className="font-mono text-xs uppercase tracking-wider text-editorial-muted">Katalog Rekaman & Slide</span>
+                  <h2 className="font-serif text-3xl md:text-4xl font-normal mt-1">Sesi Wego yang Telah Lewat ✦</h2>
+                </div>
+                <div className="flex gap-2">
+                  <button className="editorial-pill-btn text-xs active">Semua</button>
+                  <button className="editorial-pill-btn text-xs">Teknologi</button>
+                  <button className="editorial-pill-btn text-xs">RB & ZI</button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {pastSeminars.map(sem => (
+                  <div key={sem.id} className="border border-black bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
+                    <div>
+                      <div className="aspect-video bg-gray-100 border border-black mb-4 overflow-hidden">
+                        <img src={sem.thumb} alt={sem.title} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className={`editorial-badge ${sem.categoryColor}`}>{sem.category}</span>
+                        <span className="font-mono text-[11px] text-editorial-muted">{sem.date}</span>
+                      </div>
+                      <h3 className="font-serif text-lg font-bold leading-snug mb-2">{sem.title}</h3>
+                      <p className="text-xs text-editorial-muted mb-6">Pemateri: <span className="font-medium text-black">{sem.speaker}</span></p>
+                    </div>
+
+                    <div className="flex gap-2 pt-4 border-t border-black/10">
+                      <a href={sem.videoUrl} target="_blank" className="flex-1 text-center editorial-pill-btn text-xs">
+                        Tonton Sesi 📺
+                      </a>
+                      <a href={sem.deckUrl} target="_blank" className="flex-1 text-center editorial-pill-btn editorial-pill-btn-dark text-xs">
+                        Unduh Slide 💾
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Section: Kotak Gagasan (Mirip Community Ads / Classifieds) */}
+          <section id="gagasan" className="px-6 md:px-12 py-16 max-w-7xl mx-auto">
+            <div className="border-2 border-black p-8 md:p-12 bg-white relative">
+              <div className="absolute -top-3 left-8 bg-black text-white font-mono text-xs px-3 py-0.5">
+                KOTAK GAGASAN BPS SUMUT
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <h3 className="font-serif text-3xl md:text-4xl font-normal leading-tight mb-4">
+                    Punya ide baru atau keahlian yang ingin dibagikan ke rekan sekantor?
+                  </h3>
+                  <p className="text-editorial-muted text-sm leading-relaxed mb-6">
+                    Wego adalah panggung terbuka untuk semua jenjang jabatan. Tak perlu menunggu ahli, cukup bawa satu topik praktis yang membantu pekerjaan sehari-hari.
+                  </p>
+                  <div className="flex gap-4">
+                    <a href="https://forms.google.com" target="_blank" className="editorial-pill-btn editorial-pill-btn-dark text-sm px-6 py-2.5">
+                      Ajukan Diri Jadi Pemateri ✍️
+                    </a>
+                    <a href="https://forms.google.com" target="_blank" className="editorial-pill-btn text-sm px-6 py-2.5">
+                      Usulkan Topik Baru 💡
+                    </a>
+                  </div>
+                </div>
+                <div className="bg-editorial-card border border-black p-6 font-mono text-xs">
+                  <div className="font-bold border-b border-black pb-2 mb-3">TOP 3 REQUEST TOPIK BULAN INI:</div>
+                  <ul className="space-y-2">
+                    <li className="flex justify-between">
+                      <span>1. Tips & Trik Otomasi Pengolahan Sakernas</span>
+                      <span className="font-bold">14 Vote</span>
+                    </li>
+                    <li className="flex justify-between">
+                      <span>2. Implementasi TTE & Srikandi Tanpa Panik</span>
+                      <span className="font-bold">11 Vote</span>
+                    </li>
+                    <li className="flex justify-between">
+                      <span>3. Pembuatan Peta Tematik QGIS Cepat</span>
+                      <span className="font-bold">9 Vote</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // VARIANT B: Live & Upcoming-First (Broadcaster Editorial)
+    // ==========================================
+    function VariantB() {
+      return (
+        <div className="pb-28">
+          {/* Giant Upcoming Broadcast Banner */}
+          <section className="bg-editorial-card border-b-2 border-black px-6 md:px-12 py-12">
+            <div className="max-w-6xl mx-auto">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="animate-ping w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-red-600">JADWAL WEGO TERDEKAT</span>
+                <span className="editorial-badge ml-auto">EPISODE #11</span>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center bg-white border border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <div className="lg:col-span-2">
+                  <div className="flex gap-2 mb-3">
+                    <span className="editorial-badge bg-bps-pastelBlue text-bps-navy">{upcomingSeminar.category}</span>
+                    <span className="editorial-badge bg-white">{upcomingSeminar.date}</span>
+                  </div>
+                  <h1 className="font-serif text-3xl md:text-5xl font-bold leading-tight mb-4">
+                    {upcomingSeminar.title}
+                  </h1>
+                  <p className="text-editorial-muted text-sm leading-relaxed mb-6">
+                    {upcomingSeminar.description}
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <a href={upcomingSeminar.zoomUrl} target="_blank" className="editorial-pill-btn editorial-pill-btn-dark px-6 py-2.5 text-sm">
+                      Gabung Zoom Meeting 🔴
+                    </a>
+                    <button className="editorial-pill-btn px-6 py-2.5 text-sm">
+                      Tambahkan ke Kalender 📆
+                    </button>
+                  </div>
+                </div>
+
+                <div className="border border-black bg-editorial-card p-5 text-center">
+                  <img src={upcomingSeminar.speaker.image} alt={upcomingSeminar.speaker.name} className="w-24 h-24 mx-auto rounded-full object-cover border-2 border-black mb-3 grayscale" />
+                  <div className="font-serif font-bold text-base">{upcomingSeminar.speaker.name}</div>
+                  <div className="text-xs text-editorial-muted mb-2">{upcomingSeminar.speaker.satker}</div>
+                  <div className="text-[11px] italic font-serif bg-white p-2 border border-black/20">
+                    "{upcomingSeminar.speaker.quote}"
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <Marquee />
+
+          {/* Dense List-Archive Layout */}
+          <section className="px-6 md:px-12 py-16 max-w-6xl mx-auto">
+            <h2 className="font-serif text-3xl font-bold mb-6">Riwayat Sesi Wego & Slide Materi</h2>
+            <div className="divide-y divide-black border-y border-black">
+              {pastSeminars.map(sem => (
+                <div key={sem.id} className="py-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-white/80 transition-colors px-2">
+                  <div className="max-w-2xl">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-mono text-xs text-editorial-muted">{sem.date}</span>
+                      <span className={`editorial-badge text-[10px] ${sem.categoryColor}`}>{sem.category}</span>
+                    </div>
+                    <h3 className="font-serif text-xl font-bold leading-snug">{sem.title}</h3>
+                    <p className="text-xs text-editorial-muted">Narasumber: {sem.speaker}</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <a href={sem.videoUrl} target="_blank" className="editorial-pill-btn text-xs">Video 📺</a>
+                    <a href={sem.deckUrl} target="_blank" className="editorial-pill-btn editorial-pill-btn-dark text-xs">Unduh PPT 💾</a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // VARIANT C: Split-Curator / Minimalist Index
+    // ==========================================
+    function VariantC() {
+      return (
+        <div className="pb-28">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-screen border-x border-black">
+            {/* Sticky Left Rail */}
+            <div className="lg:col-span-5 p-8 md:p-12 border-b lg:border-b-0 lg:border-r border-black lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] flex flex-col justify-between bg-white">
+              <div>
+                <span className="editorial-badge bg-black text-white mb-4">INDEX PROGRAM WEGO</span>
+                <h1 className="font-serif text-4xl md:text-5xl font-normal leading-tight mb-6">
+                  Laboratorium Ide & Pengetahuan BPS Sumatera Utara.
+                </h1>
+                <p className="text-editorial-muted text-sm leading-relaxed mb-8">
+                  Mendokumentasikan seluruh seminar, slide presentasi, dan jejaring narasumber internal untuk mewujudkan birokrasi statistik yang lincah dan berintegritas.
+                </p>
+
+                <div className="space-y-4 border-t border-black pt-6 font-mono text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-editorial-muted">Total Sesi:</span>
+                    <span className="font-bold">35 Seminar</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-editorial-muted">Narasumber Aktif:</span>
+                    <span className="font-bold">42 Pegawai</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-editorial-muted">Satker Terlibat:</span>
+                    <span className="font-bold">33 Kab/Kota + Provinsi</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-8 border-t border-black">
+                <a href="#gagasan" className="block text-center w-full editorial-pill-btn editorial-pill-btn-dark py-3">
+                  Ajukan Ide Sesi Berikutnya ✦
+                </a>
+              </div>
+            </div>
+
+            {/* Right Scroll Area: Feed of Seminars & Speakers */}
+            <div className="lg:col-span-7 p-6 md:p-12 space-y-12 bg-editorial-bg">
+              <div>
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="font-serif text-2xl font-bold">Koleksi Sesi Wego</h2>
+                  <span className="font-mono text-xs">Tahun 2026</span>
+                </div>
+
+                <div className="space-y-6">
+                  {pastSeminars.map(sem => (
+                    <div key={sem.id} className="border border-black bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className={`editorial-badge ${sem.categoryColor}`}>{sem.category}</span>
+                        <span className="font-mono text-xs text-editorial-muted">{sem.date}</span>
+                      </div>
+                      <h3 className="font-serif text-2xl font-bold leading-snug mb-3">{sem.title}</h3>
+                      <p className="text-sm text-editorial-muted mb-6">Narasumber: <span className="text-black font-semibold">{sem.speaker}</span></p>
+                      
+                      <div className="flex gap-3">
+                        <a href={sem.videoUrl} target="_blank" className="editorial-pill-btn text-xs">Rekaman YouTube 📺</a>
+                        <a href={sem.deckUrl} target="_blank" className="editorial-pill-btn editorial-pill-btn-dark text-xs">Slide Presentasi 💾</a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-black pt-8">
+                <h3 className="font-serif text-2xl font-bold mb-4">Wegoers Terbaru</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {speakersData.slice(0, 2).map(spk => (
+                    <div key={spk.id} className="border border-black bg-white p-4">
+                      <img src={spk.image} alt={spk.name} className="w-16 h-16 rounded-full object-cover border border-black mb-2 grayscale" />
+                      <div className="font-bold text-sm">{spk.name}</div>
+                      <div className="text-xs text-editorial-muted">{spk.satker}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // FLOATING PROTOTYPE SWITCHER (Per prototype skill)
+    // ==========================================
+    function PrototypeSwitcher({ currentVariant, setVariant }) {
+      const variants = [
+        { key: 'A', name: 'Variant A: Pure Editorial Magazine (1:1 ilovecreatives)' },
+        { key: 'B', name: 'Variant B: Live & Upcoming Spotlight' },
+        { key: 'C', name: 'Variant C: Split-Curator Index' }
+      ];
+
+      const currentIndex = variants.findIndex(v => v.key === currentVariant);
+
+      const goPrev = () => {
+        const nextIdx = (currentIndex - 1 + variants.length) % variants.length;
+        setVariant(variants[nextIdx].key);
+      };
+
+      const goNext = () => {
+        const nextIdx = (currentIndex + 1) % variants.length;
+        setVariant(variants[nextIdx].key);
+      };
+
+      return (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-black text-white px-5 py-3 rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.4)] border border-gray-700">
+          <button 
+            onClick={goPrev}
+            className="w-8 h-8 rounded-full bg-neutral-800 hover:bg-neutral-700 flex items-center justify-center font-bold text-sm transition-colors"
+            title="Varian Sebelumnya (Keyboard ←)"
+          >
+            ←
+          </button>
+
+          <div className="px-2 font-mono text-xs md:text-sm tracking-wide text-center min-w-[260px]">
+            <span className="text-bps-yellow font-bold mr-2">[{variants[currentIndex].key}]</span>
+            {variants[currentIndex].name}
+          </div>
+
+          <button 
+            onClick={goNext}
+            className="w-8 h-8 rounded-full bg-neutral-800 hover:bg-neutral-700 flex items-center justify-center font-bold text-sm transition-colors"
+            title="Varian Berikutnya (Keyboard →)"
+          >
+            →
+          </button>
+        </div>
+      );
+    }
+
+    // --- Main App Root ---
+    function App() {
+      const getInitialVariant = () => {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('variant') || 'A';
+      };
+
+      const [variant, setVariant] = useState(getInitialVariant);
+
+      const updateVariant = (newVar) => {
+        setVariant(newVar);
+        const url = new URL(window.location);
+        url.searchParams.set('variant', newVar);
+        window.history.replaceState({}, '', url);
+      };
+
+      // Keyboard arrow navigation
+      useEffect(() => {
+        const handleKeyDown = (e) => {
+          if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+          if (e.key === 'ArrowLeft') {
+            const keys = ['A', 'B', 'C'];
+            const idx = keys.indexOf(variant);
+            updateVariant(keys[(idx - 1 + keys.length) % keys.length]);
+          } else if (e.key === 'ArrowRight') {
+            const keys = ['A', 'B', 'C'];
+            const idx = keys.indexOf(variant);
+            updateVariant(keys[(idx + 1) % keys.length]);
+          }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+      }, [variant]);
+
+      return (
+        <div>
+          <Header />
+          {variant === 'A' && <VariantA />}
+          {variant === 'B' && <VariantB />}
+          {variant === 'C' && <VariantC />}
+          <PrototypeSwitcher currentVariant={variant} setVariant={updateVariant} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
