@@ -143,6 +143,45 @@ export const DEFAULT_DATA = {
 };
 
 /**
+ * Unwraps and parses JSON from Google Visualization API callback wrapper
+ */
+export function parseGvizResponse(rawText) {
+  const jsonStart = rawText.indexOf('{');
+  const jsonEnd = rawText.lastIndexOf('}');
+  
+  if (jsonStart === -1 || jsonEnd === -1) {
+    throw new Error('Invalid GViz response format from Google Sheets');
+  }
+
+  const jsonString = rawText.substring(jsonStart, jsonEnd + 1);
+  const payload = JSON.parse(jsonString);
+
+  if (payload.status !== 'ok') {
+    throw new Error(`GViz API error: ${payload.errors ? JSON.stringify(payload.errors) : payload.status}`);
+  }
+
+  const table = payload.table;
+  const headers = table.cols.map((col, idx) => {
+    if (col.label && col.label.trim()) {
+      return col.label.trim();
+    }
+    return col.id || `col_${idx}`;
+  });
+
+  return table.rows.map(row => {
+    const item = {};
+    headers.forEach((header, idx) => {
+      let val = row.c && row.c[idx] ? row.c[idx].v : null;
+      if (typeof val === 'string' && val.includes('drive.google.com')) {
+        val = convertDriveUrl(val);
+      }
+      item[header] = val;
+    });
+    return item;
+  });
+}
+
+/**
  * Custom React hook to fetch live CMS data from Google Sheets with instant fallback.
  */
 export function useWegoData(sheetId) {
@@ -153,6 +192,7 @@ export function useWegoData(sheetId) {
   useEffect(() => {
     if (!sheetId) return;
 
+    let isMounted = true;
     async function loadData() {
       setLoading(true);
       try {
@@ -161,23 +201,39 @@ export function useWegoData(sheetId) {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         
         const text = await res.text();
-        const jsonMatch = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);/);
-        if (!jsonMatch || !jsonMatch[1]) throw new Error("Invalid GViz format");
-        
-        const parsed = JSON.parse(jsonMatch[1]);
-        if (parsed.table && parsed.table.rows) {
-          // Future multi-tab parsing or customized schema
-          console.log("[Wego Data] Live Google Sheets connected successfully.");
+        const records = parseGvizResponse(text);
+
+        if (isMounted && records && records.length > 0) {
+          if (records[0].title && records[0].thumb) {
+            setData(prev => ({
+              ...prev,
+              seminars: records
+            }));
+          } else if (records[0].name && records[0].satker) {
+            setData(prev => ({
+              ...prev,
+              speakers: records
+            }));
+          }
+          setError(null);
         }
       } catch (err) {
-        console.warn("[Wego Data] Using fallback curated data:", err.message);
-        setError(err.message);
+        if (isMounted) {
+          console.warn("[Wego Data] Using fallback curated data:", err.message);
+          setError(err.message);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     loadData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [sheetId]);
 
   return { ...data, loading, error };
